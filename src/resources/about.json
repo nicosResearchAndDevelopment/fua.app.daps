@@ -1,0 +1,48 @@
+{
+  "@context": {
+    "@base": "https://w3id.org/idsa/contexts/context.jsonld",
+    "ids": "SET-BY-CONFIG",
+    "gbx": "SET-BY-CONFIG",
+    "catalog": "ids:Catalog",
+    "maintainer": "ids:Participant",
+    "securityProfile": "ids:SecurityProfile"
+  },
+  "@id": "https://localhost:3001",
+  "@type": "daps:daps",
+  "maintainer": "http://www.nicos-rd.com",
+  "curator": "http://www.nicos-rd.com",
+  "inboundModelVersions": [
+    "1.0.2-SNAPSHOT"
+  ],
+  "outboundModelVersion": "1.0.2-SNAPSHOT",
+  "catalog": {
+    "@id": "https://localhost:3001/catalog",
+    "@type": "ids:Catalog",
+    "offers": [
+      {
+        "@id": "https://localhost:3001/offers",
+        "@type": "ids:Resource",
+        "titles": [
+          {
+            "@value": "Resources",
+            "@language": "en"
+          }
+        ],
+        "descriptions": [
+          {
+            "@value": "Dynamic Attributes Provisioning Service",
+            "@language": "en"
+          }
+        ]
+      }
+    ]
+  },
+  "securityProfile": {
+    "@id": "https://localhost:3001/securityProfile",
+    "@type": "ids:SecurityProfile",
+    "basedOn": {
+      "@type": "ids:PredefinedSecurityProfile",
+      "@id": "ids:Level0SecurityProfile"
+    }
+  }
+}

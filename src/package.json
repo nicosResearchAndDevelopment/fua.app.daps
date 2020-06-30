@@ -1,0 +1,22 @@
+{
+  "name": "fua.app.DAPS",
+  "version": "1.0.0",
+  "description": "Dynamic Attributes Provisioning Service",
+  "main": "./src/agent.amec.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@git02.int.nsc.ag:10022/Research/fua/app/DAPS.git"
+  },
+  "keywords": [
+    "daps",
+    "ids"
+  ],
+  "author": "jlangkau@nicos-ag.com",
+  "license": "ISC"
+}
