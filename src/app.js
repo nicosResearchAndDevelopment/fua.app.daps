@@ -424,7 +424,8 @@ const
                 'about':         config['self_description']
             }),
             'jwks':       config['jwks'],
-            'agent':      require(`${lib_path}/IDS/DAPS.agent/src/ids.DAPS.agent${config['js_file_suffix']}`)({
+            //'agent':      require(`${lib_path}/IDS/DAPS.agent/src/ids.DAPS.agent${config['js_file_suffix']}`)({
+            'agent':      require(`./code/agent.DAPS${config['js_file_suffix']}`)({
                 'jwt':         jwt,
                 'hrt':         hrt,
                 'Helmut':      Helmut,
