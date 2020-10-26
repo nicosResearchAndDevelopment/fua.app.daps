@@ -1,13 +1,17 @@
 {
-  "name": "fua.app.DAPS",
+  "name": "fua.app.daps",
   "version": "1.0.0",
   "description": "Dynamic Attributes Provisioning Service",
-  "main": "./src/agent.amec.js",
-  "directories": {
-    "doc": "doc"
+  "main": "./src/app.js",
+  "dependencies": {
+    "fua.core.hrt": "git+ssh://git@git02.int.nsc.ag:10022/Research/fua/lib/core.hrtn.git"
+  },
+  "devDependencies": {
+    "fua.core.hrt": "file:../lib/core.hrtn"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +22,5 @@
     "ids"
   ],
   "author": "jlangkau@nicos-ag.com",
-  "license": "ISC"
+  "license": ""
 }
