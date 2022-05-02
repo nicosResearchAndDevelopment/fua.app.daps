@@ -1,0 +1,44 @@
+{
+  "name": "nrd-daps",
+  "version": "1.1.0",
+  "description": "",
+  "files": [
+    "src/*",
+    "data/*"
+  ],
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.0.5",
+    "node-fetch": "^2.6.1",
+    "bcrypt": "^5.0.1",
+    "@nrd/fua.agent.server": "1.0.0",
+    "@nrd/fua.core.util": "1.0.0",
+    "@nrd/fua.module.rdf": "1.0.0",
+    "@nrd/fua.module.persistence": "1.0.0",
+    "@nrd/fua.module.persistence.filesystem": "1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.1",
+    "expect": "^26.6.2"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node src/launch.daps.js"
+  },
+  "mocha": {
+    "bail": false,
+    "recursive": false,
+    "spec": "test/*.test.js",
+    "parallel": false
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@git02.int.nsc.ag:10022/Research/fua/app/daps.git"
+  },
+  "keywords": [
+    "DAPS",
+    "OAuth"
+  ],
+  "author": "spetrac@nicos-ag.com",
+  "license": "UNLICENSED"
+}
