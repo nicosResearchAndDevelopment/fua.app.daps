@@ -8,9 +8,14 @@ const
 (async function LaunchDAPS() {
 
     const dapsAgent = await DAPSAgent.create({
-
-        // TODO
-
+        schema:   config.server.schema,
+        hostname: config.server.hostname,
+        port:     config.server.port,
+        context:  config.space.context,
+        store:    config.space.store,
+        server:   config.server.options,
+        app:      true,
+        domain:   true
     });
 
     await DAPSApp({

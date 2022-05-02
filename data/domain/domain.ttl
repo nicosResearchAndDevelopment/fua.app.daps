@@ -15,8 +15,27 @@
 @base <https://nrd-daps.nicos-rd.com/> .
 
 <>
-    a            ecm:Ecosystem ;
-    ecm:owner    nrd: ;
-    ecm:provider nrd: ;
-    fua:port     "8082"^^xsd:nonNegativeInteger ;
+    ecm:domain <domain/> ;
+.
+
+<domain/>
+    a               dom:Domain ;
+    dom:credentials <domain/credentials#> ;
+    dom:groups      <domain/groups#> ;
+    dom:users       <domain/users#> ;
+.
+
+<domain/credentials#>
+    a          dom:Credentials ;
+    rdfs:label "Credentials"@en ;
+.
+
+<domain/groups#>
+    a          dom:Groups ;
+    rdfs:label "Groups"@en ;
+.
+
+<domain/users#>
+    a          dom:Users ;
+    rdfs:label "Users"@en ;
 .

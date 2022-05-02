@@ -15,7 +15,12 @@ exports.server = {
 };
 
 exports.space = {
-    context: require('@nrd/fua.resource.data/context'),
+    context: {
+        ...require('@nrd/fua.resource.data/context'),
+        'fua': 'https://www.nicos-rd.com.org/fua#',
+        'dom': 'https://www.nicos-rd.com.org/fua/domain#',
+        'ecm': 'https://www.nicos-rd.com.org/fua/ecosystem#'
+    },
     store:   {
         module:  '@nrd/fua.module.persistence.filesystem',
         options: {

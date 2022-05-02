@@ -6,17 +6,23 @@
   "dct:alternative": "DAPS Loader",
   "dct:requires": [
     {
+      "@id": "file://data.ttl",
+      "dct:identifier": "./data.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "data.ttl",
+      "dct:alternative": "DAPS Data"
+    },
+    {
       "dct:identifier": "./root.ttl",
       "dct:format": "text/turtle",
       "dct:title": "root.ttl",
       "dct:alternative": "DAPS Root"
     },
     {
-      "@id": "file://data.ttl",
-      "dct:identifier": "./data.ttl",
+      "dct:identifier": "./domain/domain.ttl",
       "dct:format": "text/turtle",
-      "dct:title": "data.ttl",
-      "dct:alternative": "DAPS Data"
+      "dct:title": "domain.ttl",
+      "dct:alternative": "DAPS Domain"
     }
   ]
 }
