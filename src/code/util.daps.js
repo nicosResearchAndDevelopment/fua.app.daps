@@ -12,4 +12,5 @@ util.pause = function (seconds) {
     });
 };
 
-module.exports = Object.freeze(util);
+Object.freeze(util);
+module.exports = util;
