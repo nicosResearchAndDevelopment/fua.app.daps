@@ -14,6 +14,13 @@ export type DatRequestPayload = {
 
 export type DatRequestToken = string;
 
+export type DatRequestParam = {
+    grant_type: string,
+    client_assertion_type: string,
+    client_assertion: DatRequestToken,
+    scope: string
+};
+
 /** @see https://github.com/International-Data-Spaces-Association/IDS-G/blob/main/Components/IdentityProvider/DAPS/README.md#request-call-to-get-a-token Request call to get a token */
 export type DatRequestQuery = string;
 
