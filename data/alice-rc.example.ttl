@@ -1,0 +1,136 @@
+@prefix ldp:                                    <http://www.w3.org/ns/ldp#> .
+@prefix rdf:                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:                                   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:                                    <http://www.w3.org/2002/07/owl#> .
+@prefix dct:                                    <http://purl.org/dc/terms/> .
+@prefix foaf:                                   <http://xmlns.com/foaf/0.1/> .
+@prefix xsd:                                    <http://www.w3.org/2001/XMLSchema#> .
+@prefix org:                                    <http://www.w3.org/ns/org#> .
+@prefix ids:                                    <https://w3id.org/idsa/core/> .
+@prefix idsc:                                   <https://w3id.org/idsa/code/> .
+
+@prefix nrd:                                    <https://www.nicos-rd.com/> .
+@prefix fua:                                    <https://www.nicos-rd.com.org/fua#> .
+
+#@prefix ecm:            <https://www.nicos-rd.com.org/fua/ecosystem#> .
+@prefix dapsm:                                  <https://www.nicos-rd.com/model/daps#> .
+@prefix domain:                                 <https://www.nicos-rd.com.org/fua/domain#> .
+
+@prefix idsecm:                                 <https://www.internationaldataspaces.org/IDS-IM/ecosystem#> .
+
+@prefix tbm:                                    <https://www.nicos-rd.com.org/fua/testbed#> .
+
+# REM : 90
+
+#@prefix appl:           <https://localhost:8090/> .
+#@prefix appl:           <https://applicant/> .
+@prefix agent:                                  <https://www.nicos-rd.com/> .
+@prefix connector:                              <https://alice.nicos-rd.com/> .
+
+agent:
+    a          ids:Participant ;
+## comment : 'org:Organization' is present in ids:Participant, also. So, if agent is not a ids:Participant
+##           we can use 'org:Organization' (or 'foaf:Person') instead
+    a          org:Organization ;
+    rdfs:label "nicos Research & Development GmbH"^^xsd:string ;
+.
+
+
+connector:
+    a                      idsecm:BaseConnector ;
+    owl:sameAs             <https://10.10.33.21> ;
+    rdfs:label             "IDS-RC-ALICE" ;
+
+##region IDS
+    ids:title              "IDS-RC-ALICE" ;
+    ids:description        "ALICE, Remote Control Connector for EcoSystem 'IDS'" ;
+    ids:maintainer         agent: ;
+    ids:curator            agent: ;
+    ids:physicalLocation   [ a ids:Location ; ] ;
+#    ids:outboundModelVersion "4.1.0" ;
+#    ids:inboundModelVersion "4.1.0" ;
+    ids:hasDefaultEndpoint connector:http_host ;
+    ids:authInfo           connector:auth_info ;
+    ids:securityProfile    idsc:BASE_SECURITY_PROFILE ;
+#    ids:componentCertification appl:certification ;
+    ids:resourceCatalog    [ a ids:ResourceCatalog ; ] ;
+##endregion IDS
+
+##region configuration
+##region RC
+#    fua:schema             "http"^^xsd:string ;
+    fua:schema             "https"^^xsd:string ;
+    fua:host               "alice.nicos-rd.com"^^xsd:string ;
+    fua:port               "8099"^^xsd:nonNegativeInteger ; ## default = 80
+    idsecm:daps            <https://nrd-daps.nicos-rd.com:8080/> ;
+    idsecm:daps_default    <https://nrd-daps.nicos-rd.com:8080/> ;
+    idsecm:idle_timeout    "30"^^xsd:nonNegativeInteger ;
+##endregion RC
+##endregion configuration
+
+# TODO: host
+# TODO: port (default)
+#    rdfs:seeAlso           <https://nicos-gbx-0-0-0.nicos-rd.com/> ;
+### OR
+#    tbm:history      <https://nicos-gbx-0-0-0.testbed.local/> ;
+### OR
+#    tbm:previous     <https://nicos-gbx-0-0-0.testbed.local/> ;
+
+
+##region DAPS
+## REM: this is ONLY used for agent.DAPS - as long as this is running under agent.testbed
+
+##endregion DAPS
+
+    rdfs:isDefinedBy       nrd: ;
+.
+
+connector:http_host
+    a             ids:ConnectorEndpoint ;
+    ids:accessURL "https://alice.nicos-rd.com/" ;
+.
+
+connector:auth_info
+    a                ids:AuthInfo ;
+    ids:authService  <https://nrd-daps.nicos-rd.com/> ;
+    ids:authStandard idsc:OAUTH2_JWT ;
+.
+
+##region DAPS user
+connector:
+    a                        dapsm:Component ;
+    a                        ldp:Resource ;
+    domain:active            "true"^^xsd:boolean ;
+## TODO: make roles working...
+#    domain:membership           <http://localhost/domain/memberships/asdfasdfsfasdfasdfasdfasdfasdff/> ;
+## TODO: <dapsm:skiaki> da sollte man mal drüber nachdenken, ob das notwendig ist, da eine Rücktranslatierung aus URI-leave möglich wäre...
+    dapsm:skiaki
+                             """D3:64:3F:3B:D0:3A:0B:01:FE:8E:5D:C5:F3:97:B3:E2:8D:40:3D:25:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E"""^^xsd:string ;
+    dapsm:publicKey          """-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA3ndPws5hwHNCy1Y4Foup
+D3CK+LaaJU5UPJ8ld7O6Yl2M9uEos/hh5Yj3KzTnlUKzdbOZbwSeLHeu9Cvnho/s
+G9V788vbrgummbIWFv1TWHHhJLPUAaZ6iwlyFIiWN3Ju/SK5XLY3M7UmA9Fk9l6s
+C3/rrL0z92CLkHV3yPN1yx7FbFoqmwHrqAp57uPn8YGbaZe9vZ4X7smRjj4wxMdd
+cexbq318hveN0JmTZZ836vNgKtawU0MZzO5Tc+HwUrIngwqgFEpo15VULJ1ojN4W
+zZ8ch/xvFOLIBysC2PY52L8ad9AjoT9NRW+u6trFM2K0AfY3HINVbzUQnZ00QlK2
+mlGn44eYaFDT/n10/jj4HorTvWhFfg6TI5E7d+JEvNoZAnbNQzibwzT7hbyb1UpV
+yZ+9QPg+SoSIU0DBXjpqwM3BODV/dEWtcfzznsNd2QRMRBicwdhz02Bn4UZK39Nl
+ph/EmoxP5gs1i3gd2LdxO8Lsv/V53w5nNExLbSzVm7yZcVgR+Fz+6GO4CeXSfBaH
+L4fLhfcdE9U1C0BgzGJZq8BcWVTqDHH4X/yBIKh+rDYGgaGGme99btrE5Lkw/c2u
+iKGHA77EzyqXABNXCZeElNbRXLjmPYFL+UqyMaiR/xcRYxIGblf4QaHkq+BvSgkc
+EPFShl+fNpuwrVBSRvleo40CAwEAAQ==
+-----END PUBLIC KEY-----"""^^xsd:string ;
+## TODO: woher kommt der 'referringConnector'?????
+    dapsm:referringConnector "https://alice.nicos-rd.com"^^xsd:string ;
+## TODO: <dapsm:securityProfile> to ids
+    dapsm:securityProfile    "idsc:BASE_CONNECTOR_SECURITY_PROFILE"^^xsd:string ;
+#    dapsm:securityProfile    <idsc:BASE_CONNECTOR_SECURITY_PROFILE> ;
+## TODO: <dapsm:extendedGuarantee> to ids
+    dapsm:extendedGuarantee  "idsc:USAGE_CONTROL_POLICY_ENFORCEMENT"^^xsd:string ;
+#    dapsm:extendedGuarantee <idsc:USAGE_CONTROL_POLICY_ENFORCEMENT> ;
+## TODO: dapsm:scope              "ids_connector_attributes"
+    dapsm:scope              "ids_connector_attributes"^^xsd:string ;
+.
+##endregion DAPS user
+
+## EOF

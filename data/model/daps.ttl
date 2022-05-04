@@ -1,0 +1,37 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix ids:  <https://w3id.org/idsa/core/> .
+@prefix idsc: <https://w3id.org/idsa/code/> .
+
+@prefix fua:  <https://www.nicos-rd.com/fua#> .
+@prefix daps: <https://www.nicos-rd.com/fua/daps#> .
+
+daps:
+    a owl:Ontology ;
+.
+
+daps:DapsServer
+    a                rdfs:Class, owl:Class, fua:Server ;
+    rdfs:label       "DAPS Server"@en ;
+    dct:description  "The class of servers that are a DAPS."@en ;
+    rdfs:isDefinedBy daps:
+.
+
+daps:DapsSubject
+    a                rdfs:Class, owl:Class ;
+    rdfs:label       "DAPS Subject"@en ;
+    dct:description  "The class of subjects that a DAPS can manage and that can require a DAT."@en ;
+    rdfs:isDefinedBy daps:
+.
+
+daps:subject
+    a                rdf:Property, owl:ObjectProperty ;
+    rdfs:domain      daps:DapsServer ;
+    rdfs:range       daps:DapsSubject ;
+    rdfs:isDefinedBy daps:
+.

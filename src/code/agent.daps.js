@@ -1,42 +1,44 @@
 const
-    path                                        = require('path'),
-    crypto                                      = require('crypto'),
-    {URL, URLSearchParams}                      = require('url'),
-    util                                        = require('./util.daps.js'),
-    ServerAgent                                 = require('@nrd/fua.agent.server'),
-    // jose                             = require('@nrd/fua.module.jose'),
-    express                                     = require('express'),
-    fetch                                       = require('node-fetch'),
-    {decodeProtectedHeader, jwtVerify, SignJWT} = require('jose');
-// {default: decodeProtectedHeader} = require('jose/util/decode_protected_header'),
-// {default: jwtVerify}             = require('jose/jwt/verify'),
-// {default: SignJWT}               = require('jose/jwt/sign');
+    path              = require('path'),
+    crypto            = require('crypto'),
+    {URLSearchParams} = require('url'),
+    fetch             = require('node-fetch'),
+    util              = require('./util.daps.js'),
+    model             = require('./model.daps.js'),
+    ServerAgent       = require('@nrd/fua.agent.server'),
+    // jose = require('@nrd/fua.module.jose'),
+    {
+        decodeProtectedHeader, jwtVerify, SignJWT
+    }                 = require('jose');
 
 // SEE https://git02.int.nsc.ag/spetrac/idsa-infomodel/-/tree/master/daps
 // SEE https://github.com/International-Data-Spaces-Association/IDS-G/tree/master/core/DAPS
 
 class DAPSAgent extends ServerAgent {
 
-    #contextURL = 'https://w3id.org/idsa/contexts/context.jsonld';
-    #context    = null;
+    #datContextURL = 'https://w3id.org/idsa/contexts/context.jsonld';
+    #datContext    = null;
+    #build         = () => Promise.reject(new Error('not initialized'));
 
     constructor(options = {}) {
         super(options);
 
-        if (options.contextURL) this.#contextURL = options.contextURL;
-        if (options.context) this.#context = options.context;
+        if (options.datContextURL) this.#datContextURL = options.datContextURL;
+        if (options.datContext) this.#datContext = options.datContext;
     } // DAPSAgent#constructor
 
     async initialize(options = {}) {
         await super.initialize(options);
 
-        if (!this.#context) {
-            const response = await fetch(this.#contextURL);
+        if (!this.#datContext) {
+            const response = await fetch(this.#datContextURL);
             util.assert(response.ok, 'expected to get a valid response from the contextURL');
             const result = JSON.parse(await response.text());
             util.assert(util.isObject(result['@context']), 'expected the context result to include an @context');
-            this.#context = result['@context'];
+            this.#datContext = result['@context'];
         }
+
+        this.#build = model.builder(this.space);
 
         return this;
     } // DAPSAgent#initialize
@@ -69,10 +71,8 @@ class DAPSAgent extends ServerAgent {
         const datRequestHeader = await decodeProtectedHeader(datRequestToken);
         util.assert(datRequestHeader.sub && this.#clientKeys.has(datRequestHeader.sub), 'expected the dat request to contain a registered subject');
 
-        const
-            subjectPublicKey      = this.getClientKey(datRequestHeader.sub),
-            verifyOptions         = {subject: datRequestHeader.sub},
-            {payload: datRequest} = await jwtVerify(datRequestToken, subjectPublicKey, verifyOptions);
+        const subjectPublicKey                                                       = this.getClientKey(datRequestHeader.sub),
+              verifyOptions = {subject: datRequestHeader.sub}, {payload: datRequest} = await jwtVerify(datRequestToken, subjectPublicKey, verifyOptions);
 
         return datRequest;
     } // DAPSAgent#parseDatRequestToken
@@ -86,32 +86,28 @@ class DAPSAgent extends ServerAgent {
         const subjData = await this.getClientData(datRequest.sub);
         util.assert(subjData, 'the subject ' + datRequest.sub + ' could not be found');
 
-        const
-            timestamp  = util.unixTime(),
-            datPayload = {
-                '@context':             this.#contextURL,
-                '@type':                'DatPayload',
-                'iss':                  this.url,
-                'sub':                  datRequest.sub,
-                'aud':                  'ALL',
-                'iat':                  timestamp,
-                'nbf':                  timestamp - 60,
-                'exp':                  timestamp + 60,
-                'referringConnector':   subjData.uri,
-                'securityProfile':      subjData.securityProfile,
-                'extendedGuarantee':    subjData.extendedGuarantee,
-                'transportCertsSha256': [],
-                'scope':                ['IDS_CONNECTOR_ATTRIBUTES_ALL']
-            };
+        const timestamp = util.unixTime(), datPayload = {
+            '@context':             this.#datContextURL,
+            '@type':                'DatPayload',
+            'iss':                  this.url,
+            'sub':                  datRequest.sub,
+            'aud':                  'ALL',
+            'iat':                  timestamp,
+            'nbf':                  timestamp - 60,
+            'exp':                  timestamp + 60,
+            'referringConnector':   subjData.uri,
+            'securityProfile':      subjData.securityProfile,
+            'extendedGuarantee':    subjData.extendedGuarantee,
+            'transportCertsSha256': [],
+            'scope':                ['IDS_CONNECTOR_ATTRIBUTES_ALL']
+        };
 
         return datPayload;
     } // DAPSAgent#createDatPayload
 
     async createDat(datPayload, datHeader) {
-        const
-            jwtSign        = new SignJWT(datPayload),
-            dapsPrivateKey = this.getServerKey(datHeader.kid),
-            dat            = await jwtSign.setProtectedHeader(datHeader).sign(dapsPrivateKey);
+        const jwtSign = new SignJWT(datPayload), dapsPrivateKey = this.getServerKey(datHeader.kid),
+              dat                                               = await jwtSign.setProtectedHeader(datHeader).sign(dapsPrivateKey);
 
         return dat;
     } // DAPSAgent#createDat
@@ -195,10 +191,7 @@ class DAPSAgent extends ServerAgent {
     async getClientData(keyId) {
         // TODO
         return {
-            skiaki:            keyId,
-            uri:               '',
-            securityProfile:   'BASE_SECURITY_PROFILE',
-            extendedGuarantee: 'USAGE_CONTROL_NONE'
+            skiaki: keyId, uri: '', securityProfile: 'BASE_SECURITY_PROFILE', extendedGuarantee: 'USAGE_CONTROL_NONE'
         };
     } // DAPSAgent#getClientData
 
