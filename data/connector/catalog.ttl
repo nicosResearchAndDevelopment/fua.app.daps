@@ -14,3 +14,22 @@
 @prefix ecm:  <https://www.nicos-rd.com/fua/ecosystem#> .
 
 @base <https://nrd-daps.nicos-rd.com/> .
+
+<>
+    a                    ids:DAPS ;
+    ids:connectorCatalog <connector/> ;
+.
+
+<connector/>
+    a                   ids:ConnectorCatalog ;
+    ids:listedConnector <connector/alice#> ;
+.
+
+<connector/alice#>
+    a                     ids:Connector ;
+    ids:securityProfile   idsc:BASE_SECURITY_PROFILE ;
+    ids:extendedGuarantee idsc:USAGE_CONTROL_NONE ;
+    ids:extendedGuarantee idsc:AUDIT_NONE ;
+    ids:extendedGuarantee idsc:AUTHENTICATION_MUTUAL ;
+    ids:extendedGuarantee idsc:INTEGRITY_PROTECTION_NONE ;
+.

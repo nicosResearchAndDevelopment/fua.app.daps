@@ -17,10 +17,13 @@ exports.server = {
 exports.space = {
     context: {
         ...require('@nrd/fua.resource.data/context'),
-        'fua':  'https://www.nicos-rd.com/fua#',
-        'dom':  'https://www.nicos-rd.com/fua/domain#',
-        'ecm':  'https://www.nicos-rd.com/fua/ecosystem#',
-        'daps': 'https://www.nicos-rd.com/fua/daps#'
+
+        'ids':  'https://w3id.org/idsa/core/',
+        'idsc': 'https://w3id.org/idsa/code/',
+
+        'fua': 'https://www.nicos-rd.com/fua#',
+        'dom': 'https://www.nicos-rd.com/fua/domain#',
+        'ecm': 'https://www.nicos-rd.com/fua/ecosystem#'
     },
     store:   {
         module:  '@nrd/fua.module.persistence.filesystem',

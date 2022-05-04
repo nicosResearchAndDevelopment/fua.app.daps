@@ -87,16 +87,19 @@ class DAPSAgent extends ServerAgent {
         util.assert(subjData, 'the subject ' + datRequest.sub + ' could not be found');
 
         const timestamp = util.unixTime(), datPayload = {
-            '@context':             this.#datContextURL,
-            '@type':                'DatPayload',
-            'iss':                  this.url,
-            'sub':                  datRequest.sub,
-            'aud':                  'ALL',
-            'iat':                  timestamp,
-            'nbf':                  timestamp - 60,
-            'exp':                  timestamp + 60,
-            'referringConnector':   subjData.uri,
-            'securityProfile':      subjData.securityProfile,
+            '@context': this.#datContextURL,
+            '@type':    'DatPayload',
+            'iss':      this.url,
+            'sub':      datRequest.sub,
+            'aud':      'ALL',
+            'iat':      timestamp,
+            'nbf':      timestamp - 60,
+            'exp':      timestamp + 60,
+            /** The RDF connector entity as referred to by the DAT, with its URI included as the value. The value MUST be its accessible URI. */
+            'referringConnector': subjData.uri,
+            /** The SecurityProfile supported by the Connector. */
+            'securityProfile': subjData.securityProfile,
+            /** Reference to a security guarantee that, if used in combination with a security profile instance, overrides the respective guarantee of the given predefined instance. */
             'extendedGuarantee':    subjData.extendedGuarantee,
             'transportCertsSha256': [],
             'scope':                ['IDS_CONNECTOR_ATTRIBUTES_ALL']

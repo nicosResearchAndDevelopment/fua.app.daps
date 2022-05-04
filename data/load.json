@@ -12,12 +12,6 @@
       "dct:alternative": "IDS Information Model"
     },
     {
-      "dct:identifier": "./model/daps.ttl",
-      "dct:format": "text/turtle",
-      "dct:title": "daps.ttl",
-      "dct:alternative": "FUA-DAPS Model"
-    },
-    {
       "dct:identifier": "./root.ttl",
       "dct:format": "text/turtle",
       "dct:title": "root.ttl",
@@ -35,6 +29,12 @@
       "dct:format": "text/turtle",
       "dct:title": "domain.ttl",
       "dct:alternative": "DAPS-Server Domain"
+    },
+    {
+      "dct:identifier": "./connector/catalog.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "catalog.ttl",
+      "dct:alternative": "DAPS-Server Connector Catalog"
     }
   ]
 }
