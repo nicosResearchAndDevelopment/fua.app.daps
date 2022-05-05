@@ -1,0 +1,15 @@
+{
+  "@context": "fua.load.rdf",
+  "dct:identifier": "./load.domain.json",
+  "dct:format": "application/fua.load+json",
+  "dct:title": "load.domain.json",
+  "dct:alternative": "DAPS Domain Loader",
+  "dct:requires": [
+    {
+      "dct:identifier": "./domain.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "domain.ttl",
+      "dct:alternative": "DAPS-Server Domain"
+    }
+  ]
+}

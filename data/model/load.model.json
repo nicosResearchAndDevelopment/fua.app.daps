@@ -1,0 +1,21 @@
+{
+  "@context": "fua.load.rdf",
+  "dct:identifier": "./load.model.json",
+  "dct:format": "application/fua.load+json",
+  "dct:title": "load.model.json",
+  "dct:alternative": "DAPS Model Loader",
+  "dct:requires": [
+    {
+      "dct:identifier": "./idsm.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "idsm.ttl",
+      "dct:alternative": "IDS Information Model"
+    },
+    {
+      "dct:identifier": "./daps.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "daps.ttl",
+      "dct:alternative": "Custom DAPS Model"
+    }
+  ]
+}

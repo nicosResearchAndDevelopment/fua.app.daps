@@ -6,10 +6,16 @@
   "dct:alternative": "DAPS Loader",
   "dct:requires": [
     {
-      "dct:identifier": "./model/idsm.ttl",
-      "dct:format": "text/turtle",
-      "dct:title": "idsm.ttl",
-      "dct:alternative": "IDS Information Model"
+      "dct:identifier": "./model/load.model.json",
+      "dct:format": "application/fua.load+json"
+    },
+    {
+      "dct:identifier": "./domain/load.domain.json",
+      "dct:format": "application/fua.load+json"
+    },
+    {
+      "dct:identifier": "./connector/load.connector.json",
+      "dct:format": "application/fua.load+json"
     },
     {
       "dct:identifier": "./root.ttl",
@@ -23,18 +29,6 @@
       "dct:format": "text/turtle",
       "dct:title": "data.ttl",
       "dct:alternative": "DAPS-Server Data"
-    },
-    {
-      "dct:identifier": "./domain/domain.ttl",
-      "dct:format": "text/turtle",
-      "dct:title": "domain.ttl",
-      "dct:alternative": "DAPS-Server Domain"
-    },
-    {
-      "dct:identifier": "./connector/catalog.ttl",
-      "dct:format": "text/turtle",
-      "dct:title": "catalog.ttl",
-      "dct:alternative": "DAPS-Server Connector Catalog"
     }
   ]
 }

@@ -6,11 +6,6 @@
 @prefix owl:  <http://www.w3.org/2002/07/owl#>.
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
-@prefix ids:  <https://w3id.org/idsa/core/> .
-@prefix idsc: <https://w3id.org/idsa/code/> .
-
 @prefix fua:  <https://www.nicos-rd.com/fua#> .
-@prefix dom:  <https://www.nicos-rd.com/fua/domain#> .
-@prefix ecm:  <https://www.nicos-rd.com/fua/ecosystem#> .
 
 @base <https://nrd-daps.nicos-rd.com/> .

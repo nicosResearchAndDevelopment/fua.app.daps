@@ -1,0 +1,52 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ldp:  <http://www.w3.org/ns/ldp#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#>.
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix ids:  <https://w3id.org/idsa/core/> .
+@prefix idsc: <https://w3id.org/idsa/code/> .
+
+@prefix fua:  <https://www.nicos-rd.com/fua#> .
+@prefix daps: <https://www.nicos-rd.com/fua/daps#> .
+
+@base <https://nrd-daps.nicos-rd.com/> .
+
+<connector#>
+    ids:listedConnector <connector#alice> ;
+.
+
+<connector#alice>
+    a                     ids:Connector, ids:BaseConnector ;
+    ids:securityProfile   idsc:BASE_SECURITY_PROFILE ;
+    ids:extendedGuarantee idsc:AUDIT_NONE ;
+    ids:extendedGuarantee idsc:INTEGRITY_PROTECTION_NONE ;
+    ids:extendedGuarantee idsc:USAGE_CONTROL_NONE ;
+    ids:publicKey         [ a            ids:PublicKey ;
+                            daps:keyId   "D3:64:3F:3B:D0:3A:0B:01:FE:8E:5D:C5:F3:97:B3:E2:8D:40:3D:25:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
+                            ids:keyType  idsc:RSA ;
+                            ids:keyValue """
+                                LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0NCk1JSUNJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NB
+                                ZzhBTUlJQ0NnS0NBZ0VBM25kUHdzNWh3SE5DeTFZNEZvdXANCkQzQ0srTGFhSlU1VVBKOGxkN082
+                                WWwyTTl1RW9zL2hoNVlqM0t6VG5sVUt6ZGJPWmJ3U2VMSGV1OUN2bmhvL3MNCkc5Vjc4OHZicmd1
+                                bW1iSVdGdjFUV0hIaEpMUFVBYVo2aXdseUZJaVdOM0p1L1NLNVhMWTNNN1VtQTlGazlsNnMNCkMz
+                                L3JyTDB6OTJDTGtIVjN5UE4xeXg3RmJGb3Ftd0hycUFwNTd1UG44WUdiYVplOXZaNFg3c21Samo0
+                                d3hNZGQNCmNleGJxMzE4aHZlTjBKbVRaWjgzNnZOZ0t0YXdVME1aek81VGMrSHdVckluZ3dxZ0ZF
+                                cG8xNVZVTEoxb2pONFcNCnpaOGNoL3h2Rk9MSUJ5c0MyUFk1Mkw4YWQ5QWpvVDlOUlcrdTZ0ckZN
+                                MkswQWZZM0hJTlZielVRblowMFFsSzINCm1sR240NGVZYUZEVC9uMTAvamo0SG9yVHZXaEZmZzZU
+                                STVFN2QrSkV2Tm9aQW5iTlF6aWJ3elQ3aGJ5YjFVcFYNCnlaKzlRUGcrU29TSVUwREJYanBxd00z
+                                Qk9EVi9kRVd0Y2Z6em5zTmQyUVJNUkJpY3dkaHowMkJuNFVaSzM5TmwNCnBoL0Vtb3hQNWdzMWkz
+                                Z2QyTGR4TzhMc3YvVjUzdzVuTkV4TGJTelZtN3laY1ZnUitGeis2R080Q2VYU2ZCYUgNCkw0Zkxo
+                                ZmNkRTlVMUMwQmd6R0pacThCY1dWVHFESEg0WC95QklLaCtyRFlHZ2FHR21lOTlidHJFNUxrdy9j
+                                MnUNCmlLR0hBNzdFenlxWEFCTlhDWmVFbE5iUlhMam1QWUZMK1VxeU1haVIveGNSWXhJR2JsZjRR
+                                YUhrcStCdlNna2MNCkVQRlNobCtmTnB1d3JWQlNSdmxlbzQwQ0F3RUFBUT09DQotLS0tLUVORCBQ
+                                VUJMSUMgS0VZLS0tLS0NCg==
+                            """^^xsd:base64Binary ; ] ;
+    ids:hasEndpoint       [ a             ids:ConnectorEndpoint ;
+                            ids:accessURL "https://alice.nicos-rd.com/"^^xsd:anyURI ; ] ;
+    ids:authInfo          [ a                ids:AuthInfo ;
+                            ids:authService  <> ;
+                            ids:authStandard idsc:OAUTH2_JWT ; ] ;
+.

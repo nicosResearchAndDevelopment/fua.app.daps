@@ -1,0 +1,27 @@
+{
+  "@context": "fua.load.rdf",
+  "dct:identifier": "./load.connector.json",
+  "dct:format": "application/fua.load+json",
+  "dct:title": "load.connector.json",
+  "dct:alternative": "DAPS Connector Loader",
+  "dct:requires": [
+    {
+      "dct:identifier": "./catalog.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "catalog.ttl",
+      "dct:alternative": "DAPS-Server Connector Catalog"
+    },
+    {
+      "dct:identifier": "./alice/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "alice.connector.ttl",
+      "dct:alternative": "Alice Connector"
+    },
+    {
+      "dct:identifier": "./bob/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "bob.connector.ttl",
+      "dct:alternative": "Bob Connector"
+    }
+  ]
+}

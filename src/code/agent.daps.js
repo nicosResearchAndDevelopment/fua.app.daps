@@ -18,7 +18,9 @@ class DAPSAgent extends ServerAgent {
 
     #datContextURL = 'https://w3id.org/idsa/contexts/context.jsonld';
     #datContext    = null;
-    #build         = () => Promise.reject(new Error('not initialized'));
+
+    #build = () => Promise.reject(new Error('not initialized'));
+    #daps  = null;
 
     constructor(options = {}) {
         super(options);
@@ -39,6 +41,8 @@ class DAPSAgent extends ServerAgent {
         }
 
         this.#build = model.builder(this.space);
+        this.#daps  = await this.#build(this.node);
+        await this.#daps.load();
 
         return this;
     } // DAPSAgent#initialize
@@ -69,54 +73,67 @@ class DAPSAgent extends ServerAgent {
     async parseDatRequestToken(datRequestToken, param) {
         util.assert(util.isString(datRequestToken), 'expected datRequestToken to be a string', TypeError);
         const datRequestHeader = await decodeProtectedHeader(datRequestToken);
-        util.assert(datRequestHeader.sub && this.#clientKeys.has(datRequestHeader.sub), 'expected the dat request to contain a registered subject');
+        util.assert(datRequestHeader.sub, 'expected datRequestHeader.sub to be a string');
 
-        const subjectPublicKey                                                       = this.getClientKey(datRequestHeader.sub),
-              verifyOptions = {subject: datRequestHeader.sub}, {payload: datRequest} = await jwtVerify(datRequestToken, subjectPublicKey, verifyOptions);
+        const subject = await this.#daps.connectorCatalog.findConnector(datRequestHeader.sub);
+        util.assert(subject, 'the subject ' + datRequestHeader.sub + ' could not be found');
+
+        const
+            subjectPublicKey      = subject.publicKey.createKeyObject(),
+            verifyOptions         = {subject: subject.publicKey.keyId},
+            {payload: datRequest} = await jwtVerify(datRequestToken, subjectPublicKey, verifyOptions);
 
         return datRequest;
     } // DAPSAgent#parseDatRequestToken
 
     createDatHeader(datRequest) {
-        return {alg: 'RS256', kid: 'default'};
+        const datHeader = {
+            alg: 'RS256',
+            kid: 'default'
+        };
+        return datHeader;
     } // DAPSAgent#createDatHeader
 
     async createDatPayload(datRequest) {
         util.assert(util.isString(datRequest?.sub), 'expected datRequest.sub to be a string', TypeError);
-        const subjData = await this.getClientData(datRequest.sub);
-        util.assert(subjData, 'the subject ' + datRequest.sub + ' could not be found');
 
-        const timestamp = util.unixTime(), datPayload = {
-            '@context': this.#datContextURL,
-            '@type':    'DatPayload',
-            'iss':      this.url,
-            'sub':      datRequest.sub,
-            'aud':      'ALL',
-            'iat':      timestamp,
-            'nbf':      timestamp - 60,
-            'exp':      timestamp + 60,
-            /** The RDF connector entity as referred to by the DAT, with its URI included as the value. The value MUST be its accessible URI. */
-            'referringConnector': subjData.uri,
-            /** The SecurityProfile supported by the Connector. */
-            'securityProfile': subjData.securityProfile,
-            /** Reference to a security guarantee that, if used in combination with a security profile instance, overrides the respective guarantee of the given predefined instance. */
-            'extendedGuarantee':    subjData.extendedGuarantee,
-            'transportCertsSha256': [],
-            'scope':                ['IDS_CONNECTOR_ATTRIBUTES_ALL']
-        };
+        const subject = await this.#daps.connectorCatalog.findConnector(datRequest.sub);
+        util.assert(subject, 'the subject ' + datRequest.sub + ' could not be found');
+
+        const
+            timestamp  = util.unixTime(),
+            datPayload = {
+                '@context': this.#datContextURL,
+                '@type':    'DatPayload',
+                'iss':      this.url,
+                'sub':      subject.publicKey.keyId,
+                'aud':      'ALL',
+                'iat':      timestamp,
+                'nbf':      timestamp - 60,
+                'exp':      timestamp + 60,
+                /** The RDF connector entity as referred to by the DAT, with its URI included as the value. The value MUST be its accessible URI. */
+                'referringConnector': subject.hasEndpoint.accessURL,
+                /** The SecurityProfile supported by the Connector. */
+                'securityProfile': subject.securityProfile,
+                /** Reference to a security guarantee that, if used in combination with a security profile instance, overrides the respective guarantee of the given predefined instance. */
+                'extendedGuarantee':    subject.extendedGuarantee,
+                'transportCertsSha256': [],
+                'scope':                ['IDS_CONNECTOR_ATTRIBUTES_ALL']
+            };
 
         return datPayload;
     } // DAPSAgent#createDatPayload
 
     async createDat(datPayload, datHeader) {
-        const jwtSign = new SignJWT(datPayload), dapsPrivateKey = this.getServerKey(datHeader.kid),
-              dat                                               = await jwtSign.setProtectedHeader(datHeader).sign(dapsPrivateKey);
+        const
+            jwtSign        = new SignJWT(datPayload),
+            dapsPrivateKey = this.getServerKey(datHeader.kid),
+            dat            = await jwtSign.setProtectedHeader(datHeader).sign(dapsPrivateKey);
 
         return dat;
     } // DAPSAgent#createDat
 
     #serverKeys = new Map();
-    #clientKeys = new Map();
 
     /**
      * @param {string} keyId
@@ -159,44 +176,6 @@ class DAPSAgent extends ServerAgent {
         }));
         return {keys};
     } // DAPSAgent#generateJWKS
-
-    /**
-     * @param {string} keyId
-     * @param {string|Buffer|KeyObject} keyLike
-     * @returns {void}
-     */
-    addClientKey(keyId, keyLike) {
-        util.assert(util.isString(keyId), 'expected keyId to be a string', TypeError);
-        util.assert(!this.#clientKeys.has(keyId), 'keyId (' + keyId + ') already in use');
-        const privateKey = crypto.createPublicKey(keyLike);
-        this.#clientKeys.set(keyId, privateKey);
-    } // DAPSAgent#addClientKey
-
-    /**
-     * @param {string} keyId
-     * @returns {KeyObject}
-     */
-    getClientKey(keyId) {
-        util.assert(util.isString(keyId), 'expected keyId to be a string', TypeError);
-        return this.#clientKeys.get(keyId) || null;
-    } // DAPSAgent#getClientKey
-
-    /**
-     * @param {string} keyId
-     * @returns {void}
-     */
-    removeClientKey(keyId) {
-        util.assert(util.isString(keyId), 'expected keyId to be a string', TypeError);
-        util.assert(this.#clientKeys.has(keyId), 'keyId (' + keyId + ') not in use');
-        this.#clientKeys.delete(keyId);
-    } // DAPSAgent#removeClientKey
-
-    async getClientData(keyId) {
-        // TODO
-        return {
-            skiaki: keyId, uri: '', securityProfile: 'BASE_SECURITY_PROFILE', extendedGuarantee: 'USAGE_CONTROL_NONE'
-        };
-    } // DAPSAgent#getClientData
 
 } // DAPSAgent
 
