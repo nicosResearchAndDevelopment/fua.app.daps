@@ -1,15 +1,15 @@
 let
     KEY_MAX_ROW_SIZE = 76,
-    connector        = {
-        daps:  require('../../cert/connector/client.js'),
-        alice: require('./alice/connector.js'),
-        bob:   require('./bob/connector.js')
+    input            = {
+        daps:  require('../../cert/connector/client.js').key,
+        alice: require('./alice/connector.js').pub,
+        bob:   require('./bob/connector.js').pub
     },
     output           = '';
 
-for (let [name, certs] of Object.entries(connector)) {
+for (let [keyName, keyBuffer] of Object.entries(input)) {
     let
-        base64KeyValue = certs.pub.toString('base64'),
+        base64KeyValue = keyBuffer.toString('base64'),
         base64Output   = '';
 
     for (let k = 0; k < base64KeyValue.length; k += KEY_MAX_ROW_SIZE) {
@@ -17,7 +17,7 @@ for (let [name, certs] of Object.entries(connector)) {
         base64Output += base64KeyValue.substring(k, k + KEY_MAX_ROW_SIZE);
     }
 
-    output += 'Base64KeyValue for ' + name + ':\n' + base64Output + '\n\n';
+    output += 'Base64KeyValue for ' + keyName + ':\n' + base64Output + '\n\n';
 }
 
 console.log(output);

@@ -89,6 +89,7 @@ class DAPSAgent extends ServerAgent {
     createDatHeader(datRequest) {
         const datHeader = {
             alg: 'RS256',
+            typ: 'at+jwt',
             kid: 'default'
         };
         return datHeader;
@@ -97,7 +98,7 @@ class DAPSAgent extends ServerAgent {
     async createDatPayload(datRequest) {
         util.assert(util.isString(datRequest?.sub), 'expected datRequest.sub to be a string', TypeError);
 
-        const subject = await this.#daps.connectorCatalog.findConnector(datRequest.sub);
+        const subject = await this.#daps.findConnectorPublicKey(datRequest.sub);
         util.assert(subject, 'the subject ' + datRequest.sub + ' could not be found');
 
         const
@@ -112,11 +113,11 @@ class DAPSAgent extends ServerAgent {
                 'nbf':      timestamp - 60,
                 'exp':      timestamp + 60,
                 /** The RDF connector entity as referred to by the DAT, with its URI included as the value. The value MUST be its accessible URI. */
-                'referringConnector': subject.hasEndpoint.accessURL,
+                'referringConnector': subject.connector.hasEndpoint.accessURL,
                 /** The SecurityProfile supported by the Connector. */
-                'securityProfile': subject.securityProfile,
+                'securityProfile': subject.connector.securityProfile,
                 /** Reference to a security guarantee that, if used in combination with a security profile instance, overrides the respective guarantee of the given predefined instance. */
-                'extendedGuarantee':    subject.extendedGuarantee,
+                'extendedGuarantee':    subject.connector.extendedGuarantees,
                 'transportCertsSha256': [],
                 'scope':                ['IDS_CONNECTOR_ATTRIBUTES_ALL']
             };
@@ -124,11 +125,11 @@ class DAPSAgent extends ServerAgent {
         return datPayload;
     } // DAPSAgent#createDatPayload
 
-    async createDat(datPayload, datHeader) {
+    async createDat(datHeader, datPayload) {
         const
             jwtSign        = new SignJWT(datPayload),
-            dapsPrivateKey = this.getServerKey(datHeader.kid),
-            dat            = await jwtSign.setProtectedHeader(datHeader).sign(dapsPrivateKey);
+            dapsPrivateKey = await this.#daps.findPrivateKey(datHeader.kid),
+            dat            = await jwtSign.setProtectedHeader(datHeader).sign(dapsPrivateKey.createKeyObject());
 
         return dat;
     } // DAPSAgent#createDat
@@ -170,11 +171,13 @@ class DAPSAgent extends ServerAgent {
      * @returns {Promise<{keys: Array<JsonWebKey>}>}
      */
     async generateJWKS() {
-        const keys = await Promise.all(Array.from(this.#serverKeys.entries()).map(async ([keyId, privateKey]) => {
-            const jwk = await jose.jwk.serialize(crypto.createPublicKey(privateKey));
-            return Object.assign({kid: keyId}, jwk);
-        }));
-        return {keys};
+        const publicKeys = this.#daps.privateKeys.map((privateKey) => {
+            const
+                publicKeyObject = crypto.createPublicKey(privateKey.keyValue),
+                publicJWK       = publicKeyObject.export({format: 'jwk'});
+            return Object.assign({kid: privateKey.keyId}, publicJWK);
+        });
+        return {keys: publicKeys};
     } // DAPSAgent#generateJWKS
 
 } // DAPSAgent
