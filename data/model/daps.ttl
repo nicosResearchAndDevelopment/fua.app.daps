@@ -20,3 +20,20 @@ daps:keyId
     rdfs:range       xsd:string ;
     rdfs:isDefinedBy daps:
 .
+
+daps:privateKey
+    a                rdf:Property, owl:ObjectProperty ;
+    rdfs:label       "private key"@en ;
+    dct:description  "This reference links a DAPS to its private keys."@en ;
+    rdfs:domain      ids:DAPS ;
+    rdfs:range       daps:PrivateKey ;
+    rdfs:isDefinedBy daps:
+.
+
+daps:PrivateKey
+    a                rdfs:Class, owl:Class ;
+    rdfs:label       "Private Key"@en ;
+    dct:description  "Private key as used in asymmetric cryptography."@en ;
+    rdfs:comment     "Use the PublicKey references for this also, although it is currently not in the ids model."@en ;
+    rdfs:isDefinedBy daps:
+.

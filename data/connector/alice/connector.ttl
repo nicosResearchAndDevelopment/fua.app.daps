@@ -14,10 +14,6 @@
 
 @base <https://nrd-daps.nicos-rd.com/> .
 
-<connector#>
-    ids:listedConnector <connector#alice> ;
-.
-
 <connector#alice>
     a                     ids:Connector, ids:BaseConnector ;
     ids:securityProfile   idsc:BASE_SECURITY_PROFILE ;

@@ -10,6 +10,18 @@
       "dct:format": "text/turtle",
       "dct:title": "domain.ttl",
       "dct:alternative": "DAPS-Server Domain"
+    },
+    {
+      "dct:identifier": "./users/spetrac.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "spetrac.ttl",
+      "dct:alternative": "User: Simon Petrac"
+    },
+    {
+      "dct:identifier": "./users/jlangkau.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "jlangkau.ttl",
+      "dct:alternative": "User: Jörg Langkau"
     }
   ]
 }

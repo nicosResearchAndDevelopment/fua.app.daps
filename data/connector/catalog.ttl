@@ -14,11 +14,8 @@
 
 @base <https://nrd-daps.nicos-rd.com/> .
 
-<>
-    a                    ids:DAPS ;
-    ids:connectorCatalog <connector#> ;
-.
-
 <connector#>
-    a ids:ConnectorCatalog ;
+    a                   ids:ConnectorCatalog ;
+    ids:listedConnector <connector#alice> ;
+    ids:listedConnector <connector#bob> ;
 .

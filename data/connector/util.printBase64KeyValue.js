@@ -1,6 +1,7 @@
 let
     KEY_MAX_ROW_SIZE = 76,
     connector        = {
+        daps:  require('../../cert/connector/client.js'),
         alice: require('./alice/connector.js'),
         bob:   require('./bob/connector.js')
     },

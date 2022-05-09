@@ -6,11 +6,39 @@
 @prefix owl:  <http://www.w3.org/2002/07/owl#>.
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
+@prefix ids:  <https://w3id.org/idsa/core/> .
+@prefix idsc: <https://w3id.org/idsa/code/> .
+
 @prefix fua:  <https://www.nicos-rd.com/fua#> .
+@prefix dom:  <https://www.nicos-rd.com/fua/domain#> .
+@prefix ecm:  <https://www.nicos-rd.com/fua/ecosystem#> .
+@prefix daps: <https://www.nicos-rd.com/fua/daps#> .
 
 @base <https://nrd-daps.nicos-rd.com/> .
 
 <>
-    a        fua:Server ;
-    fua:port "8082"^^xsd:nonNegativeInteger ;
+    a                    fua:Server, ecm:Ecosystem, ids:DAPS ;
+    fua:port             "8082"^^xsd:nonNegativeInteger ;
+    ecm:domain           <domain/> ;
+    ids:connectorCatalog <connector#> ;
+    daps:privateKey      [ a            daps:PrivateKey ;
+                           daps:keyId   "FD:AB:5D:53:28:05:21:9E:10:12:6F:4F:F8:4D:2F:F0:49:59:E1:ED:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
+                           ids:keyType  idsc:RSA ;
+                           ids:keyValue """
+                                LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0NCk1JSUNJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NB
+                                ZzhBTUlJQ0NnS0NBZ0VBcE0zdng2bktoSldVNlJoZUlZTHkNCkUyZFJOK1ZZMkYrcXJKOHh6S3R6
+                                Z3lRWjlLV3B5Rldva1h5Rklsd2xWYW9nK1VZeHdla0hjU2ZyREpTaEpBRGUNCkQzUXlkbzUrVE9F
+                                TDFRL3JaYVRBc2REanRsWUdPcEh6RlAvVWh1eVgwbXMxbGhkMU1ndCtabVluc0RpT3ZFSkENCm9X
+                                QUR4QVNidE9COWlrczM0YUpicU9UOSsveFFuQ0dJUHdVNEUrS3gwdFVZcERBUmVkR2ZNSytZMjhm
+                                OGZIa0ENClg2NjAxVENKcVZGZ24vNW9nZ21xS3RGU012ZDdaZVZxV1VjWERvSGQxVnFYMFY2eUo5
+                                N2dqZWlQajVHa0RRWUgNCmNoSTFjbDM1Z2t3eGxZcDdlMlBRUGNoQnZJaW8vZmRXUlNHa25mNDRM
+                                TEdhODdqdjFZL0NLSjF5UnB4V2tRTUQNCkdXcDZ5WGwxdTIwZS83bkx3QnVVVzdSYTFSS1BtNDlJ
+                                YmRYNy96bjYwUUNOd1d5cEhtWW1lL3JxNzNPTDY3TVINCmI4VWltOW4yMDJsbTVlZXBacTFUZ0Nu
+                                L2FtNWtxM3IwYWNIeGgzWUtObDZvRlAwSzcwdjcvaDVDOU9odmthejUNCjhnUkl1NmdSVWpuOGtF
+                                dFdSU2dwM2krZVA3d1dsTDhRUHpSK3dleWcvR2RYNGwxTlhIOTg3NVYrWWxiVWNVckkNCmhNa0xG
+                                VmxTNUFmSVRpTkoyOVRxZTR0NkpHOFRtZ0pqUndzWlR5NVpaYkJPRHRjaUw2R1ZyMWNIbVVPQVdM
+                                SGcNClkxQVRkVkFOQUVNalh4K2FNRnEvOVNZT2pRZDNoSXdVbVFZcmljNHIxM3k3VGtIVW02Uk9j
+                                ZkoyT2EzSmh5d3MNCk1UNXp4OWVtR2RyY2hxRzhreUp4dngwQ0F3RUFBUT09DQotLS0tLUVORCBQ
+                                VUJMSUMgS0VZLS0tLS0NCg==
+                            """^^xsd:base64Binary ; ] ;
 .

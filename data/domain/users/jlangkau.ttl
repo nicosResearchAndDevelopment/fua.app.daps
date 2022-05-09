@@ -12,26 +12,7 @@
 
 @base <https://nrd-daps.nicos-rd.com/> .
 
-<domain/>
-    a               dom:Domain ;
-    dom:credentials <domain/credentials#> ;
-    dom:groups      <domain/groups#> ;
-    dom:users       <domain/users#> ;
-.
-
-<domain/credentials#>
-    a          dom:Credentials ;
-    rdfs:label "Credentials"@en ;
-.
-
-<domain/groups#>
-    a          dom:Groups ;
-    rdfs:label "Groups"@en ;
-.
-
-<domain/users#>
-    a          dom:Users ;
-    rdfs:label "Users"@en ;
-    ldp:member <domain/users#spetrac> ;
-    ldp:member <domain/users#jlangkau> ;
+<domain/users#jlangkau>
+    a         foaf:Agent ;
+    foaf:name "Jörg Langkau" ;
 .
