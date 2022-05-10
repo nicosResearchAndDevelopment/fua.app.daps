@@ -62,6 +62,13 @@ class DAPS extends Resource {
         return this.privateKeys.find(privateKey => privateKey.keyId === keyId) || null;
     }
 
+    /**
+     * @returns {import("agent.daps").JsonWebKeySet}
+     */
+    createJWKS() {
+        return {keys: this.privateKeys.map(privateKey => privateKey.createJWK())};
+    }
+
 } // DAPS
 
 model.set(util.iri.DAPS, DAPS);
@@ -251,6 +258,12 @@ class CryptoKey extends Resource {
         return this[util.iri.keyValue] || '';
     }
 
+    /** @returns {import("agent.daps").JsonWebKey} */
+    createJWK() {
+        const publicKeyObject = crypto.createPublicKey(this.keyValue);
+        return Object.assign({kid: this.keyId}, publicKeyObject.export({format: 'jwk'}));
+    } // CryptoKey#createJWK
+
 } // CryptoKey
 
 /**
@@ -259,7 +272,7 @@ class CryptoKey extends Resource {
  */
 class PublicKey extends CryptoKey {
 
-    /** @returns {import("crypto").KeyObject} */
+    /** @returns {import("agent.daps").KeyObject} */
     createKeyObject() {
         return crypto.createPublicKey(this.keyValue);
     } // PublicKey#createKeyObject
@@ -272,7 +285,7 @@ class PublicKey extends CryptoKey {
  */
 class PrivateKey extends CryptoKey {
 
-    /** @returns {import("crypto").KeyObject} */
+    /** @returns {import("agent.daps").KeyObject} */
     createKeyObject() {
         return crypto.createPrivateKey(this.keyValue);
     } // PrivateKey#createKeyObject

@@ -51,7 +51,7 @@ class DAPSAgent extends ServerAgent {
     /**
      * @param {DatRequestQuery} requestQuery
      * @param {Object} [param]
-     * @returns {Promise<DatRequestParam>}
+     * @returns {DatRequestParam}
      */
     parseDatRequestQuery(requestQuery, param) {
         util.assert(util.isString(requestQuery), 'expected requestQuery to be a string', TypeError);
@@ -87,10 +87,14 @@ class DAPSAgent extends ServerAgent {
         return datRequest;
     } // DAPSAgent#parseDatRequestToken
 
-    createDatHeader(datRequest) {
+    /**
+     * @param {Object} [param]
+     * @returns {DatHeader}
+     */
+    createDatHeader(param) {
         const
-            // privateKey = this.#daps.privateKeys[0],
-            privateKey = this.#daps.privateKeys.find(key => key.keyType === util.iri.RSA),
+            privateKey = this.#daps.privateKeys[0],
+            // privateKey = this.#daps.privateKeys.find(key => key.keyType === util.iri.RSA),
             datHeader  = {
                 alg: 'RS256',
                 typ: 'at+jwt',
@@ -100,29 +104,54 @@ class DAPSAgent extends ServerAgent {
         return datHeader;
     } // DAPSAgent#createDatHeader
 
-    async createDatPayload(datRequest) {
-        util.assert(util.isString(datRequest?.sub), 'expected datRequest.sub to be a string', TypeError);
-
-        const subject = this.#daps.connectorCatalog.getConnectorPublicKey(datRequest.sub);
-        util.assert(subject, 'the subject ' + datRequest.sub + ' could not be found');
+    /**
+     * @param {Object} [param]
+     * @param {DatRequestQuery} [param.requestQuery]
+     * @param {DatRequestParam} [param.requestParam]
+     * @param {DatRequestToken} [param.requestToken]
+     * @param {DatRequestPayload} [param.requestPayload]
+     * @returns {Promise<DatPayload>}
+     */
+    async createDatPayload(param) {
+        util.assert(util.isNull(param?.requestQuery) || util.isNonEmptyString(param.requestQuery),
+            'expected param.requestQuery to be a non-empty string', TypeError);
+        util.assert(util.isNull(param?.requestParam) || util.isObject(param.requestParam),
+            'expected param.requestParam to be an object', TypeError);
+        util.assert(util.isNull(param?.requestToken) || util.isNonEmptyString(param.requestToken),
+            'expected param.requestToken to be a non-empty string', TypeError);
+        util.assert(util.isNull(param?.requestPayload) || util.isTokenPayload(param.requestPayload),
+            'expected param.requestPayload to be a token payload', TypeError);
+        util.assert(param?.requestPayload || param?.requestToken || param?.requestParam || param?.requestQuery,
+            'expected param to contain one of requestQuery, requestParam, requestToken or requestPayload');
 
         const
-            timestamp  = util.unixTime(),
-            datPayload = {
+            datRequestQuery   = param.requestQuery || '',
+            datRequestParam   = param.requestParam || datRequestQuery && this.parseDatRequestQuery(datRequestQuery, param) || {},
+            datRequestToken   = param.requestToken || datRequestParam.client_assertion || '',
+            datRequestPayload = param.requestPayload || await this.parseDatRequestToken(datRequestToken, param),
+            subjectKeyId      = datRequestPayload.sub || '',
+            requestSubject    = this.#daps.connectorCatalog.getConnectorPublicKey(subjectKeyId);
+
+        util.assert(requestSubject, 'the subject "' + subjectKeyId + '" could not be found');
+
+        const
+            timestamp              = util.unixTime(),
+            {connector, publicKey} = requestSubject,
+            datPayload             = {
                 '@context': this.#datContextURL,
                 '@type':    'DatPayload',
                 'iss':      this.url,
-                'sub':      subject.publicKey.keyId,
+                'sub':      publicKey.keyId,
                 'aud':      'ALL',
                 'iat':      timestamp,
                 'nbf':      timestamp - 60,
                 'exp':      timestamp + 60,
                 /** The RDF connector entity as referred to by the DAT, with its URI included as the value. The value MUST be its accessible URI. */
-                'referringConnector': subject.connector.hasEndpoint.accessURL,
+                'referringConnector': connector.hasEndpoint.accessURL,
                 /** The SecurityProfile supported by the Connector. */
-                'securityProfile': subject.connector.securityProfile,
+                'securityProfile': connector.securityProfile,
                 /** Reference to a security guarantee that, if used in combination with a security profile instance, overrides the respective guarantee of the given predefined instance. */
-                'extendedGuarantee':    subject.connector.extendedGuarantees,
+                'extendedGuarantee':    connector.extendedGuarantees,
                 'transportCertsSha256': [],
                 'scope':                ['IDS_CONNECTOR_ATTRIBUTES_ALL']
             };
@@ -130,27 +159,67 @@ class DAPSAgent extends ServerAgent {
         return datPayload;
     } // DAPSAgent#createDatPayload
 
-    async createDat(datHeader, datPayload) {
+    /**
+     * @param {Object} [param]
+     * @param {DatHeader} [param.header]
+     * @param {DatPayload} [param.payload]
+     * @param {DatRequestQuery} [param.requestQuery]
+     * @param {DatRequestParam} [param.requestParam]
+     * @param {DatRequestToken} [param.requestToken]
+     * @param {DatRequestPayload} [param.requestPayload]
+     * @returns {Promise<DynamicAttributeToken>}
+     */
+    async createDat(param) {
+        util.assert(util.isNull(param?.header) || util.isTokenHeader(param.header),
+            'expected param.header to be a token header', TypeError);
+        util.assert(util.isNull(param?.payload) || util.isTokenPayload(param.payload),
+            'expected param.payload to be a token payload', TypeError);
+
         const
-            jwtSign        = new SignJWT(datPayload),
-            dapsPrivateKey = await this.#daps.getPrivateKey(datHeader.kid),
-            dat            = await jwtSign.setProtectedHeader(datHeader).sign(dapsPrivateKey.createKeyObject());
+            datHeader  = param.header || this.createDatHeader(param),
+            datPayload = param.payload || await this.createDatPayload(param),
+            jwtSign    = new SignJWT(datPayload).setProtectedHeader(datHeader),
+            privateKey = await this.#daps.getPrivateKey(datHeader.kid),
+            dat        = await jwtSign.sign(privateKey.createKeyObject());
 
         return dat;
     } // DAPSAgent#createDat
 
     /**
-     * @returns {Promise<{keys: Array<JsonWebKey>}>}
+     * @param {Object} [param]
+     * @param {DynamicAttributeToken} [param.token]
+     * @param {DatHeader} [param.header]
+     * @param {DatPayload} [param.payload]
+     * @param {DatRequestQuery} [param.requestQuery]
+     * @param {DatRequestParam} [param.requestParam]
+     * @param {DatRequestToken} [param.requestToken]
+     * @param {DatRequestPayload} [param.requestPayload]
+     * @returns {Promise<DatResponseObject>}
      */
-    async generateJWKS() {
-        const publicKeys = this.#daps.privateKeys.map((privateKey) => {
-            const
-                publicKeyObject = crypto.createPublicKey(privateKey.keyValue),
-                publicJWK       = publicKeyObject.export({format: 'jwk'});
-            return Object.assign({kid: privateKey.keyId}, publicJWK);
-        });
-        return {keys: publicKeys};
-    } // DAPSAgent#generateJWKS
+    async createDatResponse(param) {
+        util.assert(util.isNull(param?.token) || util.isNonEmptyString(param.token),
+            'expected param.token to be a non-empty string', TypeError);
+
+        const
+            datHeader   = param?.header || this.createDatHeader(param),
+            dat         = param?.token || await this.createDat({header: datHeader, ...param}),
+            datResponse = {
+                alg:          datHeader.alg,
+                typ:          'JWT',
+                kid:          datHeader.kid,
+                access_token: dat,
+                signature:    null
+            };
+
+        return datResponse;
+    } // DAPSAgent#createDatResponse
+
+    /**
+     * @returns {JsonWebKeySet}
+     */
+    createJWKS() {
+        return this.#daps.createJWKS();
+    } // DAPSAgent#createJWKS
 
 } // DAPSAgent
 

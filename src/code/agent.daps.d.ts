@@ -24,6 +24,12 @@ export type DatRequestParam = {
 /** @see https://github.com/International-Data-Spaces-Association/IDS-G/blob/main/Components/IdentityProvider/DAPS/README.md#request-call-to-get-a-token Request call to get a token */
 export type DatRequestQuery = string;
 
+export type DatHeader = {
+    alg: string,
+    typ: string,
+    kid: string
+};
+
 /** @see @see https://github.com/International-Data-Spaces-Association/IDS-G/blob/main/Components/IdentityProvider/DAPS/README.md#dynamic-attribute-token-content Dynamic Attribute Token Content */
 export type DatPayload = {
     "@context": "https://w3id.org/idsa/contexts/context.jsonld",
@@ -42,6 +48,14 @@ export type DatPayload = {
 };
 
 export type DynamicAttributeToken = string;
+
+export type DatResponseObject = {
+    alg: string,
+    typ: "JWT",
+    kid: string,
+    access_token: DynamicAttributeToken,
+    signature?: string
+};
 
 /** @see https://datatracker.ietf.org/doc/html/rfc7517#section-4 JSON Web Key (JWK) Format */
 export type JsonWebKey = {

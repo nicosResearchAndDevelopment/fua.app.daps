@@ -70,5 +70,22 @@ util.iri = Object.freeze({
     nonNegativeInteger: 'xsd:nonNegativeInteger'
 });
 
+util.isTokenHeader = function (value) {
+    return util.isObject(value)
+        && (util.isNull(value.alg) || util.isString(value.alg))
+        && (util.isNull(value.typ) || util.isString(value.typ))
+        && (util.isNull(value.kid) || util.isString(value.kid));
+};
+
+util.isTokenPayload = function (value) {
+    return util.isObject(value)
+        && (util.isNull(value.iss) || util.isString(value.iss))
+        && (util.isNull(value.sub) || util.isString(value.sub))
+        && (util.isNull(value.aud) || util.isString(value.aud))
+        && (util.isNull(value.iat) || util.isFiniteNumber(value.iat))
+        && (util.isNull(value.nbf) || util.isFiniteNumber(value.nbf))
+        && (util.isNull(value.exp) || util.isFiniteNumber(value.exp));
+};
+
 Object.freeze(util);
 module.exports = util;

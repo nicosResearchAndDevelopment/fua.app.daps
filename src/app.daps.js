@@ -14,9 +14,8 @@ module.exports = async function DAPSApp(
         '/.well-known/jwks.json',
         async function (request, response, next) {
             try {
-                const jwks    = await agent.generateJWKS();
-                const payload = JSON.stringify(jwks);
-                response.type('json').send(payload);
+                const payload = agent.createJWKS();
+                response.type('json').send(JSON.stringify(payload));
             } catch (err) {
                 next(err);
             }
@@ -28,20 +27,8 @@ module.exports = async function DAPSApp(
         express.text(),
         async function (request, response, next) {
             try {
-                const
-                    datRequestParam = agent.parseDatRequestQuery(request.body),
-                    datRequest      = await agent.parseDatRequestToken(datRequestParam.client_assertion),
-                    datHeader       = agent.createDatHeader(datRequest),
-                    datPayload      = await agent.createDatPayload(datRequest),
-                    dat             = await agent.createDat(datPayload, datHeader),
-                    payload         = JSON.stringify({
-                        alg:          datHeader.alg,
-                        typ:          'JWT',
-                        kid:          datHeader.kid,
-                        access_token: dat,
-                        signature:    null
-                    });
-                response.type('json').send(payload);
+                const payload = await agent.createDatResponse({requestQuery: request.body});
+                response.type('json').send(JSON.stringify(payload));
             } catch (err) {
                 next(err);
             }
