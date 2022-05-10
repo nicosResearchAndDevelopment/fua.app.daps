@@ -20,6 +20,7 @@ class DAPSAgent extends ServerAgent {
     #datContext    = null;
 
     #build = () => Promise.reject(new Error('not initialized'));
+    /** @type {fua.app.daps.model.DAPS} */
     #daps  = null;
 
     constructor(options = {}) {
@@ -75,7 +76,7 @@ class DAPSAgent extends ServerAgent {
         const datRequestHeader = await decodeProtectedHeader(datRequestToken);
         util.assert(datRequestHeader.sub, 'expected datRequestHeader.sub to be a string');
 
-        const subject = await this.#daps.connectorCatalog.findConnector(datRequestHeader.sub);
+        const subject = await this.#daps.connectorCatalog.getConnectorPublicKey(datRequestHeader.sub);
         util.assert(subject, 'the subject ' + datRequestHeader.sub + ' could not be found');
 
         const
@@ -87,18 +88,22 @@ class DAPSAgent extends ServerAgent {
     } // DAPSAgent#parseDatRequestToken
 
     createDatHeader(datRequest) {
-        const datHeader = {
-            alg: 'RS256',
-            typ: 'at+jwt',
-            kid: 'default'
-        };
+        const
+            // privateKey = this.#daps.privateKeys[0],
+            privateKey = this.#daps.privateKeys.find(key => key.keyType === util.iri.RSA),
+            datHeader  = {
+                alg: 'RS256',
+                typ: 'at+jwt',
+                // kid: 'default'
+                kid: privateKey.keyId
+            };
         return datHeader;
     } // DAPSAgent#createDatHeader
 
     async createDatPayload(datRequest) {
         util.assert(util.isString(datRequest?.sub), 'expected datRequest.sub to be a string', TypeError);
 
-        const subject = await this.#daps.findConnectorPublicKey(datRequest.sub);
+        const subject = this.#daps.connectorCatalog.getConnectorPublicKey(datRequest.sub);
         util.assert(subject, 'the subject ' + datRequest.sub + ' could not be found');
 
         const
@@ -128,44 +133,11 @@ class DAPSAgent extends ServerAgent {
     async createDat(datHeader, datPayload) {
         const
             jwtSign        = new SignJWT(datPayload),
-            dapsPrivateKey = await this.#daps.findPrivateKey(datHeader.kid),
+            dapsPrivateKey = await this.#daps.getPrivateKey(datHeader.kid),
             dat            = await jwtSign.setProtectedHeader(datHeader).sign(dapsPrivateKey.createKeyObject());
 
         return dat;
     } // DAPSAgent#createDat
-
-    #serverKeys = new Map();
-
-    /**
-     * @param {string} keyId
-     * @param {string|Buffer|KeyObject} keyLike
-     * @returns {void}
-     */
-    addServerKey(keyId, keyLike) {
-        util.assert(util.isString(keyId), 'expected keyId to be a string', TypeError);
-        util.assert(!this.#serverKeys.has(keyId), 'keyId (' + keyId + ') already in use');
-        const privateKey = crypto.createPrivateKey(keyLike);
-        this.#serverKeys.set(keyId, privateKey);
-    } // DAPSAgent#addServerKey
-
-    /**
-     * @param {string} keyId
-     * @returns {KeyObject}
-     */
-    getServerKey(keyId) {
-        util.assert(util.isString(keyId), 'expected keyId to be a string', TypeError);
-        return this.#serverKeys.get(keyId) || null;
-    } // DAPSAgent#getServerKey
-
-    /**
-     * @param {string} keyId
-     * @returns {void}
-     */
-    removeServerKey(keyId) {
-        util.assert(util.isString(keyId), 'expected keyId to be a string', TypeError);
-        util.assert(this.#serverKeys.has(keyId), 'keyId (' + keyId + ') not in use');
-        this.#serverKeys.delete(keyId);
-    } // DAPSAgent#removeServerKey
 
     /**
      * @returns {Promise<{keys: Array<JsonWebKey>}>}

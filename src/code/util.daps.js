@@ -12,6 +12,22 @@ util.pause = function (seconds) {
     });
 };
 
+// /**
+//  * @param {string} prefixIri
+//  * @returns {function(string): string}
+//  */
+// util.ns = function (prefixIri) {
+//     return function (iriSuffix) {
+//         return prefixIri + iriSuffix;
+//     };
+// };
+//
+// util.ns.rdf  = util.ns('rdf:');
+// util.ns.ids  = util.ns('ids:');
+// util.ns.idsc = util.ns('idsc:');
+// util.ns.daps = util.ns('daps:');
+// util.ns.xsd  = util.ns('xsd:');
+
 util.iri = Object.freeze({
     type: 'rdf:type',
 

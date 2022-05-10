@@ -1,11 +1,14 @@
 const
-    util               = require('./util.daps.js'),
-    crypto             = require('crypto'),
-    {Model, Resource}  = require('@nrd/fua.module.space'),
-    {serializeDataset} = require('@nrd/fua.module.rdf'),
+    util              = require('./util.daps.js'),
+    crypto            = require('crypto'),
+    {Model, Resource} = require('@nrd/fua.module.space'),
     /** @type {fua.module.space.Model} */
-    model              = new Model();
+    model             = new Model();
 
+/**
+ * @alias fua.app.daps.model.DAPS
+ * @extends {fua.module.space.Resource}
+ */
 class DAPS extends Resource {
 
     async load() {
@@ -29,7 +32,7 @@ class DAPS extends Resource {
         util.assert(connectorCatalog && (connectorCatalog instanceof ConnectorCatalog),
             `expected one ${util.iri.connectorCatalog} of type ${util.iri.ConnectorCatalog}`);
         util.assert(privateKeyArr.length && privateKeyArr.every(privateKey => privateKey instanceof PrivateKey),
-            `expected at least one ${util.iri.privateKey} of type ${util.iri.PrivateKey}`);
+            `expected ${util.iri.privateKey} of type ${util.iri.PrivateKey}`);
 
         this['@type']                   = this.node.type;
         this[util.iri.connectorCatalog] = connectorCatalog;
@@ -41,47 +44,32 @@ class DAPS extends Resource {
         ]);
     } // DAPS#load
 
-    async serialize(contentType = 'text/turtle') {
-        const dataset = this.node.dataset();
-        return await serializeDataset(dataset, contentType);
-    } // DAPS#serialize
-
+    /** @type {ConnectorCatalog | null} */
     get connectorCatalog() {
         return this[util.iri.connectorCatalog] || null;
     }
 
+    /** @type {Array<PrivateKey>} */
     get privateKeys() {
         return this[util.iri.privateKey] || [];
     }
 
-    findPrivateKey(keyId) {
-        for (let privateKey of this.privateKeys) {
-            if (privateKey.keyId === keyId) {
-                return privateKey;
-            }
-        }
-        return null;
-    } // DAPS#findPrivateKey
-
-    async findConnectorPublicKey(keyId) {
-        const listedConnectors = this.connectorCatalog?.listedConnectors || [];
-        for (let connector of listedConnectors) {
-            for (let publicKey of connector.publicKeys) {
-                if (publicKey.keyId === keyId) {
-                    return {
-                        connector,
-                        publicKey
-                    };
-                }
-            }
-        }
-        return null;
-    } // ConnectorCatalog#findConnector
+    /**
+     * @param {string} keyId
+     * @returns {PublicKey | null}
+     */
+    getPrivateKey(keyId) {
+        return this.privateKeys.find(privateKey => privateKey.keyId === keyId) || null;
+    }
 
 } // DAPS
 
 model.set(util.iri.DAPS, DAPS);
 
+/**
+ * @alias fua.app.daps.model.ConnectorCatalog
+ * @extends {fua.module.space.Resource}
+ */
 class ConnectorCatalog extends Resource {
 
     async load() {
@@ -103,19 +91,31 @@ class ConnectorCatalog extends Resource {
         await Promise.all(listedConnectorArr.map(listedConnector => listedConnector.load()));
     } // ConnectorCatalog#load
 
-    async serialize(contentType = 'text/turtle') {
-        const dataset = this.node.dataset();
-        return await serializeDataset(dataset, contentType);
-    } // ConnectorCatalog#serialize
-
+    /** @type {Array<Connector>} */
     get listedConnectors() {
         return this[util.iri.listedConnector] || [];
+    }
+
+    /**
+     * @param {string} keyId
+     * @returns {{connector: Connector, publicKey: PublicKey} | null}
+     */
+    getConnectorPublicKey(keyId) {
+        for (let connector of this.listedConnectors) {
+            const publicKey = connector.getPublicKey(keyId);
+            if (publicKey) return {connector, publicKey};
+        }
+        return null;
     }
 
 } // ConnectorCatalog
 
 model.set(util.iri.ConnectorCatalog, ConnectorCatalog);
 
+/**
+ * @alias fua.app.daps.model.Connector
+ * @extends {fua.module.space.Resource}
+ */
 class Connector extends Resource {
 
     async load() {
@@ -172,31 +172,42 @@ class Connector extends Resource {
         ]);
     } // Connector#load
 
-    async serialize(contentType = 'text/turtle') {
-        const dataset = this.node.dataset();
-        return await serializeDataset(dataset, contentType);
-    } // Connector#serialize
-
+    /** @type {SecurityProfile} */
     get securityProfile() {
         return this[util.iri.securityProfile] || '';
     }
 
+    /** @type {Array<SecurityGuarantee>} */
     get extendedGuarantees() {
         return this[util.iri.extendedGuarantee] || [];
     }
 
+    /** @type {ConnectorEndpoint} */
     get hasEndpoint() {
         return this[util.iri.hasEndpoint] || null;
     }
 
+    /** @type {Array<PublicKey>} */
     get publicKeys() {
         return this[util.iri.publicKey] || [];
+    }
+
+    /**
+     * @param {string} keyId
+     * @returns {PublicKey | null}
+     */
+    getPublicKey(keyId) {
+        return this.publicKeys.find(privateKey => privateKey.keyId === keyId) || null;
     }
 
 } // Connector
 
 model.set(util.iri.Connector, Connector);
 
+/**
+ * @alias fua.app.daps.model.CryptoKey
+ * @extends {fua.module.space.Resource}
+ */
 class CryptoKey extends Resource {
 
     async load() {
@@ -225,41 +236,45 @@ class CryptoKey extends Resource {
         this[util.iri.keyValue] = keyValueLiteral.valueOf();
     } // CryptoKey#load
 
-    async serialize(contentType = 'text/turtle') {
-        const dataset = this.node.dataset();
-        return await serializeDataset(dataset, contentType);
-    } // CryptoKey#serialize
-
+    /** @type {string} */
     get keyId() {
         return this[util.iri.keyId] || '';
     }
 
+    /** @type {string} */
     get keyType() {
         return this[util.iri.keyType] || '';
     }
 
+    /** @type {Buffer | string} */
     get keyValue() {
         return this[util.iri.keyValue] || '';
     }
 
 } // CryptoKey
 
+/**
+ * @alias fua.app.daps.model.PublicKey
+ * @extends {fua.app.daps.model.CryptoKey}
+ */
 class PublicKey extends CryptoKey {
 
+    /** @returns {import("crypto").KeyObject} */
     createKeyObject() {
-        const keyValue = this.keyValue;
-        util.assert(util.isBuffer(keyValue), 'expected keyValue to contain binary data');
-        return crypto.createPublicKey(keyValue);
+        return crypto.createPublicKey(this.keyValue);
     } // PublicKey#createKeyObject
 
 } // PublicKey
 
+/**
+ * @alias fua.app.daps.model.PrivateKey
+ * @extends {fua.app.daps.model.CryptoKey}
+ */
 class PrivateKey extends CryptoKey {
 
+    /** @returns {import("crypto").KeyObject} */
     createKeyObject() {
-        const keyValue = this.keyValue;
-        util.assert(util.isBuffer(keyValue), 'expected keyValue to contain binary data');
-        return crypto.createPrivateKey(keyValue);
+        return crypto.createPrivateKey(this.keyValue);
     } // PrivateKey#createKeyObject
 
 } // PrivateKey
@@ -267,6 +282,10 @@ class PrivateKey extends CryptoKey {
 model.set(util.iri.PublicKey, PublicKey);
 model.set(util.iri.PrivateKey, PrivateKey);
 
+/**
+ * @alias fua.app.daps.model.AuthInfo
+ * @extends {fua.module.space.Resource}
+ */
 class AuthInfo extends Resource {
 
     async load() {
@@ -290,15 +309,12 @@ class AuthInfo extends Resource {
         this[util.iri.authStandard] = authStandardNode.id;
     } // AuthInfo#load
 
-    async serialize(contentType = 'text/turtle') {
-        const dataset = this.node.dataset();
-        return await serializeDataset(dataset, contentType);
-    } // AuthInfo#serialize
-
+    /** @type {string} */
     get authService() {
         return this[util.iri.authService] || '';
     }
 
+    /** @type {string} */
     get authStandard() {
         return this[util.iri.authStandard] || '';
     }
@@ -307,6 +323,10 @@ class AuthInfo extends Resource {
 
 model.set(util.iri.AuthInfo, AuthInfo);
 
+/**
+ * @alias fua.app.daps.model.ConnectorEndpoint
+ * @extends {fua.module.space.Resource}
+ */
 class ConnectorEndpoint extends Resource {
 
     async load() {
@@ -325,11 +345,7 @@ class ConnectorEndpoint extends Resource {
         this[util.iri.accessURL] = accessURLLiteral.valueOf();
     } // ConnectorEndpoint#load
 
-    async serialize(contentType = 'text/turtle') {
-        const dataset = this.node.dataset();
-        return await serializeDataset(dataset, contentType);
-    } // ConnectorEndpoint#serialize
-
+    /** @type {string} */
     get accessURL() {
         return this[util.iri.accessURL] || '';
     }
@@ -338,6 +354,10 @@ class ConnectorEndpoint extends Resource {
 
 model.set(util.iri.ConnectorEndpoint, ConnectorEndpoint);
 
+/**
+ * @alias fua.app.daps.model.SecurityProfile
+ * @extends {fua.module.space.Resource}
+ */
 class SecurityProfile extends Resource {
 
     async load() {
@@ -348,15 +368,14 @@ class SecurityProfile extends Resource {
         this['@type'] = this.node.type;
     } // SecurityProfile#load
 
-    async serialize(contentType = 'text/turtle') {
-        const dataset = this.node.dataset();
-        return await serializeDataset(dataset, contentType);
-    } // SecurityProfile#serialize
-
 } // SecurityProfile
 
 model.set(util.iri.SecurityProfile, SecurityProfile);
 
+/**
+ * @alias fua.app.daps.model.SecurityGuarantee
+ * @extends {fua.module.space.Resource}
+ */
 class SecurityGuarantee extends Resource {
 
     async load() {
@@ -366,11 +385,6 @@ class SecurityGuarantee extends Resource {
 
         this['@type'] = this.node.type;
     } // SecurityGuarantee#load
-
-    async serialize(contentType = 'text/turtle') {
-        const dataset = this.node.dataset();
-        return await serializeDataset(dataset, contentType);
-    } // SecurityGuarantee#serialize
 
 } // SecurityGuarantee
 
