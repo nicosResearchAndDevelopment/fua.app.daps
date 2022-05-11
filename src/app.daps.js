@@ -24,10 +24,10 @@ module.exports = async function DAPSApp(
 
     agent.app.post(
         '/token',
-        express.text(),
+        express.urlencoded({extended: false}),
         async function (request, response, next) {
             try {
-                const payload = await agent.createDatResponse({requestQuery: request.body});
+                const payload = await agent.createDatResponse({requestParam: request.body});
                 response.type('json').send(JSON.stringify(payload));
             } catch (err) {
                 next(err);

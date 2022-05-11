@@ -70,6 +70,26 @@ util.iri = Object.freeze({
     nonNegativeInteger: 'xsd:nonNegativeInteger'
 });
 
+util.isNonEmptyString = util.StringValidator(/\S/);
+
+util.decodeToken = function (token) {
+    const [headerPart, payloadPart] = token.split('.');
+    return {
+        header:  JSON.parse(Buffer.from(headerPart, 'base64')),
+        payload: JSON.parse(Buffer.from(payloadPart, 'base64'))
+    };
+};
+
+util.decodeTokenHeader = function (token) {
+    const headerPart = token.split('.')[0];
+    return JSON.parse(Buffer.from(headerPart, 'base64'));
+};
+
+util.decodeTokenPayload = function (token) {
+    const payloadPart = token.split('.')[1];
+    return JSON.parse(Buffer.from(payloadPart, 'base64'));
+};
+
 util.isTokenHeader = function (value) {
     return util.isObject(value)
         && (util.isNull(value.alg) || util.isString(value.alg))

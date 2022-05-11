@@ -1,20 +1,27 @@
 const
-    path              = require('path'),
-    crypto            = require('crypto'),
-    {URLSearchParams} = require('url'),
-    fetch             = require('node-fetch'),
-    util              = require('./util.daps.js'),
-    model             = require('./model.daps.js'),
-    ServerAgent       = require('@nrd/fua.agent.server'),
+    path                 = require('path'),
+    crypto               = require('crypto'),
+    {URLSearchParams}    = require('url'),
+    fetch                = require('node-fetch'),
+    util                 = require('./util.daps.js'),
+    model                = require('./model.daps.js'),
+    ServerAgent          = require('@nrd/fua.agent.server'),
     // jose = require('@nrd/fua.module.jose'),
-    {
-        decodeProtectedHeader, jwtVerify, SignJWT
-    }                 = require('jose');
+    {jwtVerify, SignJWT} = require('jose');
 
 // SEE https://git02.int.nsc.ag/spetrac/idsa-infomodel/-/tree/master/daps
-// SEE https://github.com/International-Data-Spaces-Association/IDS-G/tree/master/core/DAPS
+// SEE https://github.com/International-Data-Spaces-Association/IDS-G/tree/main/Components/IdentityProvider/DAPS
 
 class DAPSAgent extends ServerAgent {
+
+    // /**
+    //  * @param options
+    //  * @returns {Promise<DAPSAgent>}
+    //  */
+    // static create(options = {}) {
+    //     // REM this method is redundant, but placing it here helps the intellisense
+    //     return ServerAgent.create.call(this, options);
+    // }
 
     #datContextURL = 'https://w3id.org/idsa/contexts/context.jsonld';
     #datContext    = null;
@@ -73,16 +80,19 @@ class DAPSAgent extends ServerAgent {
      */
     async parseDatRequestToken(datRequestToken, param) {
         util.assert(util.isString(datRequestToken), 'expected datRequestToken to be a string', TypeError);
-        const datRequestHeader = await decodeProtectedHeader(datRequestToken);
-        util.assert(datRequestHeader.sub, 'expected datRequestHeader.sub to be a string');
-
-        const subject = await this.#daps.connectorCatalog.getConnectorPublicKey(datRequestHeader.sub);
-        util.assert(subject, 'the subject ' + datRequestHeader.sub + ' could not be found');
 
         const
-            subjectPublicKey      = subject.publicKey.createKeyObject(),
-            verifyOptions         = {subject: subject.publicKey.keyId},
-            {payload: datRequest} = await jwtVerify(datRequestToken, subjectPublicKey, verifyOptions);
+            datRequestPayload = util.decodeTokenPayload(datRequestToken),
+            subjectKeyId      = datRequestPayload.sub || '',
+            requestSubject    = await this.#daps.connectorCatalog.getConnectorPublicKey(subjectKeyId);
+
+        util.assert(requestSubject, 'the subject "' + subjectKeyId + '" could not be found');
+
+        const
+            {publicKey}           = requestSubject,
+            keyObject             = publicKey.createKeyObject(),
+            verifyOptions         = {subject: publicKey.keyId},
+            {payload: datRequest} = await jwtVerify(datRequestToken, keyObject, verifyOptions);
 
         return datRequest;
     } // DAPSAgent#parseDatRequestToken
