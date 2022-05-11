@@ -5,28 +5,14 @@ const
         assert: _util.Assert('app.daps')
     };
 
+util.uuid = require('@nrd/fua.core.uuid');
+
 util.pause = function (seconds) {
     return new Promise((resolve) => {
         if (seconds >= 0) setTimeout(resolve, 1e3 * seconds);
         else setImmediate(resolve);
     });
 };
-
-// /**
-//  * @param {string} prefixIri
-//  * @returns {function(string): string}
-//  */
-// util.ns = function (prefixIri) {
-//     return function (iriSuffix) {
-//         return prefixIri + iriSuffix;
-//     };
-// };
-//
-// util.ns.rdf  = util.ns('rdf:');
-// util.ns.ids  = util.ns('ids:');
-// util.ns.idsc = util.ns('idsc:');
-// util.ns.daps = util.ns('daps:');
-// util.ns.xsd  = util.ns('xsd:');
 
 util.iri = Object.freeze({
     type: 'rdf:type',
@@ -101,10 +87,11 @@ util.isTokenPayload = function (value) {
     return util.isObject(value)
         && (util.isNull(value.iss) || util.isString(value.iss))
         && (util.isNull(value.sub) || util.isString(value.sub))
-        && (util.isNull(value.aud) || util.isString(value.aud))
+        && (util.isNull(value.aud) || util.isString(value.aud) || util.isStringArray(value.aud))
         && (util.isNull(value.iat) || util.isFiniteNumber(value.iat))
         && (util.isNull(value.nbf) || util.isFiniteNumber(value.nbf))
-        && (util.isNull(value.exp) || util.isFiniteNumber(value.exp));
+        && (util.isNull(value.exp) || util.isFiniteNumber(value.exp))
+        && (util.isNull(value.jti) || util.isString(value.jti));
 };
 
 Object.freeze(util);
