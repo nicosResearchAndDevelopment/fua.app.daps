@@ -37,5 +37,6 @@ module.exports = async function DAPSApp(
 
     await agent.listen();
     util.logText(`daps app is listening at <${agent.url}>`);
+    agent.once('closed', () => util.logText('daps app has closed'));
 
 }; // module.exports = DAPSApp

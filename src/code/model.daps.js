@@ -55,6 +55,13 @@ class DAPS extends Resource {
     }
 
     /**
+     * @returns {import("agent.daps").JsonWebKeySet}
+     */
+    createJWKS() {
+        return {keys: this.privateKeys.map(privateKey => privateKey.createJWK())};
+    }
+
+    /**
      * @param {string} keyId
      * @returns {PublicKey | null}
      */
@@ -62,12 +69,13 @@ class DAPS extends Resource {
         return this.privateKeys.find(privateKey => privateKey.keyId === keyId) || null;
     }
 
-    /**
-     * @returns {import("agent.daps").JsonWebKeySet}
-     */
-    createJWKS() {
-        return {keys: this.privateKeys.map(privateKey => privateKey.createJWK())};
-    }
+    async addPrivateKey(keyId, keyType, keyValue) {
+        util.assert(false, 'not implemented'); // TODO
+    } // DAPS#addPrivateKey
+
+    async removePrivateKey(keyId, keyType, keyValue) {
+        util.assert(false, 'not implemented'); // TODO
+    } // DAPS#removePrivateKey
 
 } // DAPS
 
@@ -114,6 +122,14 @@ class ConnectorCatalog extends Resource {
         }
         return null;
     }
+
+    async addConnector(/* TODO */) {
+        util.assert(false, 'not implemented'); // TODO
+    } // ConnectorCatalog#addConnector
+
+    async removeConnector(/* TODO */) {
+        util.assert(false, 'not implemented'); // TODO
+    } // ConnectorCatalog#removeConnector
 
 } // ConnectorCatalog
 
@@ -205,7 +221,15 @@ class Connector extends Resource {
      */
     getPublicKey(keyId) {
         return this.publicKeys.find(privateKey => privateKey.keyId === keyId) || null;
-    }
+    } // Connector#getPublicKey
+
+    async addPublicKey(keyId, keyType, keyValue) {
+        util.assert(false, 'not implemented'); // TODO
+    } // Connector#addPublicKey
+
+    async removePublicKey(keyId) {
+        util.assert(false, 'not implemented'); // TODO
+    } // Connector#removePublicKey
 
 } // Connector
 
@@ -374,11 +398,11 @@ model.set(util.iri.ConnectorEndpoint, ConnectorEndpoint);
 class SecurityProfile extends Resource {
 
     async load() {
-        await this.node.load([
-            '@type'
-        ]);
-
-        this['@type'] = this.node.type;
+        // await this.node.load([
+        //     '@type'
+        // ]);
+        //
+        // this['@type'] = this.node.type;
     } // SecurityProfile#load
 
 } // SecurityProfile
@@ -392,11 +416,11 @@ model.set(util.iri.SecurityProfile, SecurityProfile);
 class SecurityGuarantee extends Resource {
 
     async load() {
-        await this.node.load([
-            '@type'
-        ]);
-
-        this['@type'] = this.node.type;
+        // await this.node.load([
+        //     '@type'
+        // ]);
+        //
+        // this['@type'] = this.node.type;
     } // SecurityGuarantee#load
 
 } // SecurityGuarantee

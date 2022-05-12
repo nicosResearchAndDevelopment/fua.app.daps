@@ -1,11 +1,11 @@
 const
-    { URLSearchParams } = require('url'),
-    fetch = require('node-fetch'),
-    util = require('./util.daps.js'),
-    model = require('./model.daps.js'),
-    ServerAgent = require('@nrd/fua.agent.server'),
+    {URLSearchParams}    = require('url'),
+    fetch                = require('node-fetch'),
+    util                 = require('./util.daps.js'),
+    model                = require('./model.daps.js'),
+    ServerAgent          = require('@nrd/fua.agent.server'),
     // jose = require('@nrd/fua.module.jose'),
-    { jwtVerify, SignJWT } = require('jose');
+    {jwtVerify, SignJWT} = require('jose');
 
 // SEE https://git02.int.nsc.ag/spetrac/idsa-infomodel/-/tree/master/daps
 // SEE https://github.com/International-Data-Spaces-Association/IDS-G/tree/main/Components/IdentityProvider/DAPS
@@ -13,11 +13,11 @@ const
 class DAPSAgent extends ServerAgent {
 
     #datContextURL = 'https://w3id.org/idsa/contexts/context.jsonld';
-    #datContext = null;
+    #datContext    = null;
 
     #build = () => Promise.reject(new Error('not initialized'));
     /** @type {fua.app.daps.model.DAPS} */
-    #daps = null;
+    #daps  = null;
 
     constructor(options = {}) {
         super(options);
@@ -38,7 +38,7 @@ class DAPSAgent extends ServerAgent {
         }
 
         this.#build = model.builder(this.space);
-        this.#daps = await this.#build(this.node);
+        this.#daps  = await this.#build(this.node);
         await this.#daps.load();
 
         return this;
@@ -77,16 +77,16 @@ class DAPSAgent extends ServerAgent {
 
         const
             datRequestPayload = util.decodeTokenPayload(datRequestToken),
-            subjectKeyId = datRequestPayload.sub || '',
-            requestSubject = await this.#daps.connectorCatalog.getConnectorPublicKey(subjectKeyId);
+            subjectKeyId      = datRequestPayload.sub || '',
+            requestSubject    = await this.#daps.connectorCatalog.getConnectorPublicKey(subjectKeyId);
 
         util.assert(requestSubject, 'the subject "' + subjectKeyId + '" could not be found');
 
         const
-            { publicKey } = requestSubject,
-            keyObject = publicKey.createKeyObject(),
-            verifyOptions = { subject: publicKey.keyId },
-            { payload: datRequest } = await jwtVerify(datRequestToken, keyObject, verifyOptions);
+            {publicKey}           = requestSubject,
+            keyObject             = publicKey.createKeyObject(),
+            verifyOptions         = {subject: publicKey.keyId},
+            {payload: datRequest} = await jwtVerify(datRequestToken, keyObject, verifyOptions);
 
         return datRequest;
     } // DAPSAgent#parseDatRequestToken
@@ -100,7 +100,7 @@ class DAPSAgent extends ServerAgent {
             // TODO find a useful way to select a private key
             // privateKey = this.#daps.privateKeys.find(key => key.keyType === util.iri.RSA),
             privateKey = this.#daps.privateKeys[0],
-            datHeader = {
+            datHeader  = {
                 /**
                  * The token type. Must be "JWT".
                  */
@@ -139,19 +139,19 @@ class DAPSAgent extends ServerAgent {
             'expected param to contain one of requestQuery, requestParam, requestToken or requestPayload');
 
         const
-            datRequestQuery = param.requestQuery || '',
-            datRequestParam = param.requestParam || datRequestQuery && this.parseDatRequestQuery(datRequestQuery, param) || {},
-            datRequestToken = param.requestToken || datRequestParam.client_assertion || '',
+            datRequestQuery   = param.requestQuery || '',
+            datRequestParam   = param.requestParam || datRequestQuery && this.parseDatRequestQuery(datRequestQuery, param) || {},
+            datRequestToken   = param.requestToken || datRequestParam.client_assertion || '',
             datRequestPayload = param.requestPayload || await this.parseDatRequestToken(datRequestToken, param),
-            subjectKeyId = datRequestPayload.sub || '',
-            requestSubject = this.#daps.connectorCatalog.getConnectorPublicKey(subjectKeyId);
+            subjectKeyId      = datRequestPayload.sub || '',
+            requestSubject    = this.#daps.connectorCatalog.getConnectorPublicKey(subjectKeyId);
 
         util.assert(requestSubject, 'the subject "' + subjectKeyId + '" could not be found');
 
         const
-            timestamp = util.unixTime(),
-            { connector, publicKey } = requestSubject,
-            datPayload = {
+            timestamp              = util.unixTime(),
+            {connector, publicKey} = requestSubject,
+            datPayload             = {
                 /**
                  * The JSON-LD context containing the IDS classes, properties and instances.
                  * Must be "https://w3id.org/idsa/contexts/context.jsonld".
@@ -205,7 +205,7 @@ class DAPSAgent extends ServerAgent {
                  * REM V3 change: "scopes" has been changed to "scope" in accordance
                  * with https://www.rfc-editor.org/rfc/rfc9068.html#name-authorization-claims.
                  */
-                'scope': 'idsc:IDS_CONNECTOR_ATTRIBUTES_ALL',
+                'scope': datRequestParam['scope'] || 'idsc:IDS_CONNECTOR_ATTRIBUTES_ALL',
                 /**
                  * States that the requesting connector conforms to a certain security profile
                  * and has been certified to do so. The value must be an instance
@@ -264,11 +264,11 @@ class DAPSAgent extends ServerAgent {
             'expected param.payload to be a token payload', TypeError);
 
         const
-            datHeader = param.header || this.createDatHeader(param),
+            datHeader  = param.header || this.createDatHeader(param),
             datPayload = param.payload || await this.createDatPayload(param),
-            jwtSign = new SignJWT(datPayload).setProtectedHeader(datHeader),
+            jwtSign    = new SignJWT(datPayload).setProtectedHeader(datHeader),
             privateKey = await this.#daps.getPrivateKey(datHeader.kid),
-            dat = await jwtSign.sign(privateKey.createKeyObject());
+            dat        = await jwtSign.sign(privateKey.createKeyObject());
 
         return dat;
     } // DAPSAgent#createDat
@@ -289,14 +289,14 @@ class DAPSAgent extends ServerAgent {
             'expected param.token to be a non-empty string', TypeError);
 
         const
-            datHeader = param?.header || this.createDatHeader(param),
-            dat = param?.token || await this.createDat({ header: datHeader, ...param }),
+            datHeader   = param?.header || this.createDatHeader(param),
+            dat         = param?.token || await this.createDat({header: datHeader, ...param}),
             datResponse = {
-                alg: datHeader.alg,
-                typ: 'JWT',
-                kid: datHeader.kid,
+                alg:          datHeader.alg,
+                typ:          'JWT',
+                kid:          datHeader.kid,
                 access_token: dat,
-                signature: null
+                signature:    null
             };
 
         return datResponse;
