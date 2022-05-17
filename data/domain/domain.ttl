@@ -34,4 +34,7 @@
     rdfs:label "Users"@en ;
     ldp:member <domain/users#spetrac> ;
     ldp:member <domain/users#jlangkau> ;
+
+    ldp:member <connector#alice> ;
+    ldp:member <connector#bob> ;
 .
