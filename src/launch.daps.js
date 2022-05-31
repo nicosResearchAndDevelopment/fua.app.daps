@@ -7,6 +7,8 @@ const
 
 (async function LaunchDAPS() {
 
+    /* 1. Construct a server agent for your setup: */
+
     const dapsAgent = await DAPSAgent.create({
         schema:   config.server.schema,
         hostname: config.server.hostname,
@@ -18,10 +20,16 @@ const
         domain:   true
     });
 
+    /* 2. Use additional methods to configure the setup: */
+
+    /* 3. Launch the main app: */
+
     await DAPSApp({
         'config': config,
         'agent':  dapsAgent
     });
+
+    /* 4. Launch the testing lab: */
 
     await DAPSLab({
         'config': config,
@@ -29,7 +37,11 @@ const
     });
 
 })().catch((err) => {
+
+    /* ERR. Log any error during launch and exit the application: */
+
     util.logError(err);
     debugger;
     process.exit(1);
+
 }); // LaunchDAPS
