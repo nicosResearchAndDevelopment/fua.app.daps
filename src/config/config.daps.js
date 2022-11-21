@@ -7,7 +7,7 @@ const
 exports.server = {
     schema:   'https',
     hostname: 'nrd-daps.nicos-rd.com',
-    port:     8082,
+    port:     8083,
     options:  {
         key:  tls_config.key,
         cert: tls_config.cert
@@ -34,13 +34,48 @@ exports.space = {
                 {
                     'dct:identifier': path.join(__root, 'data/load.json'),
                     'dct:format':     'application/fua.load+json'
-                },
-                require('@nrd/fua.resource.ontology/rdf'),
-                require('@nrd/fua.resource.ontology/rdfs'),
-                require('@nrd/fua.resource.ontology/owl'),
-                require('@nrd/fua.resource.ontology/foaf'),
-                require('@nrd/fua.resource.ontology/odrl')
+                }
+                // require('@nrd/fua.resource.ontology/rdf'),
+                // require('@nrd/fua.resource.ontology/rdfs'),
+                // require('@nrd/fua.resource.ontology/owl'),
+                // require('@nrd/fua.resource.ontology/foaf'),
+                // require('@nrd/fua.resource.ontology/odrl')
             ]
         }
+    }
+};
+
+exports.daps = {
+    tokenPath: [
+        '/token',
+        '/auth/token'
+    ],
+    jwksPath:  [
+        '/.well-known/jwks.json',
+        '/jwks.json',
+        '/auth/jwks.json'
+    ],
+    aboutPath: [
+        '/',
+        '/about',
+        '/auth/.well-known/openid-configuration'
+    ],
+    tweakDat:  {
+        pipeRequestTweaks: [
+            // '@type',
+            // 'iss',
+            // 'sub',
+            // 'referringConnector',
+            // 'securityProfile',
+            // 'extendedGuarantee',
+            // 'transportCertsSha256',
+            // 'iat',
+            // 'exp',
+            // 'aud',
+            // 'nbf',
+            // 'scope',
+            'custom'
+        ],
+        tweakMatcherPath:  '/tweak'
     }
 };

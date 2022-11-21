@@ -31,10 +31,10 @@ const
 
     /* 4. Launch the testing lab: */
 
-    //await DAPSLab({
-    //    'config': config,
-    //    'agent':  dapsAgent
-    //});
+    await DAPSLab({
+       'config': config,
+       'agent':  dapsAgent
+    });
 
 })().catch((err) => {
 

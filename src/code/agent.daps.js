@@ -67,6 +67,21 @@ class DAPSAgent extends ServerAgent {
         return Object.fromEntries(queryParams.entries());
     } // DAPSAgent#parseDatRequestQuery
 
+    getDatRequestParam(param) {
+        util.assert(util.isNull(param?.requestQuery) || util.isNonEmptyString(param.requestQuery),
+            'expected param.requestQuery to be a non-empty string', TypeError);
+        util.assert(util.isNull(param?.requestParam) || util.isObject(param.requestParam),
+            'expected param.requestParam to be an object', TypeError);
+        util.assert(param?.requestParam || param?.requestQuery,
+            'expected param to contain one of requestQuery or requestParam');
+
+        const
+            datRequestQuery = param.requestQuery || '',
+            datRequestParam = param.requestParam || datRequestQuery && this.parseDatRequestQuery(datRequestQuery, param) || {};
+
+        return datRequestParam;
+    } // DAPSAgent#getDatRequestParam
+
     /**
      * @param {DatRequestToken} datRequestToken
      * @param {Object} [param]
@@ -90,6 +105,22 @@ class DAPSAgent extends ServerAgent {
 
         return datRequest;
     } // DAPSAgent#parseDatRequestToken
+
+    async getDatRequestPayload(param) {
+        util.assert(util.isNull(param?.requestToken) || util.isNonEmptyString(param.requestToken),
+            'expected param.requestToken to be a non-empty string', TypeError);
+        util.assert(util.isNull(param?.requestPayload) || util.isTokenPayload(param.requestPayload),
+            'expected param.requestPayload to be a token payload', TypeError);
+        util.assert(param?.requestPayload || param?.requestToken || param?.requestParam || param?.requestQuery,
+            'expected param to contain one of requestQuery, requestParam, requestToken or requestPayload');
+
+        const
+            datRequestParam   = this.getDatRequestParam(param),
+            datRequestToken   = param.requestToken || datRequestParam.client_assertion || '',
+            datRequestPayload = param.requestPayload || await this.parseDatRequestToken(datRequestToken, param);
+
+        return datRequestPayload;
+    } // DAPSAgent#getDatRequestPayload
 
     /**
      * @param {Object} [param]
@@ -127,24 +158,11 @@ class DAPSAgent extends ServerAgent {
      * @returns {Promise<DatPayload>}
      */
     async createDatPayload(param) {
-        util.assert(util.isNull(param?.requestQuery) || util.isNonEmptyString(param.requestQuery),
-            'expected param.requestQuery to be a non-empty string', TypeError);
-        util.assert(util.isNull(param?.requestParam) || util.isObject(param.requestParam),
-            'expected param.requestParam to be an object', TypeError);
-        util.assert(util.isNull(param?.requestToken) || util.isNonEmptyString(param.requestToken),
-            'expected param.requestToken to be a non-empty string', TypeError);
-        util.assert(util.isNull(param?.requestPayload) || util.isTokenPayload(param.requestPayload),
-            'expected param.requestPayload to be a token payload', TypeError);
-        util.assert(param?.requestPayload || param?.requestToken || param?.requestParam || param?.requestQuery,
-            'expected param to contain one of requestQuery, requestParam, requestToken or requestPayload');
-
         const
-            datRequestQuery   = param.requestQuery || '',
-            datRequestParam   = param.requestParam || datRequestQuery && this.parseDatRequestQuery(datRequestQuery, param) || {},
-            datRequestToken   = param.requestToken || datRequestParam.client_assertion || '',
-            datRequestPayload = param.requestPayload || await this.parseDatRequestToken(datRequestToken, param),
+            datRequestParam   = this.getDatRequestParam(param),
+            datRequestPayload = await this.getDatRequestPayload({requestParam: datRequestParam, ...param}),
             subjectKeyId      = datRequestPayload.sub || '',
-            requestSubject    = this.#daps.connectorCatalog.getConnectorPublicKey(subjectKeyId);
+            requestSubject    = await this.#daps.connectorCatalog.getConnectorPublicKey(subjectKeyId);
 
         util.assert(requestSubject, 'the subject "' + subjectKeyId + '" could not be found');
 
@@ -308,6 +326,53 @@ class DAPSAgent extends ServerAgent {
     createJWKS() {
         return this.#daps.createJWKS();
     } // DAPSAgent#createJWKS
+
+    createAbout() {
+        return {
+            'issuer': this.#daps['@id']
+            // TODO
+            // 'authorization_endpoint':                           'https://omejdn-daps.nicos-rd.com:8082/auth/authorize',
+            // 'token_endpoint':                                   'https://omejdn-daps.nicos-rd.com:8082/auth/token',
+            // 'jwks_uri':                                         'https://omejdn-daps.nicos-rd.com:8082/auth/jwks.json',
+            // 'scopes_supported':                                 ['idsc:IDS_CONNECTOR_ATTRIBUTES_ALL', 'openid'],
+            // 'response_types_supported':                         ['code'],
+            // 'response_modes_supported':                         ['query', 'fragment', 'form_post'],
+            // 'grant_types_supported':                            ['authorization_code', 'client_credentials'],
+            // 'token_endpoint_auth_methods_supported':            ['none', 'client_secret_basic', 'client_secret_post', 'private_key_jwt'],
+            // 'token_endpoint_auth_signing_alg_values_supported': ['RS256', 'RS512', 'ES256', 'ES512'],
+            // 'service_documentation':                            'https://github.com/Fraunhofer-AISEC/omejdn-server/wiki',
+            // 'ui_locales_supported':                             [],
+            // 'code_challenge_methods_supported':                 ['S256'],
+            // 'tls_client_certificate_bound_access_tokens':       false,
+            // 'mtls_endpoint_aliases':                            {},
+            // 'require_signed_request_object':                    true,
+            // 'pushed_authorization_request_endpoint':            'https://omejdn-daps.nicos-rd.com:8082/auth/par',
+            // 'require_pushed_authorization_requests':            false,
+            // 'authorization_response_iss_parameter_supported':   true,
+            // 'end_session_endpoint':                             'https://omejdn-daps.nicos-rd.com:8082/auth/logout',
+            // 'userinfo_endpoint':                                'https://omejdn-daps.nicos-rd.com:8082/auth/userinfo',
+            // 'acr_values_supported':                             [],
+            // 'subject_types_supported':                          ['public'],
+            // 'id_token_signing_alg_values_supported':            ['RS256'],
+            // 'id_token_encryption_alg_values_supported':         ['none'],
+            // 'id_token_encryption_enc_values_supported':         ['none'],
+            // 'userinfo_signing_alg_values_supported':            ['none'],
+            // 'userinfo_encryption_alg_values_supported':         ['none'],
+            // 'userinfo_encryption_enc_values_supported':         ['none'],
+            // 'request_object_signing_alg_values_supported':      ['RS256', 'RS512', 'ES256', 'ES512'],
+            // 'request_object_encryption_alg_values_supported':   ['none'],
+            // 'request_object_encryption_enc_values_supported':   ['none'],
+            // 'display_values_supported':                         ['page'],
+            // 'claim_types_supported':                            ['normal'],
+            // 'claims_supported':                                 [],
+            // 'claims_locales_supported':                         [],
+            // 'claims_parameter_supported':                       true,
+            // 'request_parameter_supported':                      true,
+            // 'request_uri_parameter_supported':                  true,
+            // 'require_request_uri_registration':                 true,
+            // 'signed_metadata':                                  '...'
+        };
+    } // DAPSAgent#createAbout
 
 } // DAPSAgent
 

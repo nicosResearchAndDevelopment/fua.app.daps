@@ -1,6 +1,7 @@
 const
-    _util = require('@nrd/fua.core.util'),
-    util  = exports = {
+    _util  = require('@nrd/fua.core.util'),
+    crypto = require('crypto'),
+    util   = exports = {
         ..._util,
         assert: _util.Assert('app.daps')
     };
@@ -92,6 +93,26 @@ util.isTokenPayload = function (value) {
         && (util.isNull(value.nbf) || util.isFiniteNumber(value.nbf))
         && (util.isNull(value.exp) || util.isFiniteNumber(value.exp))
         && (util.isNull(value.jti) || util.isString(value.jti));
+};
+
+util.canonicalReviver = function (key, value) {
+    if (util.isObject(value) && !util.isArray(value)) {
+        const sortedEntries = Object.entries(value)
+            .sort(([keyA], [keyB]) => keyA < keyB ? -1 : 1);
+        return Object.fromEntries(sortedEntries);
+    } else {
+        return value;
+    }
+};
+
+util.createChecksum = function (value) {
+    if (util.isString(value)) {
+        return crypto.createHash('sha256').update(value).digest('hex');
+    }
+    if (util.isObject(value)) {
+        const canonical = JSON.parse(JSON.stringify(value), util.canonicalReviver);
+        return util.createChecksum(JSON.stringify(canonical));
+    }
 };
 
 Object.freeze(util);
