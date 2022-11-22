@@ -137,7 +137,7 @@ module.exports = async function DAPSApp(
                     payload        = param.payload = await agent.createDatPayload(param);
 
                 if (util.isObject(requestPayload.tweakDat)) {
-                    for (let payloadKey of util.toArray(config.daps.tweakDat.pipeRequestTweaks)) {
+                    for (let payloadKey of util.toArray(config.tweakDat.pipeTweaks)) {
                         if (payloadKey in requestPayload.tweakDat) {
                             if (util.isNull(requestPayload.tweakDat[payloadKey])) delete payload[payloadKey];
                             else payload[payloadKey] = requestPayload.tweakDat[payloadKey];
@@ -145,7 +145,7 @@ module.exports = async function DAPSApp(
                     }
                 }
 
-                if (config.daps.tweakDat.setupMatcherPath) {
+                if (config.tweakDat.configPath) {
                     this.process(payload);
                 }
 
@@ -157,29 +157,28 @@ module.exports = async function DAPSApp(
         }
     }; // _datTweaker
 
-    agent.app.get(
-        config.daps.jwksPath,
+    if (config.jwksPath) agent.app.get(
+        config.jwksPath,
         _default.jwksRoute.bind(_default)
     );
 
-    agent.app.post(
-        config.daps.tokenPath,
+    if (config.tokenPath) agent.app.post(
+        config.tokenPath,
         express.urlencoded({extended: false}),
         express.text({type: '*/*'}),
-        config.daps?.tweakDat
+        config.tweakDat
             ? _datTweaker.tokenRoute.bind(_datTweaker)
             : _default.tokenRoute.bind(_default)
     );
 
-    if (config.daps?.tweakDat?.setupMatcherPath)
-        agent.app.post(
-            config.daps.tweakDat.setupMatcherPath,
-            express.json(),
-            _datTweaker.configRoute.bind(_datTweaker)
-        );
+    if (config.tweakDat?.configPath) agent.app.post(
+        config.tweakDat.configPath,
+        express.json(),
+        _datTweaker.configRoute.bind(_datTweaker)
+    );
 
-    agent.app.get(
-        config.daps.aboutPath,
+    if (config.aboutPath) agent.app.get(
+        config.aboutPath,
         _default.aboutRoute.bind(_default)
     );
 

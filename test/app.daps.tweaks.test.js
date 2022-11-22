@@ -36,16 +36,14 @@ describe('app.daps.tweaks', function () {
         });
         await DAPSApp({
             'config': {
-                daps: {
-                    tokenPath: '/token',
-                    jwksPath:  '/jwks.json',
-                    aboutPath: '/about',
-                    tweakDat:  {
-                        setupMatcherPath:  '/tweak',
-                        pipeRequestTweaks: [
-                            'custom'
-                        ]
-                    }
+                tokenPath: '/token',
+                jwksPath:  '/jwks.json',
+                aboutPath: '/about',
+                tweakDat:  {
+                    configPath: '/tweak',
+                    pipeTweaks: [
+                        'custom'
+                    ]
                 }
             },
             'agent':  dapsAgent
