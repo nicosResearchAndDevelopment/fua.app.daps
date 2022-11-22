@@ -1,9 +1,18 @@
 const
-    path       = require('path'),
-    __root     = path.join(__dirname, '../..'),
-    prodConfig = require('./config.daps.prod.js');
+    path             = require('path'),
+    __root           = path.join(__dirname, '../..'),
+    tls_config       = require('../../cert/tls-server/server.js'),
+    connector_config = require('../../cert/connector/client.js');
 
-exports.server = prodConfig.server;
+exports.server = {
+    schema:   'https',
+    hostname: 'nrd-daps.nicos-rd.com',
+    port:     8083,
+    options:  {
+        key:  tls_config.key,
+        cert: tls_config.cert
+    }
+};
 
 exports.space = {
     context: {
@@ -37,36 +46,7 @@ exports.space = {
 };
 
 exports.daps = {
-    tokenPath: [
-        '/token',
-        '/auth/token'
-    ],
-    jwksPath:  [
-        '/.well-known/jwks.json',
-        '/jwks.json',
-        '/auth/jwks.json'
-    ],
-    aboutPath: [
-        '/',
-        '/about',
-        '/auth/.well-known/openid-configuration'
-    ],
-    tweakDat:  {
-        pipeRequestTweaks: [
-            // '@type',
-            // 'iss',
-            // 'sub',
-            // 'referringConnector',
-            // 'securityProfile',
-            // 'extendedGuarantee',
-            // 'transportCertsSha256',
-            // 'iat',
-            // 'exp',
-            // 'aud',
-            // 'nbf',
-            // 'scope',
-            'custom'
-        ],
-        setupMatcherPath:  '/tweak'
-    }
+    tokenPath: '/token',
+    jwksPath:  '/.well-known/jwks.json',
+    aboutPath: '/.well-known/openid-configuration'
 };

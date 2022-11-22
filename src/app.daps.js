@@ -43,7 +43,7 @@ module.exports = async function DAPSApp(
         matchers: new Set(),
         get(search) {
             util.assert(util.isObject(search), 'expected search to be an object');
-            const searchKeys = Object.keys[search];
+            const searchKeys = Object.keys(search);
             if (searchKeys.length === 0) return null;
             for (let matcher of this.matchers) {
                 const matchKeys = Object.keys(matcher.match);
@@ -58,8 +58,8 @@ module.exports = async function DAPSApp(
         set({match, tweak, start, end, count}, override = false) {
             util.assert(util.isObject(match) && Object.keys(match).length > 0, 'expected match to be a nonempty object');
             util.assert(util.isNull(tweak) || util.isObject(tweak), 'expected tweak to be a nonempty object');
-            util.assert(util.isNull(start) || util.isInteger(start) || util.isString(start), 'expected start to be a timestamp');
-            util.assert(util.isNull(end) || util.isInteger(end) || util.isString(end), 'expected end to be a timestamp');
+            util.assert(util.isNull(start) || util.isFiniteNumber(start) || util.isString(start), 'expected start to be a timestamp');
+            util.assert(util.isNull(end) || util.isFiniteNumber(end) || util.isString(end), 'expected end to be a timestamp');
             util.assert(util.isNull(count) || util.isInteger(count), 'expected end to be a timestamp');
             let matcher = this.get(match);
             util.assert(!matcher || override, 'the tweak was already defined');
@@ -92,16 +92,15 @@ module.exports = async function DAPSApp(
                     datPayload[key] = value;
                 }
                 matcher.count--;
-                if (count <= 0)
-                    this.matchers.delete(matcher);
+                if (matcher.count <= 0) this.matchers.delete(matcher);
             }
         },
         async configRoute(request, response, next) {
             try {
                 util.assert(util.isObject(request.body), 'expected the request body to be an object');
-                const {operator, ...param} = request.body;
-                util.assert(util.isString(operator), 'expected operator to be a string');
-                switch (operator) {
+                const {type, ...param} = request.body;
+                util.assert(util.isString(type), 'expected type to be a string');
+                switch (type) {
                     case 'create':
                         this.set(param, false);
                         response.status(200).end();
@@ -138,7 +137,7 @@ module.exports = async function DAPSApp(
                     payload        = param.payload = await agent.createDatPayload(param);
 
                 if (util.isObject(requestPayload.tweakDat)) {
-                    for (let payloadKey of util.toArray(config.tweakDat.pipeRequestTweaks)) {
+                    for (let payloadKey of util.toArray(config.daps.tweakDat.pipeRequestTweaks)) {
                         if (payloadKey in requestPayload.tweakDat) {
                             if (util.isNull(requestPayload.tweakDat[payloadKey])) delete payload[payloadKey];
                             else payload[payloadKey] = requestPayload.tweakDat[payloadKey];
@@ -146,7 +145,7 @@ module.exports = async function DAPSApp(
                     }
                 }
 
-                if (config.tweakDat.tweakMatcherPath) {
+                if (config.daps.tweakDat.setupMatcherPath) {
                     this.process(payload);
                 }
 
@@ -167,14 +166,14 @@ module.exports = async function DAPSApp(
         config.daps.tokenPath,
         express.urlencoded({extended: false}),
         express.text({type: '*/*'}),
-        config.tweakDat
+        config.daps?.tweakDat
             ? _datTweaker.tokenRoute.bind(_datTweaker)
             : _default.tokenRoute.bind(_default)
     );
 
-    if (config.tweakDat?.tweakMatcherPath)
+    if (config.daps?.tweakDat?.setupMatcherPath)
         agent.app.post(
-            config.tweakDat.tweakMatcherPath,
+            config.daps.tweakDat.setupMatcherPath,
             express.json(),
             _datTweaker.configRoute.bind(_datTweaker)
         );
