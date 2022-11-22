@@ -11,9 +11,10 @@ const
     DAPSApp          = require('../src/app.daps.js'),
     baseUrl          = `${config.server.schema}://${config.server.hostname}:${config.server.port}/`,
     httpAgent        = new https.Agent({
-        key:  tls_config.key,
-        cert: tls_config.cert,
-        ca:   tls_config.ca
+        key:                tls_config.key,
+        cert:               tls_config.cert,
+        ca:                 tls_config.ca,
+        rejectUnauthorized: false
     });
 
 describe('app.daps', function () {

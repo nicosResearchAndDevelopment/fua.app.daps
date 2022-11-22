@@ -1,6 +1,8 @@
 const
     config    = require('./config/config.daps.js'),
     util      = require('./code/util.daps.js'),
+    // BasicAuth = require('@nrd/fua.agent.amec/BasicAuth'),
+    // DatAuth   = require('@nrd/fua.agent.amec/DatAuth'),
     DAPSAgent = require('./code/agent.daps.js'),
     DAPSApp   = require('./app.daps.js'),
     DAPSLab   = require('./lab.daps.js');
@@ -18,9 +20,14 @@ const
         server:   config.server.options,
         app:      true,
         domain:   true
+        // amec:     true
     });
 
     /* 2. Use additional methods to configure the setup: */
+
+    // TODO configure amec correctly
+    // dapsAgent.amec.registerMechanism(BasicAuth.prefLabel, BasicAuth({domain: dapsAgent.domain}));
+    // dapsAgent.amec.registerMechanism(DatAuth.prefLabel, DatAuth({connector: dapsAgent.connector}));
 
     /* 3. Launch the main app: */
 
@@ -31,9 +38,9 @@ const
 
     /* 4. Launch the testing lab: */
 
-    await DAPSLab({
-       'config': config,
-       'agent':  dapsAgent
+    if (!util.NODE_PROD) await DAPSLab({
+        'config': config,
+        'agent':  dapsAgent
     });
 
 })().catch((err) => {

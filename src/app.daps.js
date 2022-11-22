@@ -1,6 +1,5 @@
 const
     util    = require('./code/util.daps.js'),
-    path    = require('path'),
     express = require('express');
 
 module.exports = async function DAPSApp(
@@ -18,7 +17,7 @@ module.exports = async function DAPSApp(
             } catch (err) {
                 next(err);
             }
-        },
+        }, // _default.jwksRoute
         async tokenRoute(request, response, next) {
             try {
                 util.assert(request.body, 'expected the request to have a body');
@@ -28,7 +27,7 @@ module.exports = async function DAPSApp(
             } catch (err) {
                 next(err);
             }
-        },
+        }, // _default.tokenRoute
         async aboutRoute(request, response, next) {
             try {
                 const body = agent.createAbout();
@@ -36,11 +35,21 @@ module.exports = async function DAPSApp(
             } catch (err) {
                 next(err);
             }
-        }
+        }, // _default.aboutRoute
+        async authRoute(request, response, next) {
+            try {
+                const auth = await agent.amec.authenticate(request.headers);
+                if (!auth) return response.status(401).end();
+                response.locals.auth = auth;
+                next();
+            } catch (err) {
+                next(err);
+            }
+        } // _default.authRoute
     }; // _default
 
     const _datTweaker = {
-        matchers: new Set(),
+        matchers: new Set(), // _datTweaker.matchers
         get(search) {
             util.assert(util.isObject(search), 'expected search to be an object');
             const searchKeys = Object.keys(search);
@@ -54,7 +63,7 @@ module.exports = async function DAPSApp(
                 ) return matcher;
             }
             return null;
-        },
+        }, // _datTweaker.get
         set({match, tweak, start, end, count}, override = false) {
             util.assert(util.isObject(match) && Object.keys(match).length > 0, 'expected match to be a nonempty object');
             util.assert(util.isNull(tweak) || util.isObject(tweak), 'expected tweak to be a nonempty object');
@@ -69,13 +78,13 @@ module.exports = async function DAPSApp(
             matcher.end   = end ? new Date(util.utcDateTime(end)) : matcher.end || new Date(1970, 0, 1e8);
             matcher.count = count && count > 0 ? count : matcher.count || Infinity;
             this.matchers.add(matcher);
-        },
+        }, // _datTweaker.set
         delete(search) {
             const matcher = this.get(search);
             if (!matcher) return false;
             if (matcher) this.matchers.delete(matcher);
             return true;
-        },
+        }, // _datTweaker.delete
         process(datPayload) {
             const now = new Date();
             for (let matcher of this.matchers) {
@@ -94,7 +103,7 @@ module.exports = async function DAPSApp(
                 matcher.count--;
                 if (matcher.count <= 0) this.matchers.delete(matcher);
             }
-        },
+        }, // _datTweaker.process
         async configRoute(request, response, next) {
             try {
                 util.assert(util.isObject(request.body), 'expected the request body to be an object');
@@ -125,7 +134,7 @@ module.exports = async function DAPSApp(
             } catch (err) {
                 next(err);
             }
-        },
+        }, // _datTweaker.configRoute
         async tokenRoute(request, response, next) {
             try {
                 util.assert(util.isObject(request.body) || util.isString(request.body),
@@ -154,7 +163,19 @@ module.exports = async function DAPSApp(
             } catch (err) {
                 next(err);
             }
-        }
+        }, // _datTweaker.tokenRoute
+        async authRoute(request, response, next) {
+            try {
+                const auth = response.locals.auth;
+                if (!auth) return response.status(401).end();
+                // TODO access control for tweak routes
+                // if (!util.toArray(auth.access).includes('tweakDat'))
+                //     return response.status(401).end();
+                next();
+            } catch (err) {
+                next(err);
+            }
+        } // _datTweaker.authRoute
     }; // _datTweaker
 
     if (config.jwksPath) agent.app.get(
@@ -171,15 +192,25 @@ module.exports = async function DAPSApp(
             : _default.tokenRoute.bind(_default)
     );
 
+    if (config.aboutPath) agent.app.get(
+        config.aboutPath,
+        _default.aboutRoute.bind(_default)
+    );
+
+    if (agent.amec) {
+        agent.app.use(
+            _default.authRoute.bind(_default)
+        );
+
+        if (config.tweakDat) agent.app.use(
+            _datTweaker.authRoute.bind(_datTweaker)
+        );
+    }
+
     if (config.tweakDat?.configPath) agent.app.post(
         config.tweakDat.configPath,
         express.json(),
         _datTweaker.configRoute.bind(_datTweaker)
-    );
-
-    if (config.aboutPath) agent.app.get(
-        config.aboutPath,
-        _default.aboutRoute.bind(_default)
     );
 
     await agent.listen();
