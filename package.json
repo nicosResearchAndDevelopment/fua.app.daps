@@ -11,15 +11,19 @@
     "socket.io": "^3.0.5",
     "node-fetch": "^2.6.1",
     "bcrypt": "^5.0.1",
+    "jose": "^4.2.0",
     "@nrd/fua.agent.server": "1.0.0",
     "@nrd/fua.core.util": "1.0.0",
     "@nrd/fua.module.rdf": "1.0.0",
     "@nrd/fua.module.persistence": "1.0.0",
-    "@nrd/fua.module.persistence.filesystem": "1.0.0"
+    "@nrd/fua.module.persistence.filesystem": "1.0.0",
+    "@nrd/fua.resource.ontology": "1.0.0",
+    "@nrd/fua.resource.data": "1.0.0"
   },
   "devDependencies": {
     "mocha": "^8.2.1",
-    "expect": "^26.6.2"
+    "expect": "^26.6.2",
+    "@nrd/fua.ids.client.daps": "1.0.0"
   },
   "scripts": {
     "test": "mocha",
