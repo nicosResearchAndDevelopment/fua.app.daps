@@ -2,6 +2,7 @@
   "name": "@nrd/fua.app.daps",
   "version": "1.0.0",
   "description": "",
+  "bin": "./src/launch.daps.js",
   "files": [
     "src/*",
     "data/*"

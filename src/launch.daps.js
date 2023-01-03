@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const
     config    = require('./config/config.daps.js'),
     util      = require('./code/util.daps.js'),
