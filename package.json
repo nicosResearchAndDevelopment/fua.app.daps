@@ -5,7 +5,8 @@
   "bin": "./src/launch.daps.js",
   "files": [
     "src/*",
-    "data/*"
+    "data/*",
+    "cert/*"
   ],
   "dependencies": {
     "express": "^4.17.1",
