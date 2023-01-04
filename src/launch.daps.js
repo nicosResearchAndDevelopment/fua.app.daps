@@ -14,6 +14,7 @@ const
     /* 1. Construct a server agent for your setup: */
 
     const dapsAgent = await DAPSAgent.create({
+        uri:      config.space.uri,
         schema:   config.server.schema,
         hostname: config.server.hostname,
         port:     config.server.port,

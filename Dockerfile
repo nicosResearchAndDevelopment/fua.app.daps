@@ -1,41 +1,33 @@
 FROM node:lts
 
-#RUN npm install -g npm@latest
+# 1. Set default arguments and environment.
 
-#> Set default args and environment.
 ARG NRD_REGISTRY="https://git02.int.nsc.ag/api/v4/projects/1015/packages/npm/"
 ARG NPM_TOKEN="[...]"
-ENV NODE_ENV="production"
 
-#> Create the working directory for the GAIABox application.
+ENV NODE_ENV="production"
+ENV SERVER_HOST="localhost"
+ENV SERVER_PORT="8080"
+
+# 2. Create the working directory for the application.
+
 RUN mkdir -p /opt/gbx
 WORKDIR /opt/gbx
 
-#> Configure npm with the custom registry.
-#RUN npm config set -- ${NRD_REGISTRY#http*:}:_authToken=${NRD_TOKEN}
-#RUN npm config set @nrd:registry=${NRD_REGISTRY}
-#RUN cat ~/.npmrc
+# 3. Create necessary files for the installation, e.g. npmrc file.
 
-#> Create a .npmrc file with the nrd registry and token.
 RUN echo "@nrd:registry=${NRD_REGISTRY}\n${NRD_REGISTRY#http*:}:_authToken=${NPM_TOKEN}" >> .npmrc
-#RUN cat .npmrc
 
-#> Install the application via npm.
+# 4. Install the application via npm and do any necessary setup.
+
 RUN npm install @nrd/fua.app.daps
+ENV PATH="$PATH:/opt/gbx/node_modules/.bin"
 
-#> DEBUG
-#RUN ls -a "node_modules/.bin"
-#RUN ls -a "node_modules/@nrd/fua.app.daps"
-#RUN cat node_modules/.bin/fua.app.daps
+# 5. Clean up unnecessary or sensitive files, e.g. npmrc file.
 
-#> Clean up the created .npmrc file, because it contains sensitive information.
 RUN rm .npmrc
 
-#> TODO fix the bin executable
-#ENTRYPOINT ["fua.app.daps"]
-#ENTRYPOINT ["@nrd/fua.app.daps"]
+# 6. Define image setup and application entrypoint.
 
-EXPOSE 8083
-
-WORKDIR /opt/gbx/node_modules/@nrd/fua.app.daps
-ENTRYPOINT ["npm", "start"]
+EXPOSE $SERVER_PORT
+ENTRYPOINT fua.app.daps
