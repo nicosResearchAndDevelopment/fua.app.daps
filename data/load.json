@@ -6,18 +6,6 @@
   "dct:alternative": "DAPS Loader",
   "dct:requires": [
     {
-      "dct:identifier": "./model/load.model.json",
-      "dct:format": "application/fua.load+json"
-    },
-    {
-      "dct:identifier": "./domain/load.domain.json",
-      "dct:format": "application/fua.load+json"
-    },
-    {
-      "dct:identifier": "./connector/load.connector.json",
-      "dct:format": "application/fua.load+json"
-    },
-    {
       "dct:identifier": "./root.ttl",
       "dct:format": "text/turtle",
       "dct:title": "root.ttl",
@@ -29,6 +17,27 @@
       "dct:format": "text/turtle",
       "dct:title": "data.ttl",
       "dct:alternative": "DAPS-Server Data"
+    },
+    {
+      "dct:identifier": "./model/load.model.json",
+      "dct:format": "application/fua.load+json",
+      "dct:alternative": "DAPS Model"
+    },
+    {
+      "dct:identifier": "./domain/load.domain.json",
+      "dct:format": "application/fua.load+json",
+      "dct:alternative": "DAPS Domain"
+    },
+    {
+      "dct:identifier": "./daps.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "daps.ttl",
+      "dct:alternative": "DAPS Configuration"
+    },
+    {
+      "dct:identifier": "./connector/load.connector.json",
+      "dct:format": "application/fua.load+json",
+      "dct:alternative": "Connector Configuration"
     }
   ]
 }
