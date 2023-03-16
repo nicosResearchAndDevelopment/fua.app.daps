@@ -8,3 +8,8 @@
 ### Docs
 
 - [E-Mail: **DAPS upgrade to v3**](docs/daps_upgrade_to_v3.md)
+
+## Deployment
+
+- **publish:** `npm publish`
+- **build:** `docker build --no-cache --tag git02.int.nsc.ag/research/fua/registry/fua.app.daps:<version-tag> .`
