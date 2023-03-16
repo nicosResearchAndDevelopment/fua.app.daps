@@ -1,0 +1,45 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ldp:  <http://www.w3.org/ns/ldp#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#>.
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix ids:  <https://w3id.org/idsa/core/> .
+@prefix idsc: <https://w3id.org/idsa/code/> .
+
+@prefix fua:  <https://www.nicos-rd.com/fua#> .
+@prefix daps: <https://www.nicos-rd.com/fua/daps#> .
+
+@base <https://nrd-daps.nicos-rd.com/> .
+
+<connector/FIWARE#platform-kim>
+    a                     ids:Connector, ids:BaseConnector ;
+    ids:securityProfile   idsc:BASE_SECURITY_PROFILE ;
+    ids:extendedGuarantee idsc:AUDIT_NONE ;
+    ids:extendedGuarantee idsc:INTEGRITY_PROTECTION_NONE ;
+    ids:extendedGuarantee idsc:USAGE_CONTROL_NONE ;
+    ids:publicKey         [ a            ids:PublicKey ;
+                            daps:keyId   "39:85:B8:91:E8:3B:8A:B8:BF:41:10:F0:C3:35:D7:7F:9E:2C:04:25:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
+                            ids:keyType  idsc:RSA ;
+                            ids:keyValue """
+                                MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAnSIgZKRkHmzc9/SEXJkf
+                                jlY/nfmuHS/Fpv9LDvRbRQVZFXvBupfTkoVrNoR/KasQ9MKpwXN1PlqEg5pX8RAi
+                                uXAzQ85R9+D/N9AFoTwFGaowZ5CD0QrlRyCiHQOf6xC+UKRr1DpVxPWbhiNPZx11
+                                iCTXC/mmT++bGKTQuMHA7PSzVMUNyaDg3t8Cd4wks/Bj7jvVT2Cyi+Wl6+HORPpO
+                                OxlBKEcPfVnjP2ffcz331qzWYNpfYRJpB7wJ2g0dckPTIlJ7BbJM6bUqjcfPNe2J
+                                A79wO7RAkKS5ClBVpWVSMpsqijqSC5QPun8B8ZX7j1+oSbq+Hb/ZN7MNFq2HqTaT
+                                0kisfry589C/mV8rD+nRmjBmTNAvm6OwDRwf2clyrXdmd1DieLcH4Kb2PtPsXry7
+                                gSA7DhZGf/m1tzGx66JoT2n3Vi6JRi2UVtlWIWXe1+rn47sFvcKh3/hH6mLeNWOY
+                                8r7DyADYLsUwbxLT6K6ETsIAWqpGwn0r8xm8Zh4NpIvw4mixXD/YEZzJrlfDwVCc
+                                s4/fT3rj6+cAFs6kWphVQk/cWI4o1EckdFVaGUDDsUcrSkuW/zKkYdij4fmthkHl
+                                78WicD6qRXBqB+SocJ96GJjJUx+FiDbRTOBEV+tSmBhe1aPXQR/zB7Z+N+qpGjyc
+                                P+qK7+Eh45oGA47Glq015lcCAwEAAQ==
+                            """^^xsd:base64Binary ; ] ;
+    ids:hasEndpoint       [ a             ids:ConnectorEndpoint ;
+                            ids:accessURL "https://platform-kim.fiware-dataspace-connector.org/"^^xsd:anyURI ; ] ;
+    ids:authInfo          [ a                ids:AuthInfo ;
+                            ids:authService  <> ;
+                            ids:authStandard idsc:OAUTH2_JWT ; ] ;
+.

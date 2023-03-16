@@ -22,6 +22,24 @@
       "dct:format": "text/turtle",
       "dct:title": "bob.connector.ttl",
       "dct:alternative": "Bob Connector"
+    },
+    {
+      "dct:identifier": "./FIWARE/dev/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "fiware.dev.connector.ttl",
+      "dct:alternative": "FIWARE Development Connector"
+    },
+    {
+      "dct:identifier": "./FIWARE/car-kim/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "fiware.car-kim.connector.ttl",
+      "dct:alternative": "FIWARE KIM Auto Connector"
+    },
+    {
+      "dct:identifier": "./FIWARE/platform-kim/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "fiware.platform-kim.connector.ttl",
+      "dct:alternative": "FIWARE KIM Analytics Platform Connector"
     }
   ]
 }
