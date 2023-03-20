@@ -146,6 +146,7 @@ class Connector extends Resource {
             '@type',
             util.iri.securityProfile,
             util.iri.extendedGuarantee,
+            util.iri.transportCertsSha256,
             util.iri.authInfo,
             util.iri.hasEndpoint,
             util.iri.publicKey
@@ -154,6 +155,7 @@ class Connector extends Resource {
         const
             securityProfileNode      = this.node.getNode(util.iri.securityProfile),
             extendedGuaranteeNodeArr = this.node.getNodes(util.iri.extendedGuarantee),
+            transportCertsSha256LiteralArr = this.node.getLiterals(util.iri.transportCertsSha256),
             publicKeyNodeArr         = this.node.getNodes(util.iri.publicKey),
             // authInfoNode             = this.node.getNode(util.iri.authInfo),
             hasEndpointNode          = this.node.getNode(util.iri.hasEndpoint),
@@ -184,6 +186,7 @@ class Connector extends Resource {
         this['@type']                    = this.node.type;
         this[util.iri.securityProfile]   = securityProfileNode.id;
         this[util.iri.extendedGuarantee] = extendedGuaranteeNodeArr.map(extendedGuaranteeNode => extendedGuaranteeNode.id);
+        this[util.iri.transportCertsSha256] = transportCertsSha256LiteralArr.map(transportCertsSha256Literal => transportCertsSha256Literal.value);
         // this[util.iri.authInfo]           = authInfo;
         this[util.iri.hasEndpoint]       = hasEndpoint;
         // this[util.iri.hasDefaultEndpoint] = hasDefaultEndpoint;
@@ -203,6 +206,11 @@ class Connector extends Resource {
     /** @type {Array<SecurityGuarantee>} */
     get extendedGuarantees() {
         return this[util.iri.extendedGuarantee] || [];
+    }
+
+    /** @type {Array<string>} */
+    get transportCertsSha256() {
+        return this[util.iri.transportCertsSha256] || [];
     }
 
     /** @type {ConnectorEndpoint} */

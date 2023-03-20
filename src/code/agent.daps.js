@@ -247,7 +247,7 @@ class DAPSAgent extends ServerAgent {
                  * Otherwise, the receiving connector must expect that the requesting connector
                  * is using a false identity claim.
                  */
-                'transportCertsSha256': [],
+                'transportCertsSha256': connector.transportCertsSha256,
                 /**
                  * In case a connector fulfills a certain security profile but deviates for a subset of attributes,
                  * it can inform the receiving connector about its actual security features.

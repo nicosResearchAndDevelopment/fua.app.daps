@@ -72,6 +72,7 @@ describe('app.daps', function () {
 
         test('get the jwks', async function () {
             const jwks = await dapsClient.getJwks();
+            console.log(jwks);
             expect(Array.isArray(jwks?.keys)).toBeTruthy();
             for (let key of jwks.keys) {
                 expect(typeof key?.kid).toBe('string');
@@ -81,8 +82,10 @@ describe('app.daps', function () {
 
         test('get a dat and validate it', async function () {
             const dat = await dapsClient.getDat();
+            console.log(dat);
             expect(typeof dat).toBe('string');
             const datPayload = await dapsClient.validateDat(dat);
+            console.log(datPayload);
             expect(datPayload).toMatchObject({
                 sub: cert_config.meta.SKIAKI
             });
