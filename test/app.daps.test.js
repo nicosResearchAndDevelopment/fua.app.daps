@@ -50,6 +50,7 @@ describe('app.daps', function () {
         });
         expect(response.ok).toBeTruthy();
         const jwks = await response.json();
+        console.log(jwks);
         expect(Array.isArray(jwks?.keys)).toBeTruthy();
         for (let key of jwks.keys) {
             expect(typeof key?.kid).toBe('string');
