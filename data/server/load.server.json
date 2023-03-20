@@ -1,0 +1,21 @@
+{
+  "@context": "fua.load.rdf",
+  "dct:identifier": "./load.server.json",
+  "dct:format": "application/fua.load+json",
+  "dct:title": "load.server.json",
+  "dct:alternative": "DAPS Server Loader",
+  "dct:requires": [
+    {
+      "dct:identifier": "./root.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "root.ttl",
+      "dct:alternative": "Server Root"
+    },
+    {
+      "dct:identifier": "./daps.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "daps.ttl",
+      "dct:alternative": "DAPS Configuration"
+    }
+  ]
+}
