@@ -2,8 +2,10 @@ const
     path   = require('path'),
     fs     = require('fs/promises'),
     config = {
-        baseURL:    'https://nrd-daps.nicos-rd.com/',
-        connectors: {
+        baseURL:      'https://nrd-daps.nicos-rd.com/',
+        skipAll:      false,
+        overwriteAll: false,
+        connectors:   {
             'alice':                {
                 skip:              false,
                 overwrite:         false,
@@ -55,12 +57,12 @@ console.time('done');
 Promise.all(Object.entries(config.connectors).map(async function importCertificate([connectorName, connectorConfig]) {
 
     try {
-        if (connectorConfig.skip) return;
+        if (config.skipAll || connectorConfig.skip) return;
         const
             outputDir = path.dirname(connectorConfig.output),
             dirStats  = await fs.stat(outputDir);
         if (!dirStats.isDirectory()) throw new Error(`expected ${outputDir} to be a directory`);
-        if (!connectorConfig.overwrite) return;
+        if (!(config.overwriteAll || connectorConfig.overwrite)) return;
     } catch (err) {
         if (err.code !== 'ENOENT') throw err;
     }
@@ -72,7 +74,7 @@ Promise.all(Object.entries(config.connectors).map(async function importCertifica
     const [inputMeta, transportMeta, publicKey] = await Promise.all([
         fs.readFile(connectorConfig.input + '.json', 'utf-8').then(data => JSON.parse(data)),
         fs.readFile(connectorConfig.transport + '.json', 'utf-8').then(data => JSON.parse(data)),
-        fs.readFile(connectorConfig.input + '.pub', 'utf-8'),
+        fs.readFile(connectorConfig.input + '.pub'),
         fs.mkdir(path.dirname(connectorConfig.output), {recursive: true})
     ]);
 
@@ -116,9 +118,14 @@ Promise.all(Object.entries(config.connectors).map(async function importCertifica
             `                               daps:keyId   "${inputMeta.SKIAKI}" ;`,
             `                               ids:keyType  idsc:RSA ;`,
             `                               ids:keyValue """`,
-            publicKey.split(/[\r\n]+/g)
-                .map(line => line.trim())
-                .filter(line => line && !line.startsWith('-----'))
+            // publicKey.toString('utf-8')
+            //     .split(/[\r\n]+/g)
+            //     .map(line => line.trim())
+            //     .filter(line => line)
+            //     .map(line => '                                   ' + line)
+            //     .join('\n'),
+            publicKey.toString('base64')
+                .match(/.{1,64}/g)
                 .map(line => '                                   ' + line)
                 .join('\n'),
             `                               """^^xsd:base64Binary ; ] ;`,

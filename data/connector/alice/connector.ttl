@@ -21,18 +21,23 @@
                                daps:keyId   "D3:64:3F:3B:D0:3A:0B:01:FE:8E:5D:C5:F3:97:B3:E2:8D:40:3D:25:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
                                ids:keyType  idsc:RSA ;
                                ids:keyValue """
-                                   MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA3ndPws5hwHNCy1Y4Foup
-                                   D3CK+LaaJU5UPJ8ld7O6Yl2M9uEos/hh5Yj3KzTnlUKzdbOZbwSeLHeu9Cvnho/s
-                                   G9V788vbrgummbIWFv1TWHHhJLPUAaZ6iwlyFIiWN3Ju/SK5XLY3M7UmA9Fk9l6s
-                                   C3/rrL0z92CLkHV3yPN1yx7FbFoqmwHrqAp57uPn8YGbaZe9vZ4X7smRjj4wxMdd
-                                   cexbq318hveN0JmTZZ836vNgKtawU0MZzO5Tc+HwUrIngwqgFEpo15VULJ1ojN4W
-                                   zZ8ch/xvFOLIBysC2PY52L8ad9AjoT9NRW+u6trFM2K0AfY3HINVbzUQnZ00QlK2
-                                   mlGn44eYaFDT/n10/jj4HorTvWhFfg6TI5E7d+JEvNoZAnbNQzibwzT7hbyb1UpV
-                                   yZ+9QPg+SoSIU0DBXjpqwM3BODV/dEWtcfzznsNd2QRMRBicwdhz02Bn4UZK39Nl
-                                   ph/EmoxP5gs1i3gd2LdxO8Lsv/V53w5nNExLbSzVm7yZcVgR+Fz+6GO4CeXSfBaH
-                                   L4fLhfcdE9U1C0BgzGJZq8BcWVTqDHH4X/yBIKh+rDYGgaGGme99btrE5Lkw/c2u
-                                   iKGHA77EzyqXABNXCZeElNbRXLjmPYFL+UqyMaiR/xcRYxIGblf4QaHkq+BvSgkc
-                                   EPFShl+fNpuwrVBSRvleo40CAwEAAQ==
+                                   LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0NCk1JSUNJakFOQmdrcWhraUc5dzBC
+                                   QVFFRkFBT0NBZzhBTUlJQ0NnS0NBZ0VBM25kUHdzNWh3SE5DeTFZNEZvdXANCkQz
+                                   Q0srTGFhSlU1VVBKOGxkN082WWwyTTl1RW9zL2hoNVlqM0t6VG5sVUt6ZGJPWmJ3
+                                   U2VMSGV1OUN2bmhvL3MNCkc5Vjc4OHZicmd1bW1iSVdGdjFUV0hIaEpMUFVBYVo2
+                                   aXdseUZJaVdOM0p1L1NLNVhMWTNNN1VtQTlGazlsNnMNCkMzL3JyTDB6OTJDTGtI
+                                   VjN5UE4xeXg3RmJGb3Ftd0hycUFwNTd1UG44WUdiYVplOXZaNFg3c21Samo0d3hN
+                                   ZGQNCmNleGJxMzE4aHZlTjBKbVRaWjgzNnZOZ0t0YXdVME1aek81VGMrSHdVcklu
+                                   Z3dxZ0ZFcG8xNVZVTEoxb2pONFcNCnpaOGNoL3h2Rk9MSUJ5c0MyUFk1Mkw4YWQ5
+                                   QWpvVDlOUlcrdTZ0ckZNMkswQWZZM0hJTlZielVRblowMFFsSzINCm1sR240NGVZ
+                                   YUZEVC9uMTAvamo0SG9yVHZXaEZmZzZUSTVFN2QrSkV2Tm9aQW5iTlF6aWJ3elQ3
+                                   aGJ5YjFVcFYNCnlaKzlRUGcrU29TSVUwREJYanBxd00zQk9EVi9kRVd0Y2Z6em5z
+                                   TmQyUVJNUkJpY3dkaHowMkJuNFVaSzM5TmwNCnBoL0Vtb3hQNWdzMWkzZ2QyTGR4
+                                   TzhMc3YvVjUzdzVuTkV4TGJTelZtN3laY1ZnUitGeis2R080Q2VYU2ZCYUgNCkw0
+                                   ZkxoZmNkRTlVMUMwQmd6R0pacThCY1dWVHFESEg0WC95QklLaCtyRFlHZ2FHR21l
+                                   OTlidHJFNUxrdy9jMnUNCmlLR0hBNzdFenlxWEFCTlhDWmVFbE5iUlhMam1QWUZM
+                                   K1VxeU1haVIveGNSWXhJR2JsZjRRYUhrcStCdlNna2MNCkVQRlNobCtmTnB1d3JW
+                                   QlNSdmxlbzQwQ0F3RUFBUT09DQotLS0tLUVORCBQVUJMSUMgS0VZLS0tLS0NCg==
                                """^^xsd:base64Binary ; ] ;
     ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
                                ids:accessURL "https://alice.nicos-rd.com/"^^xsd:anyURI ; ] ;

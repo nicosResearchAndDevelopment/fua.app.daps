@@ -19,18 +19,23 @@
                                daps:keyId   "3F:D1:F5:96:C1:62:58:A9:0E:B6:1A:B0:23:CD:85:AD:3A:9F:D8:F2:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
                                ids:keyType  idsc:RSA ;
                                ids:keyValue """
-                                   MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAxkgrPeg43WGmMS+HcM+9
-                                   JkbrW3tznBess1CFOhUZoBrvtdwKImKeFFVPcsXjYT8M3yNbLW2Vo8QBUaQjpiTE
-                                   fMVuJrsKl/OHHSjXPPPHN0y59VgtXoRhHyytqknCYQhtxFStsme2o3N87cHpjwO8
-                                   cFqlmC7gNRswnL2wX9rD6rB/GabGKK364BLvOmFzUbTgi5S8kIvEkKzxxMzpdBgB
-                                   QPaB6jCl51ymeMPHKrL6hyhoQAxGtqfZiSimRM3IuIcLv+CoLC4xcR5ubH8LF2yI
-                                   YcS5fSq4YmOt8+SNXTOotdS5MI5KR8cRR8RK2IXVA2ZMpI6Nhox8wJQgt1ZE8GTM
-                                   KPudPl0Rckw4HZmxRqHr6wfjWiTtxaABh+khJLlTAXwDKwfoq4y+jha1vNvUN6oc
-                                   6QNQfB15U6af16sxV+oLHBHx4LgwotWVsnBcTx2HKpUlHyYRbSSQ4pyALHqJQIBS
-                                   5KkVjqCmW4J/jbNJAFpl7Ho2dYj7qUaQz6JqBhIVYzl32G7Wmp94h0gO3yJ8jRSn
-                                   abJNxoT/Rduib3Hu7h5qmmabPob86d4xcAauCzrQV3U3q6dMcz68mLBop99AGnsi
-                                   YhRaU57nPe1t4Pjgc+ALWlTzjmQsPTHz5R4S0Pf71T9+Q/9Dwgnd3hKJmtidVg69
-                                   fDrG5Gpl6/cFY5RtKYgRLEcCAwEAAQ==
+                                   LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJB
+                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUF4a2dyUGVnNDNXR21NUytIY00rOQpKa2Jy
+                                   VzN0em5CZXNzMUNGT2hVWm9CcnZ0ZHdLSW1LZUZGVlBjc1hqWVQ4TTN5TmJMVzJW
+                                   bzhRQlVhUWpwaVRFCmZNVnVKcnNLbC9PSEhTalhQUFBITjB5NTlWZ3RYb1JoSHl5
+                                   dHFrbkNZUWh0eEZTdHNtZTJvM044N2NIcGp3TzgKY0ZxbG1DN2dOUnN3bkwyd1g5
+                                   ckQ2ckIvR2FiR0tLMzY0Qkx2T21GelViVGdpNVM4a0l2RWtLenh4TXpwZEJnQgpR
+                                   UGFCNmpDbDUxeW1lTVBIS3JMNmh5aG9RQXhHdHFmWmlTaW1STTNJdUljTHYrQ29M
+                                   QzR4Y1I1dWJIOExGMnlJClljUzVmU3E0WW1PdDgrU05YVE9vdGRTNU1JNUtSOGNS
+                                   UjhSSzJJWFZBMlpNcEk2TmhveDh3SlFndDFaRThHVE0KS1B1ZFBsMFJja3c0SFpt
+                                   eFJxSHI2d2ZqV2lUdHhhQUJoK2toSkxsVEFYd0RLd2ZvcTR5K2poYTF2TnZVTjZv
+                                   Ywo2UU5RZkIxNVU2YWYxNnN4VitvTEhCSHg0TGd3b3RXVnNuQmNUeDJIS3BVbEh5
+                                   WVJiU1NRNHB5QUxIcUpRSUJTCjVLa1ZqcUNtVzRKL2piTkpBRnBsN0hvMmRZajdx
+                                   VWFRejZKcUJoSVZZemwzMkc3V21wOTRoMGdPM3lKOGpSU24KYWJKTnhvVC9SZHVp
+                                   YjNIdTdoNXFtbWFiUG9iODZkNHhjQWF1Q3pyUVYzVTNxNmRNY3o2OG1MQm9wOTlB
+                                   R25zaQpZaFJhVTU3blBlMXQ0UGpnYytBTFdsVHpqbVFzUFRIejVSNFMwUGY3MVQ5
+                                   K1EvOUR3Z25kM2hLSm10aWRWZzY5CmZEckc1R3BsNi9jRlk1UnRLWWdSTEVjQ0F3
+                                   RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=
                                """^^xsd:base64Binary ; ] ;
     ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
                                ids:accessURL "https://fiware.dev/"^^xsd:anyURI ; ] ;

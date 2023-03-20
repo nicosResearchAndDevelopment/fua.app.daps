@@ -1,5 +1,5 @@
 const
-    tls_config = require('../../cert/tls-server/server.js');
+    tls_config = require('../../data/server/cert/tls-server/server.js');
 
 exports.schema   = 'https';
 exports.hostname = process.env.SERVER_HOST || 'nrd-daps.nicos-rd.com';

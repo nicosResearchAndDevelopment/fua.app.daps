@@ -1,7 +1,7 @@
 let
     KEY_MAX_ROW_SIZE = 76,
     input            = {
-        daps:  require('../../cert/connector/client.js').key,
+        daps:  require('../server/cert/connector/client.js').key,
         alice: require('./alice/connector.js').pub,
         bob:   require('./bob/connector.js').pub
     },

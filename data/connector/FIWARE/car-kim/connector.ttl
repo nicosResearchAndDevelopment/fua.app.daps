@@ -19,18 +19,23 @@
                                daps:keyId   "04:C9:3B:20:4E:8A:0A:A7:DD:B7:01:A6:FF:AB:AB:C5:BF:4D:37:34:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
                                ids:keyType  idsc:RSA ;
                                ids:keyValue """
-                                   MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAzGhagtIHd8gLKXHDqcV3
-                                   qYrmuJtgMzIiXjTOW5TBaylkp9CAqx0U1vpdR/m73C8Sm26YxB/aU1L31woSMkqc
-                                   nIPXDVY0jh6wxTWIC1bap4RZczvGhFSNeykHwbPXJBE9AREzJ97MaRnVrkg726O8
-                                   55ZFZma9RkwVhDhfQCzN9k8plU6UKs90+f24xllu+Ovwz3UMl3ynNQUGAmLUlCeV
-                                   DfBbKbyjNYuwKtgXs5ujqP20VSlEwSKH9fKWkVlHzoV0itiZLFsJWEfZS5JrGTRk
-                                   ES9KSTCkCRWxyt84Blosie7X3FU4Cq6z0Nu/GTwtlt5DmohCK6F1YSAIyg3PaOpS
-                                   pKianVWl3sRzHl5lTklSewMch1MOFxQCXst7ffk5o2SedGrvpgcyz2aLpLCUdUkz
-                                   LvCO8IE20Ju85l6wwutM5Wz9DGcuYio1FvzWZYXlM40zc8EmVmzTJMuP8cFcCThw
-                                   3wv7WiK8hLFByz6ypbugaumJbhAg+1SbA9yLlqEtWxfOKC/XFoL/aC8XxDLxWS7Q
-                                   svf43IvnYds98DqG/JKgdO6H2P8qCBqxbMXLYAW7tp5rmhWwsTk2646JRRegRcPZ
-                                   4IwdTs3NFpaBM6TrUWIpzrWHPEdOYGKbZnMmfsGuRIxcTlgwAJaoTsWJuXXbqVEn
-                                   PN7YxlU+P67gz0sD4t4Bl2ECAwEAAQ==
+                                   LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJB
+                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUF6R2hhZ3RJSGQ4Z0xLWEhEcWNWMwpxWXJt
+                                   dUp0Z016SWlYalRPVzVUQmF5bGtwOUNBcXgwVTF2cGRSL203M0M4U20yNll4Qi9h
+                                   VTFMMzF3b1NNa3FjCm5JUFhEVlkwamg2d3hUV0lDMWJhcDRSWmN6dkdoRlNOZXlr
+                                   SHdiUFhKQkU5QVJFeko5N01hUm5WcmtnNzI2TzgKNTVaRlptYTlSa3dWaERoZlFD
+                                   ek45azhwbFU2VUtzOTArZjI0eGxsdStPdnd6M1VNbDN5bk5RVUdBbUxVbENlVgpE
+                                   ZkJiS2J5ak5ZdXdLdGdYczV1anFQMjBWU2xFd1NLSDlmS1drVmxIem9WMGl0aVpM
+                                   RnNKV0VmWlM1SnJHVFJrCkVTOUtTVENrQ1JXeHl0ODRCbG9zaWU3WDNGVTRDcTZ6
+                                   ME51L0dUd3RsdDVEbW9oQ0s2RjFZU0FJeWczUGFPcFMKcEtpYW5WV2wzc1J6SGw1
+                                   bFRrbFNld01jaDFNT0Z4UUNYc3Q3ZmZrNW8yU2VkR3J2cGdjeXoyYUxwTENVZFVr
+                                   egpMdkNPOElFMjBKdTg1bDZ3d3V0TTVXejlER2N1WWlvMUZ2eldaWVhsTTQwemM4
+                                   RW1WbXpUSk11UDhjRmNDVGh3CjN3djdXaUs4aExGQnl6NnlwYnVnYXVtSmJoQWcr
+                                   MVNiQTl5TGxxRXRXeGZPS0MvWEZvTC9hQzhYeERMeFdTN1EKc3ZmNDNJdm5ZZHM5
+                                   OERxRy9KS2dkTzZIMlA4cUNCcXhiTVhMWUFXN3RwNXJtaFd3c1RrMjY0NkpSUmVn
+                                   UmNQWgo0SXdkVHMzTkZwYUJNNlRyVVdJcHpyV0hQRWRPWUdLYlpuTW1mc0d1Ukl4
+                                   Y1RsZ3dBSmFvVHNXSnVYWGJxVkVuClBON1l4bFUrUDY3Z3owc0Q0dDRCbDJFQ0F3
+                                   RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=
                                """^^xsd:base64Binary ; ] ;
     ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
                                ids:accessURL "https://car-kim.fiware-dataspace-connector.org/"^^xsd:anyURI ; ] ;
