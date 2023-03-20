@@ -17,9 +17,6 @@
 <connector/FIWARE#dev>
     a                        ids:Connector, ids:BaseConnector ;
     ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
-    ids:extendedGuarantee    idsc:AUDIT_NONE ;
-    ids:extendedGuarantee    idsc:INTEGRITY_PROTECTION_NONE ;
-    ids:extendedGuarantee    idsc:USAGE_CONTROL_NONE ;
     ids:transportCertsSha256 "76640797e1e0d5d9b7964b28405d4f3a5784415bd4ff3986fd9a367b4f68a476" ;
     ids:publicKey            [ a            ids:PublicKey ;
                                daps:keyId   "3F:D1:F5:96:C1:62:58:A9:0E:B6:1A:B0:23:CD:85:AD:3A:9F:D8:F2:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
