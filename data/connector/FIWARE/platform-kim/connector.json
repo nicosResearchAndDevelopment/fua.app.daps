@@ -1,6 +1,8 @@
 {
+    "Issuer": "C = DE, ST = NRW, L = Muenster, O = nicos Research & Development GmbH, CN = tb, CN = ec, CN = ids, CN = ec_ids_component_ca",
+    "Subject": "C = DE, O = FIWARE Foundation e.V., OU = KIM, CN = *.platform-kim.fiware-dataspace-connector.org",
     "SKI": "39:85:B8:91:E8:3B:8A:B8:BF:41:10:F0:C3:35:D7:7F:9E:2C:04:25",
     "AKI": "keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E",
     "SKIAKI": "39:85:B8:91:E8:3B:8A:B8:BF:41:10:F0:C3:35:D7:7F:9E:2C:04:25:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E",
-    "SKIAKI_id_leave": "39_85_B8_91_E8_3B_8A_B8_BF_41_10_F0_C3_35_D7_7F_9E_2C_04_25_keyid_B2_86_93_B9_34_0F_6F_CA_D4_1A_C0_3E_C6_BF_E1_A0_A0_D0_ED_5E"
+    "certSha256Fingerprint": "78eb93f47844feae2e4382bb4e44dae184cc025d3276ea6f23af27ae095c6dcc"
 }

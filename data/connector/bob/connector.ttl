@@ -1,9 +1,5 @@
-@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix ldp:  <http://www.w3.org/ns/ldp#> .
 @prefix dct:  <http://purl.org/dc/terms/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix owl:  <http://www.w3.org/2002/07/owl#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
 @prefix ids:  <https://w3id.org/idsa/core/> .
@@ -25,22 +21,19 @@
                                daps:keyId   "5D:6C:64:09:0B:BA:54:D8:B4:77:AD:24:12:8B:4A:9F:22:96:F7:91:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
                                ids:keyType  idsc:RSA ;
                                ids:keyValue """
-                                LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0NCk1JSUNJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NB
-                                ZzhBTUlJQ0NnS0NBZ0VBc3A3YVp1SDlDbFBIRGlKMTN6b3INCkRiNTdwYk5xQ1l0ejNXNkNZSzJU
-                                aFQvblZMTndRQVdBaE5wS2hxSkxNb0hkNDdlaXZBRVVSanU3T3F5V2UyY0YNCnFhd0pNdytpQzA5
-                                dTRoMEtzdmJqZnVUN3AyR0VQTkwyUDZSYVlmZ3NTNWxFeHdKd2VSd2djZzljN1ZLN1F6MVMNClh1
-                                NWJhK1I0Tk0vcEo5N3gxdjIwREo3WFBzVXYzdHpmMURJQWZrTlN6WmZsR3p3QW0ydDhwWm1CKzBN
-                                R1N5QjQNClBRRkNQS1VOL09JOUx5bWNpMG5wUE15QWM4Y2psOE1IMzdkYk9jNUxoZFM3a203aUo0
-                                ZUo5Wncrc0Z2dTFTaGsNClk0YlkyaVBac0tEOUdtMmpsWXBrVXVuejdRVTBFNkhZcEF1NHZPRkxI
-                                YThqNjlHQkN3dkVkaTQ3Z2hmRlNmVnkNCk5BdnE4OEFqelhEcnNXMHBFcXhocWsyUnhoekJtU3h3
-                                Q1pqZHlzdGxLYmNtd2NPTFRGQ0JEWVVvYnIzVjh0ZUYNCnA5T2xiQWQwWVdrTkRPMmxLa2c5dTA1
-                                aG81cUE3RHh5SzJpZDBOc0I5akdMVElDSWRxVGxUVURPZHdHY00vT1kNCjBOWURhYU80QnFPY0Ew
-                                SkhKTGtjUWY2bnZFU2ZBZDFkc2ZFcHlISlBhbHMwdS9tczRqUGEySW96NEtOOS9TS2sNCjI4Z3Vr
-                                WUhVWHpLbEsvVTFRQ3pjTWFiRnNpRjNvQkNGcW1KQ2NwNGZPaXM3YjV2SUxmSWxyL08rYUhJR3Fq
-                                NnINCittMXVoZ093Z2s5Y1YyUGQvL1FweEdEdlBSKzhmY2wreFNNZ1I1azVXTGk2RGI5enNnUkF4
-                                c0FMWTV5V2lOL2cNCkpIUzBad2xSWG1rUzEyMHh2N2pwNWprQ0F3RUFBUT09DQotLS0tLUVORCBQ
-                                VUJMSUMgS0VZLS0tLS0NCg==
-                            """^^xsd:base64Binary ; ] ;
+                                   MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAsp7aZuH9ClPHDiJ13zor
+                                   Db57pbNqCYtz3W6CYK2ThT/nVLNwQAWAhNpKhqJLMoHd47eivAEURju7OqyWe2cF
+                                   qawJMw+iC09u4h0KsvbjfuT7p2GEPNL2P6RaYfgsS5lExwJweRwgcg9c7VK7Qz1S
+                                   Xu5ba+R4NM/pJ97x1v20DJ7XPsUv3tzf1DIAfkNSzZflGzwAm2t8pZmB+0MGSyB4
+                                   PQFCPKUN/OI9Lymci0npPMyAc8cjl8MH37dbOc5LhdS7km7iJ4eJ9Zw+sFvu1Shk
+                                   Y4bY2iPZsKD9Gm2jlYpkUunz7QU0E6HYpAu4vOFLHa8j69GBCwvEdi47ghfFSfVy
+                                   NAvq88AjzXDrsW0pEqxhqk2RxhzBmSxwCZjdystlKbcmwcOLTFCBDYUobr3V8teF
+                                   p9OlbAd0YWkNDO2lKkg9u05ho5qA7DxyK2id0NsB9jGLTICIdqTlTUDOdwGcM/OY
+                                   0NYDaaO4BqOcA0JHJLkcQf6nvESfAd1dsfEpyHJPals0u/ms4jPa2Ioz4KN9/SKk
+                                   28gukYHUXzKlK/U1QCzcMabFsiF3oBCFqmJCcp4fOis7b5vILfIlr/O+aHIGqj6r
+                                   +m1uhgOwgk9cV2Pd//QpxGDvPR+8fcl+xSMgR5k5WLi6Db9zsgRAxsALY5yWiN/g
+                                   JHS0ZwlRXmkS120xv7jp5jkCAwEAAQ==
+                               """^^xsd:base64Binary ; ] ;
     ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
                                ids:accessURL "https://bob.nicos-rd.com/"^^xsd:anyURI ; ] ;
     ids:authInfo             [ a                ids:AuthInfo ;
