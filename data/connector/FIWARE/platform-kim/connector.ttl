@@ -15,15 +15,16 @@
 @base <https://nrd-daps.nicos-rd.com/> .
 
 <connector/FIWARE#platform-kim>
-    a                     ids:Connector, ids:BaseConnector ;
-    ids:securityProfile   idsc:BASE_SECURITY_PROFILE ;
-    ids:extendedGuarantee idsc:AUDIT_NONE ;
-    ids:extendedGuarantee idsc:INTEGRITY_PROTECTION_NONE ;
-    ids:extendedGuarantee idsc:USAGE_CONTROL_NONE ;
-    ids:publicKey         [ a            ids:PublicKey ;
-                            daps:keyId   "39:85:B8:91:E8:3B:8A:B8:BF:41:10:F0:C3:35:D7:7F:9E:2C:04:25:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
-                            ids:keyType  idsc:RSA ;
-                            ids:keyValue """
+    a                        ids:Connector, ids:BaseConnector ;
+    ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
+    ids:extendedGuarantee    idsc:AUDIT_NONE ;
+    ids:extendedGuarantee    idsc:INTEGRITY_PROTECTION_NONE ;
+    ids:extendedGuarantee    idsc:USAGE_CONTROL_NONE ;
+    ids:transportCertsSha256 "b69e98addb91ece4176ed6227febeec1dee11f727633520cbcd2b480986c1d4f" ;
+    ids:publicKey            [ a            ids:PublicKey ;
+                               daps:keyId   "39:85:B8:91:E8:3B:8A:B8:BF:41:10:F0:C3:35:D7:7F:9E:2C:04:25:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
+                               ids:keyType  idsc:RSA ;
+                               ids:keyValue """
                                 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAnSIgZKRkHmzc9/SEXJkf
                                 jlY/nfmuHS/Fpv9LDvRbRQVZFXvBupfTkoVrNoR/KasQ9MKpwXN1PlqEg5pX8RAi
                                 uXAzQ85R9+D/N9AFoTwFGaowZ5CD0QrlRyCiHQOf6xC+UKRr1DpVxPWbhiNPZx11
@@ -37,9 +38,9 @@
                                 78WicD6qRXBqB+SocJ96GJjJUx+FiDbRTOBEV+tSmBhe1aPXQR/zB7Z+N+qpGjyc
                                 P+qK7+Eh45oGA47Glq015lcCAwEAAQ==
                             """^^xsd:base64Binary ; ] ;
-    ids:hasEndpoint       [ a             ids:ConnectorEndpoint ;
-                            ids:accessURL "https://platform-kim.fiware-dataspace-connector.org/"^^xsd:anyURI ; ] ;
-    ids:authInfo          [ a                ids:AuthInfo ;
-                            ids:authService  <> ;
-                            ids:authStandard idsc:OAUTH2_JWT ; ] ;
+    ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
+                               ids:accessURL "https://platform-kim.fiware-dataspace-connector.org/"^^xsd:anyURI ; ] ;
+    ids:authInfo             [ a                ids:AuthInfo ;
+                               ids:authService  <> ;
+                               ids:authStandard idsc:OAUTH2_JWT ; ] ;
 .

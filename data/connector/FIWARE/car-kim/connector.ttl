@@ -15,15 +15,16 @@
 @base <https://nrd-daps.nicos-rd.com/> .
 
 <connector/FIWARE#car-kim>
-    a                     ids:Connector, ids:BaseConnector ;
-    ids:securityProfile   idsc:BASE_SECURITY_PROFILE ;
-    ids:extendedGuarantee idsc:AUDIT_NONE ;
-    ids:extendedGuarantee idsc:INTEGRITY_PROTECTION_NONE ;
-    ids:extendedGuarantee idsc:USAGE_CONTROL_NONE ;
-    ids:publicKey         [ a            ids:PublicKey ;
-                            daps:keyId   "04:C9:3B:20:4E:8A:0A:A7:DD:B7:01:A6:FF:AB:AB:C5:BF:4D:37:34:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
-                            ids:keyType  idsc:RSA ;
-                            ids:keyValue """
+    a                        ids:Connector, ids:BaseConnector ;
+    ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
+    ids:extendedGuarantee    idsc:AUDIT_NONE ;
+    ids:extendedGuarantee    idsc:INTEGRITY_PROTECTION_NONE ;
+    ids:extendedGuarantee    idsc:USAGE_CONTROL_NONE ;
+    ids:transportCertsSha256 "a1899dc6be86876c17f9618376e8bb3af702951e590ef2ff80de02a9ae4774b4" ;
+    ids:publicKey            [ a            ids:PublicKey ;
+                               daps:keyId   "04:C9:3B:20:4E:8A:0A:A7:DD:B7:01:A6:FF:AB:AB:C5:BF:4D:37:34:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
+                               ids:keyType  idsc:RSA ;
+                               ids:keyValue """
                                 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAzGhagtIHd8gLKXHDqcV3
                                 qYrmuJtgMzIiXjTOW5TBaylkp9CAqx0U1vpdR/m73C8Sm26YxB/aU1L31woSMkqc
                                 nIPXDVY0jh6wxTWIC1bap4RZczvGhFSNeykHwbPXJBE9AREzJ97MaRnVrkg726O8
@@ -37,9 +38,9 @@
                                 4IwdTs3NFpaBM6TrUWIpzrWHPEdOYGKbZnMmfsGuRIxcTlgwAJaoTsWJuXXbqVEn
                                 PN7YxlU+P67gz0sD4t4Bl2ECAwEAAQ==
                             """^^xsd:base64Binary ; ] ;
-    ids:hasEndpoint       [ a             ids:ConnectorEndpoint ;
-                            ids:accessURL "https://car-kim.fiware-dataspace-connector.org/"^^xsd:anyURI ; ] ;
-    ids:authInfo          [ a                ids:AuthInfo ;
-                            ids:authService  <> ;
-                            ids:authStandard idsc:OAUTH2_JWT ; ] ;
+    ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
+                               ids:accessURL "https://car-kim.fiware-dataspace-connector.org/"^^xsd:anyURI ; ] ;
+    ids:authInfo             [ a                ids:AuthInfo ;
+                               ids:authService  <> ;
+                               ids:authStandard idsc:OAUTH2_JWT ; ] ;
 .

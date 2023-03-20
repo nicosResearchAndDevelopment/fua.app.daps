@@ -15,16 +15,16 @@
 @base <https://nrd-daps.nicos-rd.com/> .
 
 <connector#alice>
-    a                     ids:Connector, ids:BaseConnector ;
-    ids:securityProfile   idsc:BASE_SECURITY_PROFILE ;
-    ids:extendedGuarantee idsc:AUDIT_NONE ;
-    ids:extendedGuarantee idsc:INTEGRITY_PROTECTION_NONE ;
-    ids:extendedGuarantee idsc:USAGE_CONTROL_NONE ;
-#    ids:transportCertsSha256 "..." ;
-    ids:publicKey         [ a            ids:PublicKey ;
-                            daps:keyId   "D3:64:3F:3B:D0:3A:0B:01:FE:8E:5D:C5:F3:97:B3:E2:8D:40:3D:25:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
-                            ids:keyType  idsc:RSA ;
-                            ids:keyValue """
+    a                        ids:Connector, ids:BaseConnector ;
+    ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
+    ids:extendedGuarantee    idsc:AUDIT_NONE ;
+    ids:extendedGuarantee    idsc:INTEGRITY_PROTECTION_NONE ;
+    ids:extendedGuarantee    idsc:USAGE_CONTROL_NONE ;
+    ids:transportCertsSha256 "b29992e6449fc31a02e1ec68c6028246d4b278445eea7462dc83b32528381683" ;
+    ids:publicKey            [ a            ids:PublicKey ;
+                               daps:keyId   "D3:64:3F:3B:D0:3A:0B:01:FE:8E:5D:C5:F3:97:B3:E2:8D:40:3D:25:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
+                               ids:keyType  idsc:RSA ;
+                               ids:keyValue """
                                 LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0NCk1JSUNJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NB
                                 ZzhBTUlJQ0NnS0NBZ0VBM25kUHdzNWh3SE5DeTFZNEZvdXANCkQzQ0srTGFhSlU1VVBKOGxkN082
                                 WWwyTTl1RW9zL2hoNVlqM0t6VG5sVUt6ZGJPWmJ3U2VMSGV1OUN2bmhvL3MNCkc5Vjc4OHZicmd1
@@ -41,9 +41,9 @@
                                 YUhrcStCdlNna2MNCkVQRlNobCtmTnB1d3JWQlNSdmxlbzQwQ0F3RUFBUT09DQotLS0tLUVORCBQ
                                 VUJMSUMgS0VZLS0tLS0NCg==
                             """^^xsd:base64Binary ; ] ;
-    ids:hasEndpoint       [ a             ids:ConnectorEndpoint ;
-                            ids:accessURL "https://alice.nicos-rd.com/"^^xsd:anyURI ; ] ;
-    ids:authInfo          [ a                ids:AuthInfo ;
-                            ids:authService  <> ;
-                            ids:authStandard idsc:OAUTH2_JWT ; ] ;
+    ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
+                               ids:accessURL "https://alice.nicos-rd.com/"^^xsd:anyURI ; ] ;
+    ids:authInfo             [ a                ids:AuthInfo ;
+                               ids:authService  <> ;
+                               ids:authStandard idsc:OAUTH2_JWT ; ] ;
 .
