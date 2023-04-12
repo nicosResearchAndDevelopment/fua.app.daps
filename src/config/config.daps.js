@@ -44,3 +44,7 @@ exports.tweakDat = {
     ],
     configPath: '/tweak'
 };
+
+exports.requestObserver = {
+    namespacePath: '/observe'
+};

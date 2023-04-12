@@ -32,6 +32,7 @@ describe('app.daps', function () {
             store:    config.space.store,
             server:   config.server.options,
             app:      true,
+            io:       true,
             domain:   true
         });
         await DAPSApp({

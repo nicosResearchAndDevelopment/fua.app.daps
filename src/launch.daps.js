@@ -22,6 +22,7 @@ const
         store:    config.space.store,
         server:   config.server.options,
         app:      true,
+        io:       true,
         domain:   true
         // amec:     true
     });

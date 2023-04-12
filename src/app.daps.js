@@ -9,6 +9,10 @@ module.exports = async function DAPSApp(
     }
 ) {
 
+    util.assert(agent.app, 'expected app to be enabled');
+
+    const _requestObserver = {};
+
     const _default = {
         async jwksRoute(request, response, next) {
             try {
@@ -177,6 +181,42 @@ module.exports = async function DAPSApp(
             }
         } // _datTweaker.authRoute
     }; // _datTweaker
+
+    if (config.requestObserver) {
+        util.assert(agent.io, 'expected io to be enabled');
+        const ioNamespace = config.requestObserver?.namespacePath ? agent.io.of(config.requestObserver.namespacePath) : agent.io;
+        agent.app.use(function (request, response, next) {
+            const requestData = {
+                url:     new URL(request.url, (request.socket.encrypted ? 'https' : 'http') + '://' + request.headers.host),
+                method:  request.method,
+                headers: request.headers,
+                local:   {
+                    address: request.socket.localAddress,
+                    port:    request.socket.localPort,
+                    family:  request.socket.localFamily,
+                    cert:    request.socket.encrypted ? request.socket.getCertificate() : null
+                },
+                remote:  {
+                    address: request.socket.remoteAddress,
+                    port:    request.socket.remotePort,
+                    family:  request.socket.remoteFamily,
+                    cert:    request.socket.encrypted ? request.socket.getPeerCertificate() : null
+                    // REM "TypeError: Converting circular structure to JSON" when adding true to getPeerCertificate to include the certificate chain
+                    // IDEA manual certificate parsing might work to exclude self signed certificate issuerCertificate
+                },
+                tls:     request.socket.encrypted ? {
+                    auth:  request.socket.authorized || false,
+                    error: request.socket.authorizationError || null
+                } : null
+            };
+            // util.logObject(requestData);
+            // ioNamespace.emit('request', requestData);
+            // REM "TypeError: data.hasOwnProperty is not a function" when using pure requestData, maybe fixed in newer socket.io version
+            ioNamespace.emit('request', JSON.parse(JSON.stringify(requestData)));
+            // REM using JSON parse and stringify to fix socket.io issue is quite inefficient
+            next();
+        });
+    }
 
     if (config.jwksPath) agent.app.get(
         config.jwksPath,
