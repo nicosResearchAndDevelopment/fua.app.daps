@@ -11,7 +11,83 @@ module.exports = async function DAPSApp(
 
     util.assert(agent.app, 'expected app to be enabled');
 
-    const _requestObserver = {};
+    const _requestObserver = {
+        ioNamespace: null,
+        initializeIO() {
+            if (this.ioNamespace) return;
+            util.assert(agent.io, 'expected io to be enabled');
+            this.ioNamespace = config.requestObserver?.namespacePath
+                ? agent.io.of(config.requestObserver.namespacePath)
+                : agent.io;
+        },
+        normalizeData(target) {
+            if (!util.isObject(target)) return target;
+            const objectCache = new WeakSet();
+            return JSON.parse(
+                JSON.stringify(
+                    target,
+                    (key, value) => {
+                        if (!util.isObject(value)) return value;
+                        if (objectCache.has(value)) return null;
+                        objectCache.add(value);
+                        return value;
+                    }
+                    // IDEA use replacer and a WeakMap to handle circular json structures
+                ),
+                (key, value) => {
+                    if (!util.isObject(value) || util.isArray(value)) return value;
+                    switch (value.type) {
+                        case 'Buffer':
+                            return Buffer.from(value);
+                        default:
+                            return value;
+                    }
+                }
+            );
+        },
+        emitEvent(eventName, ...args) {
+            // this.ioNamespace.emit(eventName, ...args);
+            // REM "TypeError: data.hasOwnProperty is not a function" when using pure requestData, maybe fixed in newer socket.io version
+            const normalizedArgs = args.map(this.normalizeData.bind(this));
+            // REM "TypeError: Converting circular structure to JSON" when adding true to getPeerCertificate to include the certificate chain
+            this.ioNamespace.emit(eventName, ...normalizedArgs);
+            // REM using JSON parse and stringify to fix socket.io issue is quite inefficient
+        },
+        connectListeners(server) {
+            this.initializeIO();
+            server.on('request', this.onRequest.bind(this));
+            // TODO connect other events from request, response and socket
+            // SEE https://nodejs.org/api/http.html
+            // SEE https://nodejs.org/api/https.html
+            // SEE https://nodejs.org/api/net.html
+            // SEE https://nodejs.org/api/tls.html
+            // SEE https://nodejs.org/api/stream.html
+        },
+        onRequest(request, response) {
+            if (request.url.startsWith('/socket.io/')) return;
+            this.emitEvent('request', {
+                url:     new URL(request.url, (request.socket.encrypted ? 'https' : 'http') + '://' + request.headers.host),
+                method:  request.method,
+                headers: request.headers,
+                local:   {
+                    address: request.socket.localAddress,
+                    port:    request.socket.localPort,
+                    family:  request.socket.localFamily,
+                    cert:    request.socket.encrypted ? request.socket.getCertificate() : null
+                },
+                remote:  {
+                    address: request.socket.remoteAddress,
+                    port:    request.socket.remotePort,
+                    family:  request.socket.remoteFamily,
+                    cert:    request.socket.encrypted ? request.socket.getPeerCertificate(true) : null
+                },
+                tls:     request.socket.encrypted ? {
+                    auth:  request.socket.authorized || false,
+                    error: request.socket.authorizationError || null
+                } : null
+            });
+        }
+    };
 
     const _default = {
         async jwksRoute(request, response, next) {
@@ -182,41 +258,8 @@ module.exports = async function DAPSApp(
         } // _datTweaker.authRoute
     }; // _datTweaker
 
-    if (config.requestObserver) {
-        util.assert(agent.io, 'expected io to be enabled');
-        const ioNamespace = config.requestObserver?.namespacePath ? agent.io.of(config.requestObserver.namespacePath) : agent.io;
-        agent.app.use(function (request, response, next) {
-            const requestData = {
-                url:     new URL(request.url, (request.socket.encrypted ? 'https' : 'http') + '://' + request.headers.host),
-                method:  request.method,
-                headers: request.headers,
-                local:   {
-                    address: request.socket.localAddress,
-                    port:    request.socket.localPort,
-                    family:  request.socket.localFamily,
-                    cert:    request.socket.encrypted ? request.socket.getCertificate() : null
-                },
-                remote:  {
-                    address: request.socket.remoteAddress,
-                    port:    request.socket.remotePort,
-                    family:  request.socket.remoteFamily,
-                    cert:    request.socket.encrypted ? request.socket.getPeerCertificate() : null
-                    // REM "TypeError: Converting circular structure to JSON" when adding true to getPeerCertificate to include the certificate chain
-                    // IDEA manual certificate parsing might work to exclude self signed certificate issuerCertificate
-                },
-                tls:     request.socket.encrypted ? {
-                    auth:  request.socket.authorized || false,
-                    error: request.socket.authorizationError || null
-                } : null
-            };
-            // util.logObject(requestData);
-            // ioNamespace.emit('request', requestData);
-            // REM "TypeError: data.hasOwnProperty is not a function" when using pure requestData, maybe fixed in newer socket.io version
-            ioNamespace.emit('request', JSON.parse(JSON.stringify(requestData)));
-            // REM using JSON parse and stringify to fix socket.io issue is quite inefficient
-            next();
-        });
-    }
+    if (config.requestObserver)
+        _requestObserver.connectListeners(agent.server);
 
     if (config.jwksPath) agent.app.get(
         config.jwksPath,
