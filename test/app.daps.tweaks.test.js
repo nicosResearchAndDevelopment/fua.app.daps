@@ -328,22 +328,22 @@ describe('app.daps.tweaks', function () {
 
         describe('add a custom property via the tweak matcher over socket.io', function () {
 
-            let io = null;
+            let ioSocket = null;
 
             before('connect io', async function () {
-                io = socketIoClient.io(`${baseUrl}tweak`, {agent: httpAgent});
-                await new Promise(resolve => io.once('connect', resolve));
+                ioSocket = socketIoClient.io(`${baseUrl}tweak`, {agent: httpAgent});
+                if (!ioSocket.connected) await new Promise(resolve => ioSocket.once('connect', resolve));
             });
 
             after('close io', function () {
-                io.close();
-                io = null;
+                ioSocket.close();
+                ioSocket = null;
             });
 
             function callIO(eventName, ...args) {
                 return new Promise((resolve, reject) => {
                     const acknowledge = (err, result) => err ? reject(err) : resolve(result);
-                    io.emit(eventName, ...args, acknowledge);
+                    ioSocket.emit(eventName, ...args, acknowledge);
                 });
             }
 
