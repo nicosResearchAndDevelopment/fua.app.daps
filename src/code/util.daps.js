@@ -15,6 +15,21 @@ util.pause = function (seconds) {
     });
 };
 
+util.callbackify = function (fn) {
+    return function (...args) {
+        const callback = args.pop();
+        try {
+            const result = fn.apply(this, args);
+            if (result instanceof Promise) result
+                .then(res => callback(null, res))
+                .catch(err => callback(err));
+            else callback(null, result);
+        } catch (err) {
+            callback(err);
+        }
+    }
+};
+
 util.iri = Object.freeze({
     type: 'rdf:type',
 

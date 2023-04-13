@@ -3,6 +3,7 @@ const
     expect               = require('expect'),
     https                = require('https'),
     fetch                = require('node-fetch'),
+    socketIoClient       = require('socket.io-client'),
     {SignJWT, jwtVerify} = require('jose'),
     config               = require('../src/config/config.daps.js'),
     tls_config           = require('./alice-cert/tls-server/server.js'),
@@ -320,6 +321,101 @@ describe('app.daps.tweaks', function () {
                         }
                     }),
                     agent:   httpAgent
+                });
+            });
+
+        });
+
+        describe('add a custom property via the tweak matcher over socket.io', function () {
+
+            let io = null;
+
+            before('connect io', async function () {
+                io = socketIoClient.io(`${baseUrl}tweak`, {agent: httpAgent});
+                await new Promise(resolve => io.once('connect', resolve));
+            });
+
+            after('close io', function () {
+                io.close();
+                io = null;
+            });
+
+            function callIO(eventName, ...args) {
+                return new Promise((resolve, reject) => {
+                    const acknowledge = (err, result) => err ? reject(err) : resolve(result);
+                    io.emit(eventName, ...args, acknowledge);
+                });
+            }
+
+            test('for 1 request', async function () {
+                await callIO('create', {
+                    match: {
+                        sub: cert_config.meta.SKIAKI
+                    },
+                    tweak: {
+                        custom: 'test'
+                    },
+                    count: 1
+                });
+
+                const datRequest = await dapsClient.createDatRequest();
+                const response   = await fetch(datRequest.url, datRequest);
+                expect(response.ok).toBeTruthy();
+                const {access_token: accessToken} = await response.json();
+                const datPayload                  = dapsClient.decodeToken(accessToken);
+                expect(datPayload).toMatchObject({
+                    custom: 'test'
+                });
+
+                const secondResponse = await fetch(datRequest.url, datRequest);
+                expect(secondResponse.ok).toBeTruthy();
+                const {access_token: secondAccessToken} = await secondResponse.json();
+                const secondDatPayload                  = dapsClient.decodeToken(secondAccessToken);
+                expect(secondDatPayload).not.toMatchObject({
+                    custom: 'test'
+                });
+            });
+
+            test('and update it after first request', async function () {
+                await callIO('create', {
+                    match: {
+                        sub: cert_config.meta.SKIAKI
+                    },
+                    tweak: {
+                        custom: 'test'
+                    }
+                });
+
+                const datRequest = await dapsClient.createDatRequest();
+                const response   = await fetch(datRequest.url, datRequest);
+                expect(response.ok).toBeTruthy();
+                const {access_token: accessToken} = await response.json();
+                const datPayload                  = dapsClient.decodeToken(accessToken);
+                expect(datPayload).toMatchObject({
+                    custom: 'test'
+                });
+
+                await callIO('update', {
+                    match: {
+                        sub: cert_config.meta.SKIAKI
+                    },
+                    tweak: {
+                        custom: 'lorem'
+                    }
+                });
+
+                const secondResponse = await fetch(datRequest.url, datRequest);
+                expect(secondResponse.ok).toBeTruthy();
+                const {access_token: secondAccessToken} = await secondResponse.json();
+                const secondDatPayload                  = dapsClient.decodeToken(secondAccessToken);
+                expect(secondDatPayload).toMatchObject({
+                    custom: 'lorem'
+                });
+
+                await callIO('delete', {
+                    match: {
+                        sub: cert_config.meta.SKIAKI
+                    }
                 });
             });
 

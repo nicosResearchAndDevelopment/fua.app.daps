@@ -194,35 +194,36 @@ module.exports = async function DAPSApp(
                 if (matcher.count <= 0) this.matchers.delete(matcher);
             }
         }, // _datTweaker.process
+        configure(type, param) {
+            util.assert(util.isString(type), 'expected type to be a string');
+            switch (type) {
+                case 'create':
+                    this.set(param, false);
+                    return null;
+                case 'read':
+                    return this.get(param.match);
+                case 'update':
+                    this.set(param, true);
+                    return null;
+                case 'delete':
+                    this.delete(param.match);
+                    return null;
+                case 'list':
+                    return Array.from(this.matchers);
+                default:
+                    throw new util.HTTPResponseError(404);
+            }
+        }, // _datTweaker.configure
         async configRoute(request, response, next) {
             try {
                 util.assert(util.isObject(request.body), 'expected the request body to be an object');
                 const {type, ...param} = request.body;
-                util.assert(util.isString(type), 'expected type to be a string');
-                switch (type) {
-                    case 'create':
-                        this.set(param, false);
-                        response.status(200).end();
-                        break;
-                    case 'read':
-                        response.type('json').send(JSON.stringify(this.get(param.match)));
-                        break;
-                    case 'update':
-                        this.set(param, true);
-                        response.status(200).end();
-                        break;
-                    case 'delete':
-                        this.delete(param.match);
-                        response.status(200).end();
-                        break;
-                    case 'list':
-                        response.type('json').send(JSON.stringify(Array.from(this.matchers)));
-                        break;
-                    default:
-                        response.status(404).end();
-                }
+                const result           = this.configure(type, param);
+                if (!result) response.status(200).end();
+                else response.type('json').send(JSON.stringify(result));
             } catch (err) {
-                next(err);
+                if (err instanceof util.HTTPResponseError) response.status(err.status).send(err.statusText);
+                else next(err);
             }
         }, // _datTweaker.configRoute
         async tokenRoute(request, response, next) {
@@ -296,8 +297,17 @@ module.exports = async function DAPSApp(
             _default.authRoute.bind(_default)
         );
 
+        if (agent.io) agent.io.use(
+            (socket, next) => _default.authRoute(socket.request, socket.request.res, next)
+        );
+
         if (config.tweakDat) agent.app.use(
+            config.tweakDat.configPath || '/',
             _datTweaker.authRoute.bind(_datTweaker)
+        );
+
+        if (agent.io && config.tweakDat) agent.io.of(config.tweakDat.configPath || '/').use(
+            (socket, next) => _datTweaker.authRoute(socket.request, socket.request.res, next)
         );
     }
 
@@ -306,6 +316,10 @@ module.exports = async function DAPSApp(
         express.json(),
         _datTweaker.configRoute.bind(_datTweaker)
     );
+
+    if (agent.io && config.tweakDat?.configPath) agent.io
+        .of(config.tweakDat.configPath)
+        .on('connection', (socket) => socket.onAny(util.callbackify(_datTweaker.configure).bind(_datTweaker)));
 
     await agent.listen();
     util.logText(`daps app is listening at <${agent.url}>`);
