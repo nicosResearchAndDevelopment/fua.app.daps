@@ -19,6 +19,7 @@ module.exports = async function DAPSApp(
             this.ioNamespace = config.requestObserver?.namespacePath
                 ? agent.io.of(config.requestObserver.namespacePath)
                 : agent.io;
+            return this;
         },
         normalizeData(target) {
             if (!util.isObject(target)) return target;
@@ -46,15 +47,16 @@ module.exports = async function DAPSApp(
             );
         },
         emitEvent(eventName, ...args) {
+            if (!this.ioNamespace) return;
             // this.ioNamespace.emit(eventName, ...args);
             // REM "TypeError: data.hasOwnProperty is not a function" when using pure requestData, maybe fixed in newer socket.io version
             const normalizedArgs = args.map(this.normalizeData.bind(this));
             // REM "TypeError: Converting circular structure to JSON" when adding true to getPeerCertificate to include the certificate chain
             this.ioNamespace.emit(eventName, ...normalizedArgs);
             // REM using JSON parse and stringify to fix socket.io issue is quite inefficient
+            return this;
         },
         connectListeners(server) {
-            this.initializeIO();
             server.on('request', this.onRequest.bind(this));
             // TODO connect other events from request, response and socket
             // SEE https://nodejs.org/api/http.html
@@ -62,6 +64,7 @@ module.exports = async function DAPSApp(
             // SEE https://nodejs.org/api/net.html
             // SEE https://nodejs.org/api/tls.html
             // SEE https://nodejs.org/api/stream.html
+            return this;
         },
         onRequest(request, response) {
             if (request.url.startsWith('/socket.io/')) return;
@@ -86,6 +89,12 @@ module.exports = async function DAPSApp(
                     error: request.socket.authorizationError || null
                 } : null
             });
+        },
+        onToken(token) {
+            this.emitEvent('token', {
+                token,
+                ...util.decodeToken(token)
+            });
         }
     };
 
@@ -103,6 +112,7 @@ module.exports = async function DAPSApp(
                 util.assert(request.body, 'expected the request to have a body');
                 const param = util.isObject(request.body) ? {requestParam: request.body} : {requestQuery: request.body};
                 const body  = await agent.createDatResponse(param);
+                _requestObserver.onToken(body.access_token);
                 response.type('json').send(JSON.stringify(body));
             } catch (err) {
                 next(err);
@@ -239,6 +249,7 @@ module.exports = async function DAPSApp(
                 }
 
                 const body = await agent.createDatResponse(param);
+                _requestObserver.onToken(body.access_token);
                 response.type('json').send(JSON.stringify(body));
             } catch (err) {
                 next(err);
@@ -259,7 +270,7 @@ module.exports = async function DAPSApp(
     }; // _datTweaker
 
     if (config.requestObserver)
-        _requestObserver.connectListeners(agent.server);
+        _requestObserver.connectListeners(agent.server).initializeIO();
 
     if (config.jwksPath) agent.app.get(
         config.jwksPath,

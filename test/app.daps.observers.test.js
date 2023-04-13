@@ -58,8 +58,8 @@ describe('app.daps.observers', function () {
         });
         ioSocket   = socketIoClient.io(`${baseUrl}observe`, {agent: httpAgent});
         if (!ioSocket.connected) await new Promise(resolve => ioSocket.once('connect', resolve));
-        // ioSocket.on('request', util.logObject);
         ioSocket.on('request', data => console.dir(data, {depth: 1}));
+        ioSocket.on('token', util.logObject);
     });
 
     after('close the agent', async function () {
