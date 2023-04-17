@@ -211,7 +211,7 @@ module.exports = async function DAPSApp(
                 case 'list':
                     return Array.from(this.matchers);
                 default:
-                    throw new util.HTTPResponseError(404);
+                    throw new util.HTTPRequestError(404);
             }
         }, // _datTweaker.configure
         async configRoute(request, response, next) {
@@ -222,7 +222,7 @@ module.exports = async function DAPSApp(
                 if (!result) response.status(200).end();
                 else response.type('json').send(JSON.stringify(result));
             } catch (err) {
-                if (err instanceof util.HTTPResponseError) response.status(err.status).send(err.statusText);
+                if (err instanceof util.HTTPRequestError) response.status(err.status).send(err.statusText);
                 else next(err);
             }
         }, // _datTweaker.configRoute
