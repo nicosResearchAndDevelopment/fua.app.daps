@@ -1,8 +1,8 @@
 {
     "Issuer": "C = DE, ST = NRW, L = Muenster, O = nicos Research & Development GmbH, CN = tb, CN = ec, CN = ids, CN = ec_ids_component_ca",
     "Subject": "C = DE, O = FIWARE Foundation e.V., OU = KIM, CN = *.car-kim.fiware-dataspace-connector.org",
-    "SKI": "04:C9:3B:20:4E:8A:0A:A7:DD:B7:01:A6:FF:AB:AB:C5:BF:4D:37:34",
-    "AKI": "keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E",
-    "SKIAKI": "04:C9:3B:20:4E:8A:0A:A7:DD:B7:01:A6:FF:AB:AB:C5:BF:4D:37:34:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E",
-    "certSha256Fingerprint": "7f8fdcebe1dc22e3f96f0abd8b7cd57a8d603fefa62b6c80774504227bb23c5a"
+    "SKI": "5A:E5:25:9D:CE:D9:10:52:BB:5C:99:E8:F1:8B:5D:4F:F7:B7:4C:4D",
+    "AKI": "keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F",
+    "SKIAKI": "5A:E5:25:9D:CE:D9:10:52:BB:5C:99:E8:F1:8B:5D:4F:F7:B7:4C:4D:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F",
+    "certSha256Fingerprint": "196b9b5053b196cc919301616eb90fd607ca14623a735c1c67e8115700e2ccd6"
 }

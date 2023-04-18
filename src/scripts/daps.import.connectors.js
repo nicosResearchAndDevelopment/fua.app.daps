@@ -1,7 +1,9 @@
 const
-    path   = require('path'),
-    fs     = require('fs/promises'),
-    config = {
+    path       = require('path'),
+    fs         = require('fs/promises'),
+    ca_testbed = path.join(process.env.FUA_JS_APP, 'nrd-ca', 'resources', 'nrd-testbed'),
+    daps_root  = path.join(process.env.FUA_JS_APP, 'daps'),
+    config     = {
         baseURL:      'https://nrd-daps.nicos-rd.com/',
         skipAll:      false,
         overwriteAll: false,
@@ -9,9 +11,9 @@ const
             'alice':                {
                 skip:              false,
                 overwrite:         false,
-                input:             path.join(__dirname, '../../../nrd-ca/resources/nrd-testbed/ec/ids/component/alice/connector/client'),
-                transport:         path.join(__dirname, '../../../nrd-ca/resources/nrd-testbed/ec/ids/component/alice/tls-server/server'),
-                output:            path.join(__dirname, 'alice/connector'),
+                input:             path.join(ca_testbed, 'ec/ids/component/alice/connector/client'),
+                transport:         path.join(ca_testbed, 'ec/ids/component/alice/tls-server/server'),
+                output:            path.join(daps_root, 'data/connector/alice/connector'),
                 endpointURL:       'https://alice.nicos-rd.com/',
                 extendedGuarantee: [
                     'idsc:AUDIT_NONE',
@@ -22,9 +24,9 @@ const
             'bob':                  {
                 skip:              false,
                 overwrite:         false,
-                input:             path.join(__dirname, '../../../nrd-ca/resources/nrd-testbed/ec/ids/component/bob/connector/client'),
-                transport:         path.join(__dirname, '../../../nrd-ca/resources/nrd-testbed/ec/ids/component/bob/tls-server/server'),
-                output:            path.join(__dirname, 'bob/connector'),
+                input:             path.join(ca_testbed, 'ec/ids/component/bob/connector/client'),
+                transport:         path.join(ca_testbed, 'ec/ids/component/bob/tls-server/server'),
+                output:            path.join(daps_root, 'data/connector/bob/connector'),
                 endpointURL:       'https://bob.nicos-rd.com/',
                 extendedGuarantee: [
                     'idsc:AUDIT_NONE',
@@ -33,28 +35,28 @@ const
                 ]
             },
             'FIRWARE/dev':          {
-                input:       path.join(__dirname, '../../../nrd-ca/resources/nrd-testbed/ec/ids/cut/FIWARE/dev/connector/client'),
-                transport:   path.join(__dirname, '../../../nrd-ca/resources/nrd-testbed/ec/ids/cut/FIWARE/dev/tls-server/server'),
-                output:      path.join(__dirname, 'FIWARE/dev/connector'),
+                input:       path.join(ca_testbed, 'ec/ids/cut/FIWARE/dev/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/FIWARE/dev/tls-server/server'),
+                output:      path.join(daps_root, 'data/connector/FIWARE/dev/connector'),
                 endpointURL: 'https://fiware.dev/'
             },
             'FIRWARE/car-kim':      {
-                input:       path.join(__dirname, '../../../nrd-ca/resources/nrd-testbed/ec/ids/cut/FIWARE/car-kim/connector/client'),
-                transport:   path.join(__dirname, '../../../nrd-ca/resources/nrd-testbed/ec/ids/cut/FIWARE/car-kim/tls-server/server'),
-                output:      path.join(__dirname, 'FIWARE/car-kim/connector'),
+                input:       path.join(ca_testbed, 'ec/ids/cut/FIWARE/car-kim/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/FIWARE/car-kim/tls-server/server'),
+                output:      path.join(daps_root, 'data/connector/FIWARE/car-kim/connector'),
                 endpointURL: 'https://car-kim.fiware-dataspace-connector.org/'
             },
             'FIRWARE/platform-kim': {
-                input:       path.join(__dirname, '../../../nrd-ca/resources/nrd-testbed/ec/ids/cut/FIWARE/platform-kim/connector/client'),
-                transport:   path.join(__dirname, '../../../nrd-ca/resources/nrd-testbed/ec/ids/cut/FIWARE/platform-kim/tls-server/server'),
-                output:      path.join(__dirname, 'FIWARE/platform-kim/connector'),
+                input:       path.join(ca_testbed, 'ec/ids/cut/FIWARE/platform-kim/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/FIWARE/platform-kim/tls-server/server'),
+                output:      path.join(daps_root, 'data/connector/FIWARE/platform-kim/connector'),
                 endpointURL: 'https://platform-kim.fiware-dataspace-connector.org/'
             }
         }
     };
 
 console.time('done');
-Promise.all(Object.entries(config.connectors).map(async function importCertificate([connectorName, connectorConfig]) {
+Promise.all(Object.entries(config.connectors).map(async function importConnectors([connectorName, connectorConfig]) {
 
     try {
         if (config.skipAll || connectorConfig.skip) return;

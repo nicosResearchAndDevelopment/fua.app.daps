@@ -10,31 +10,31 @@
 
 @base <https://nrd-daps.nicos-rd.com/> .
 
-<connector/FIWARE#car-kim>
+<../data/connector/FIWARE#car-kim>
     a                        ids:Connector, ids:BaseConnector ;
     ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
     # ids:extendedGuarantee    <...> ;
-    ids:transportCertsSha256 "a1899dc6be86876c17f9618376e8bb3af702951e590ef2ff80de02a9ae4774b4" ;
+    ids:transportCertsSha256 "f53cf4125606252fa66c76f7a0392e8a701f6c828124b88f624f5b40887be186" ;
     ids:publicKey            [ a            ids:PublicKey ;
-                               daps:keyId   "04:C9:3B:20:4E:8A:0A:A7:DD:B7:01:A6:FF:AB:AB:C5:BF:4D:37:34:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
+                               daps:keyId   "5A:E5:25:9D:CE:D9:10:52:BB:5C:99:E8:F1:8B:5D:4F:F7:B7:4C:4D:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F" ;
                                ids:keyType  idsc:RSA ;
                                ids:keyValue """
                                    LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJB
-                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUF6R2hhZ3RJSGQ4Z0xLWEhEcWNWMwpxWXJt
-                                   dUp0Z016SWlYalRPVzVUQmF5bGtwOUNBcXgwVTF2cGRSL203M0M4U20yNll4Qi9h
-                                   VTFMMzF3b1NNa3FjCm5JUFhEVlkwamg2d3hUV0lDMWJhcDRSWmN6dkdoRlNOZXlr
-                                   SHdiUFhKQkU5QVJFeko5N01hUm5WcmtnNzI2TzgKNTVaRlptYTlSa3dWaERoZlFD
-                                   ek45azhwbFU2VUtzOTArZjI0eGxsdStPdnd6M1VNbDN5bk5RVUdBbUxVbENlVgpE
-                                   ZkJiS2J5ak5ZdXdLdGdYczV1anFQMjBWU2xFd1NLSDlmS1drVmxIem9WMGl0aVpM
-                                   RnNKV0VmWlM1SnJHVFJrCkVTOUtTVENrQ1JXeHl0ODRCbG9zaWU3WDNGVTRDcTZ6
-                                   ME51L0dUd3RsdDVEbW9oQ0s2RjFZU0FJeWczUGFPcFMKcEtpYW5WV2wzc1J6SGw1
-                                   bFRrbFNld01jaDFNT0Z4UUNYc3Q3ZmZrNW8yU2VkR3J2cGdjeXoyYUxwTENVZFVr
-                                   egpMdkNPOElFMjBKdTg1bDZ3d3V0TTVXejlER2N1WWlvMUZ2eldaWVhsTTQwemM4
-                                   RW1WbXpUSk11UDhjRmNDVGh3CjN3djdXaUs4aExGQnl6NnlwYnVnYXVtSmJoQWcr
-                                   MVNiQTl5TGxxRXRXeGZPS0MvWEZvTC9hQzhYeERMeFdTN1EKc3ZmNDNJdm5ZZHM5
-                                   OERxRy9KS2dkTzZIMlA4cUNCcXhiTVhMWUFXN3RwNXJtaFd3c1RrMjY0NkpSUmVn
-                                   UmNQWgo0SXdkVHMzTkZwYUJNNlRyVVdJcHpyV0hQRWRPWUdLYlpuTW1mc0d1Ukl4
-                                   Y1RsZ3dBSmFvVHNXSnVYWGJxVkVuClBON1l4bFUrUDY3Z3owc0Q0dDRCbDJFQ0F3
+                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUFvYVViRHp4TGxCMk5MTTd0SFM3RQpSSWFF
+                                   ZGc0aVVzeFptR3Zpb2drTEs3UVNkUCtwT04zT1M1NmRXMXlBS2ZRc3llK2dUWkFM
+                                   aVYvKzV4UStBd2ZzCnUwV0o1cmdqclpVWDVZL2trblViSGxLcFZHVmFJaVBDUEhG
+                                   TUJQUUZJWWJaL0VjbFBQbWsyTkNCbGJOblBXWFMKeHhWaVlBM1ptcXM4QWNFZXda
+                                   ZGs5b2xIZ0Rabk5uUytJV1hoSEN4aVVHUEZ2b0hCNUVXZ2VzbVNjMSsyTzJPQwpF
+                                   TWd1dzN2dTMvNWt1WGx6cm5MOXBFNGgydy92cXJhdkxBR01Dd3I0aGxEMUVjSitB
+                                   SFlLREZ5Mi9JZURGUDhlCnRHdTF6anppeXdwaWYzRmd1QzZjOGx3Y2FZd1RJYVht
+                                   ejkyUTJaenM1UjRTWi9Ba0FSWk9sOEpOSXRFK2JEQk8KK3dYK1ZVN1gyWEZLRVJ5
+                                   Nm5FejlsdFJCdDRLam1BcDNDK1ZWM1VRSmpoZERjRWNhandrbHduYXk4b1R2Zi9N
+                                   cQo5SFJGaklzem04Zmo1alM3WGZwcTRzZWowdVdCa0JyRzNrYm5iVStoeVJaM0xF
+                                   Si9tYm1MZ3NDbjR3UEVrYUJhCm8wdXo5eThTMHJhRjdiM1RvdGxqZkdQZUU2ODdS
+                                   SEFsZmttTGxGWWFrUTIyUFNHMHpmcng4R2wzWCt5UDU5Y3EKM1NIOGV1ajNiZ011
+                                   U0Z0cnU0cndibTRiRkJIWEF6bkJydWxsaFYvUnBQSS9mUU84MkZoR2pKZXpPSmhl
+                                   WVIyUgo1d3FiR1d6L1k2KzdMNXFNYnBBSnROcWNQL21QSElreTkwWDlRdi9ZTEVC
+                                   eCtROHgwVklQaitEc0FjSi9idnJ0CmlleWhYM2hUdTRnUDVwTVhOTW9XWUIwQ0F3
                                    RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=
                                """^^xsd:base64Binary ; ] ;
     ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;

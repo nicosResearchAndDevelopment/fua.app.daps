@@ -10,34 +10,34 @@
 
 @base <https://nrd-daps.nicos-rd.com/> .
 
-<connector#bob>
+<../data/connector#bob>
     a                        ids:Connector, ids:BaseConnector ;
     ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
     ids:extendedGuarantee    idsc:AUDIT_NONE ;
     ids:extendedGuarantee    idsc:INTEGRITY_PROTECTION_NONE ;
     ids:extendedGuarantee    idsc:USAGE_CONTROL_NONE ;
-    ids:transportCertsSha256 "accc7905904f1abf39dccd92271f28a753bb4061bf644255e0d3a47576862cb6" ;
+    ids:transportCertsSha256 "c04350adb93bcd9ada84c676003f346699ee9f1ffe6a34a164ded7d799a38635" ;
     ids:publicKey            [ a            ids:PublicKey ;
-                               daps:keyId   "5D:6C:64:09:0B:BA:54:D8:B4:77:AD:24:12:8B:4A:9F:22:96:F7:91:keyid:B2:86:93:B9:34:0F:6F:CA:D4:1A:C0:3E:C6:BF:E1:A0:A0:D0:ED:5E" ;
+                               daps:keyId   "84:D5:D1:96:30:96:DD:68:5C:CA:1E:C1:79:CD:1B:F8:55:85:58:B8:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F" ;
                                ids:keyType  idsc:RSA ;
                                ids:keyValue """
-                                   LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0NCk1JSUNJakFOQmdrcWhraUc5dzBC
-                                   QVFFRkFBT0NBZzhBTUlJQ0NnS0NBZ0VBc3A3YVp1SDlDbFBIRGlKMTN6b3INCkRi
-                                   NTdwYk5xQ1l0ejNXNkNZSzJUaFQvblZMTndRQVdBaE5wS2hxSkxNb0hkNDdlaXZB
-                                   RVVSanU3T3F5V2UyY0YNCnFhd0pNdytpQzA5dTRoMEtzdmJqZnVUN3AyR0VQTkwy
-                                   UDZSYVlmZ3NTNWxFeHdKd2VSd2djZzljN1ZLN1F6MVMNClh1NWJhK1I0Tk0vcEo5
-                                   N3gxdjIwREo3WFBzVXYzdHpmMURJQWZrTlN6WmZsR3p3QW0ydDhwWm1CKzBNR1N5
-                                   QjQNClBRRkNQS1VOL09JOUx5bWNpMG5wUE15QWM4Y2psOE1IMzdkYk9jNUxoZFM3
-                                   a203aUo0ZUo5Wncrc0Z2dTFTaGsNClk0YlkyaVBac0tEOUdtMmpsWXBrVXVuejdR
-                                   VTBFNkhZcEF1NHZPRkxIYThqNjlHQkN3dkVkaTQ3Z2hmRlNmVnkNCk5BdnE4OEFq
-                                   elhEcnNXMHBFcXhocWsyUnhoekJtU3h3Q1pqZHlzdGxLYmNtd2NPTFRGQ0JEWVVv
-                                   YnIzVjh0ZUYNCnA5T2xiQWQwWVdrTkRPMmxLa2c5dTA1aG81cUE3RHh5SzJpZDBO
-                                   c0I5akdMVElDSWRxVGxUVURPZHdHY00vT1kNCjBOWURhYU80QnFPY0EwSkhKTGtj
-                                   UWY2bnZFU2ZBZDFkc2ZFcHlISlBhbHMwdS9tczRqUGEySW96NEtOOS9TS2sNCjI4
-                                   Z3VrWUhVWHpLbEsvVTFRQ3pjTWFiRnNpRjNvQkNGcW1KQ2NwNGZPaXM3YjV2SUxm
-                                   SWxyL08rYUhJR3FqNnINCittMXVoZ093Z2s5Y1YyUGQvL1FweEdEdlBSKzhmY2wr
-                                   eFNNZ1I1azVXTGk2RGI5enNnUkF4c0FMWTV5V2lOL2cNCkpIUzBad2xSWG1rUzEy
-                                   MHh2N2pwNWprQ0F3RUFBUT09DQotLS0tLUVORCBQVUJMSUMgS0VZLS0tLS0NCg==
+                                   LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJB
+                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUF2bGF5bkZaR2JCbzRPL3kwc3phTgpDYmV6
+                                   NlBWdHhrVU1mRVo2K2I3UXF5NUxQN2Z1SmZBbXg2UTI4S1d2d0JkSWxubjNrZC9N
+                                   REV2SzZCNmdqeTgxClJhcVRzMENoY2FtTDNuNHNsdnpvU2o5Uk42dlJYYmxiaUFF
+                                   Ujc2SXZBOHNZSFFuZTVhckc1R0Jsd0dvaTB3ckMKYitMODA3VnpaTXUzSmI1ZGI4
+                                   WDZYbENlUG1KU0pPL0xPcEVwY2luOS8xOE5RcVBHR3psVlpiY28wR2VIRGpaNQp6
+                                   aUlFUkl1UlhZZm1vNVg1aXFRdmF5Qk93emJXY2VCUEpCVXhWNWZ1N1RHV0tZRjc0
+                                   RzFxbmx0d2Z6enpZMG11Cm5iM1Q0dXNyM2xIemdTODFzTnMvYnRVTWFPb21CVE1K
+                                   eWNPRE1YSm83M3Z1djkxTUsrZmI0VFp0LytPVmtTYzYKemppNGtZa0ZiaVU2SHl4
+                                   L3RydUdwbk5tSC90KzBZRVN0Q2VCWlBkN1BKZmtSVlNXV1Qwb0NoVHZvTVBkSzJy
+                                   cQp5OEV4VGFiMFUyZmN4QmYvMEN1OHNzS1FqTzBoWkRpNVp0bVZscGhkU3dDcjAr
+                                   K1JTSnBFQjlqTGVXeWZJcStOClZxQk1SRFpoZUdmZFQyZitkNzlXNTQ1WlRWVjNX
+                                   UDFPYlRyeGlqbGF5Q3dvd04xb3l6RTVsMEtNZVNoREVBQVEKWHlpbjA0b01kbDJD
+                                   S2dJUVFzNnR3cGkzZHdXekcrUjNtWkZsMTBoODEwSEEzUmpSWVMrTFlSU2dQamdp
+                                   MEtIUwphRERoU2toMjZ0U2JvbzBDQW1MK3NqUG82MFNndkM2eWdxSCtQNy9NZ2Nx
+                                   Ukw4aGNlTjF4NEZVQ0ExR0dxZElsCnVkWHFIN2tTYm9tSzBsS3YwcHMrNHRVQ0F3
+                                   RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=
                                """^^xsd:base64Binary ; ] ;
     ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
                                ids:accessURL "https://bob.nicos-rd.com/"^^xsd:anyURI ; ] ;
