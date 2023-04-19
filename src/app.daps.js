@@ -69,6 +69,7 @@ module.exports = async function DAPSApp(
         onRequest(request, response) {
             if (request.url.startsWith('/socket.io/')) return;
             this.emitEvent('request', {
+                created: util.dateTime(),
                 url:     new URL(request.url, (request.socket.encrypted ? 'https' : 'http') + '://' + request.headers.host),
                 method:  request.method,
                 headers: request.headers,
@@ -92,6 +93,7 @@ module.exports = async function DAPSApp(
         },
         onToken(token) {
             this.emitEvent('token', {
+                created: util.dateTime(),
                 token,
                 ...util.decodeToken(token)
             });
