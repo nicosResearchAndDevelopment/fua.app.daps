@@ -69,23 +69,23 @@ module.exports = async function DAPSApp(
         onRequest(request, response) {
             if (request.url.startsWith('/socket.io/')) return;
             this.emitEvent('request', {
-                created: util.dateTime(),
-                url:     new URL(request.url, (request.socket.encrypted ? 'https' : 'http') + '://' + request.headers.host),
-                method:  request.method,
-                headers: request.headers,
-                local:   {
+                timestamp: util.utcDateTime(),
+                url:       new URL(request.url, (request.socket.encrypted ? 'https' : 'http') + '://' + request.headers.host),
+                method:    request.method,
+                headers:   request.headers,
+                local:     {
                     address: request.socket.localAddress,
                     port:    request.socket.localPort,
                     family:  request.socket.localFamily,
                     cert:    request.socket.encrypted ? request.socket.getCertificate() : null
                 },
-                remote:  {
+                remote:    {
                     address: request.socket.remoteAddress,
                     port:    request.socket.remotePort,
                     family:  request.socket.remoteFamily,
                     cert:    request.socket.encrypted ? request.socket.getPeerCertificate(true) : null
                 },
-                tls:     request.socket.encrypted ? {
+                tls:       request.socket.encrypted ? {
                     auth:  request.socket.authorized || false,
                     error: request.socket.authorizationError || null
                 } : null
@@ -93,9 +93,8 @@ module.exports = async function DAPSApp(
         },
         onToken(token) {
             this.emitEvent('token', {
-                created: util.dateTime(),
-                token,
-                ...util.decodeToken(token)
+                timestamp: util.utcDateTime(),
+                token, ...util.decodeToken(token)
             });
         }
     };
