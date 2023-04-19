@@ -2,7 +2,7 @@ const
     path       = require('path'),
     fs         = require('fs/promises'),
     ca_testbed = path.join(process.env.FUA_JS_APP, 'nrd-ca', 'resources', 'nrd-testbed'),
-    daps_root  = path.join(process.env.FUA_JS_APP, 'daps'),
+    daps_data  = path.join(process.env.FUA_JS_APP, 'daps', 'data'),
     config     = {
         baseURL:      'https://nrd-daps.nicos-rd.com/',
         skipAll:      false,
@@ -13,7 +13,7 @@ const
                 overwrite:         false,
                 input:             path.join(ca_testbed, 'ec/ids/component/alice/connector/client'),
                 transport:         path.join(ca_testbed, 'ec/ids/component/alice/tls-server/server'),
-                output:            path.join(daps_root, 'data/connector/alice/connector'),
+                output:            path.join(daps_data, 'connector/alice/connector'),
                 endpointURL:       'https://alice.nicos-rd.com/',
                 extendedGuarantee: [
                     'idsc:AUDIT_NONE',
@@ -26,7 +26,7 @@ const
                 overwrite:         false,
                 input:             path.join(ca_testbed, 'ec/ids/component/bob/connector/client'),
                 transport:         path.join(ca_testbed, 'ec/ids/component/bob/tls-server/server'),
-                output:            path.join(daps_root, 'data/connector/bob/connector'),
+                output:            path.join(daps_data, 'connector/bob/connector'),
                 endpointURL:       'https://bob.nicos-rd.com/',
                 extendedGuarantee: [
                     'idsc:AUDIT_NONE',
@@ -37,19 +37,19 @@ const
             'FIRWARE/dev':          {
                 input:       path.join(ca_testbed, 'ec/ids/cut/FIWARE/dev/connector/client'),
                 transport:   path.join(ca_testbed, 'ec/ids/cut/FIWARE/dev/tls-server/server'),
-                output:      path.join(daps_root, 'data/connector/FIWARE/dev/connector'),
+                output:      path.join(daps_data, 'connector/FIWARE/dev/connector'),
                 endpointURL: 'https://fiware.dev/'
             },
             'FIRWARE/car-kim':      {
                 input:       path.join(ca_testbed, 'ec/ids/cut/FIWARE/car-kim/connector/client'),
                 transport:   path.join(ca_testbed, 'ec/ids/cut/FIWARE/car-kim/tls-server/server'),
-                output:      path.join(daps_root, 'data/connector/FIWARE/car-kim/connector'),
+                output:      path.join(daps_data, 'connector/FIWARE/car-kim/connector'),
                 endpointURL: 'https://car-kim.fiware-dataspace-connector.org/'
             },
             'FIRWARE/platform-kim': {
                 input:       path.join(ca_testbed, 'ec/ids/cut/FIWARE/platform-kim/connector/client'),
                 transport:   path.join(ca_testbed, 'ec/ids/cut/FIWARE/platform-kim/tls-server/server'),
-                output:      path.join(daps_root, 'data/connector/FIWARE/platform-kim/connector'),
+                output:      path.join(daps_data, 'connector/FIWARE/platform-kim/connector'),
                 endpointURL: 'https://platform-kim.fiware-dataspace-connector.org/'
             }
         }
@@ -71,7 +71,7 @@ Promise.all(Object.entries(config.connectors).map(async function importConnector
 
     const
         outputName   = path.basename(connectorConfig.output),
-        connectorURI = path.relative(path.dirname(__dirname), path.dirname(connectorConfig.output)).replace(/\\/g, '/').replace(/\/(?=[^/]+$)/, '#');
+        connectorURI = path.relative(daps_data, path.dirname(connectorConfig.output)).replace(/\\/g, '/').replace(/\/(?=[^/]+$)/, '#');
 
     const [inputMeta, transportMeta, publicKey] = await Promise.all([
         fs.readFile(connectorConfig.input + '.json', 'utf-8').then(data => JSON.parse(data)),
