@@ -39,7 +39,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@git02.int.nsc.ag:10022/Research/fua/app/daps.git"
+    "url": "ssh://git@git02.int.nsc.ag:10022/research/fua/app/daps.git"
   },
   "keywords": [
     "DAPS",
