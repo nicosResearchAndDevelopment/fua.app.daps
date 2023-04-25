@@ -12,4 +12,5 @@
 ## Deployment
 
 - **publish:** `npm publish`
-- **build:** `docker build --no-cache --tag git02.int.nsc.ag/research/fua/registry/fua.app.daps:<version-tag> .`
+- **build:** `docker build --no-cache --tag git02.int.nsc.ag:4567/research/fua/registry/fua.app.daps:<version-tag> .`
+- **push:** `docker push git02.int.nsc.ag:4567/research/fua/registry/fua.app.daps:<version-tag>`
