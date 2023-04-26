@@ -14,7 +14,8 @@
 @prefix ecm:  <https://www.nicos-rd.com/fua/ecosystem#> .
 @prefix daps: <https://www.nicos-rd.com/fua/daps#> .
 
-@base <https://nrd-daps.nicos-rd.com/> .
+#@base <https://nrd-daps.nicos-rd.com/> .
+@base <https://daps.tb.nicos-rd.com/> .
 
 <>
     a                    ids:DAPS ;

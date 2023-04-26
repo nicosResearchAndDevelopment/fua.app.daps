@@ -1,7 +1,8 @@
 const
     path = require('path');
 
-exports.uri = 'https://nrd-daps.nicos-rd.com/';
+// exports.uri = 'https://nrd-daps.nicos-rd.com/';
+exports.uri = 'https://daps.tb.nicos-rd.com/';
 
 exports.context = {
     ...require('@nrd/fua.resource.data/context'),
