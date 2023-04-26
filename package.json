@@ -25,7 +25,8 @@
   "devDependencies": {
     "mocha": "^8.2.1",
     "expect": "^26.6.2",
-    "@nrd/fua.ids.client.daps": "^1.0.0"
+    "@nrd/fua.ids.client.daps": "^1.0.0",
+    "@nrd/fua.module.subprocess": "^1.0.0"
   },
   "scripts": {
     "test": "mocha",
