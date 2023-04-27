@@ -185,7 +185,7 @@ class DAPSAgent extends ServerAgent {
                  * In the context of the IDS, this must be a valid DAPS.
                  * The "iss" value must be a valid URL for the DAPS such as "https://daps.aisec.fraunhofer.de".
                  */
-                'iss': this.url,
+                'iss': this.uri,
                 /**
                  * Subject the requesting connector the token is created for. This is the connector requesting the DAT.
                  * The sub value must be the combined entry of the SKI and AKI of the IDS X509 as presented in Sec. 4.2.1.
