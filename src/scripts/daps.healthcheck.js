@@ -12,7 +12,7 @@ const
             'Accept': 'application/ld+json'
         },
         agent:   new https.Agent({
-            ca: config.server.options.ca
+            rejectUnauthorized: false
         })
     };
 
