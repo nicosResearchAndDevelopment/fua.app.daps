@@ -36,9 +36,5 @@ ENV PATH="$PATH:/opt/gbx/node_modules/.bin"
 # 7. Define image setup and application entrypoint.
 
 EXPOSE $SERVER_PORT
-
-# TODO add healthcheck script and do not rely on curl
-#HEALTHCHECK --start-period=10s --interval=5m --timeout=10s --retries=3 \
-#    CMD curl -f https://${SERVER_HOST}:${SERVER_PORT}/ || exit 1
-
+HEALTHCHECK CMD fua.app.daps.healthcheck
 ENTRYPOINT fua.app.daps
