@@ -19,6 +19,7 @@ async function initRuntime() {
     runtime.docker  = ExecutionProcess('docker', {cwd: runtime.cwd, verbose: true});
     await runtime.npm({version: true});
     await runtime.docker({version: true});
+    await runtime.docker({help: true});
     return runtime;
 }
 
