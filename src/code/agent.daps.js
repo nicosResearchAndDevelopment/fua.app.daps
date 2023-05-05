@@ -5,6 +5,7 @@ const
     model                = require('./model.daps.js'),
     ServerAgent          = require('@nrd/fua.agent.server'),
     // jose = require('@nrd/fua.module.jose'),
+    {URL}                = require('url'),
     {jwtVerify, SignJWT} = require('jose');
 
 // SEE https://git02.int.nsc.ag/spetrac/idsa-infomodel/-/tree/master/daps
@@ -18,12 +19,15 @@ class DAPSAgent extends ServerAgent {
     #build = () => Promise.reject(new Error('not initialized'));
     /** @type {fua.app.daps.model.DAPS} */
     #daps  = null;
+    #meta  = {};
 
     constructor(options = {}) {
         super(options);
 
         if (options.datContextURL) this.#datContextURL = options.datContextURL;
         if (options.datContext) this.#datContext = options.datContext;
+
+        if (util.isObject(options.daps)) Object.assign(this.#meta, options.daps);
     } // DAPSAgent#constructor
 
     async initialize(options = {}) {
@@ -329,12 +333,12 @@ class DAPSAgent extends ServerAgent {
 
     createAbout() {
         return {
-            'issuer': this.#daps['@id']
+            'issuer':           this.#daps['@id'],
+            'token_endpoint':   this.#meta.tokenPath && new URL(this.#meta.tokenPath, this.uri) || undefined,
+            'jwks_uri':         this.#meta.jwksPath && new URL(this.#meta.jwksPath, this.uri) || undefined,
+            'scopes_supported': ['idsc:IDS_CONNECTOR_ATTRIBUTES_ALL']
             // TODO
             // 'authorization_endpoint':                           'https://omejdn-daps.nicos-rd.com:8082/auth/authorize',
-            // 'token_endpoint':                                   'https://omejdn-daps.nicos-rd.com:8082/auth/token',
-            // 'jwks_uri':                                         'https://omejdn-daps.nicos-rd.com:8082/auth/jwks.json',
-            // 'scopes_supported':                                 ['idsc:IDS_CONNECTOR_ATTRIBUTES_ALL', 'openid'],
             // 'response_types_supported':                         ['code'],
             // 'response_modes_supported':                         ['query', 'fragment', 'form_post'],
             // 'grant_types_supported':                            ['authorization_code', 'client_credentials'],

@@ -2,10 +2,11 @@
 
 const
     config         = require('../config/config.daps.js'),
+    {URL}          = require('url'),
     https          = require('https'),
     fetch          = require('node-fetch'),
     issuerURI      = config.space.uri,
-    aboutURL       = `${config.server.schema}://${config.server.hostname}:${config.server.port}${config.daps.aboutPath[0]}`,
+    aboutURL       = new URL(config.daps.aboutPath, `${config.server.schema}://${config.server.hostname}:${config.server.port}`),
     requestOptions = {
         method:  'GET',
         headers: {

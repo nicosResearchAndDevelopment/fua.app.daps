@@ -21,6 +21,7 @@ const
         context:  config.space.context,
         store:    config.space.store,
         server:   config.server.options,
+        daps:     config.daps,
         app:      true,
         io:       true,
         domain:   true

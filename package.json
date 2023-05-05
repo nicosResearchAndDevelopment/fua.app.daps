@@ -1,6 +1,6 @@
 {
   "name": "@nrd/fua.app.daps",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "",
   "bin": {
     "fua.app.daps": "./src/launch.daps.js",
@@ -33,7 +33,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "start": "node src/launch.daps.js"
+    "start": "node src/launch.daps.js",
+    "healthcheck": "node src/scripts/daps.healthcheck.js"
   },
   "mocha": {
     "bail": false,
