@@ -17,6 +17,7 @@
     "bcrypt": "^5.0.1",
     "jose": "^4.2.0",
     "@nrd/fua.agent.server": "^1.0.1",
+    "@nrd/fua.core.app": "^1.0.2",
     "@nrd/fua.core.util": "^1.0.0",
     "@nrd/fua.module.rdf": "^1.0.0",
     "@nrd/fua.module.persistence": "^1.0.0",
