@@ -23,7 +23,7 @@
     "@nrd/fua.module.persistence": "^1.0.0",
     "@nrd/fua.module.persistence.filesystem": "^1.0.0",
     "@nrd/fua.resource.ontology": "^1.0.0",
-    "@nrd/fua.resource.data": "^1.0.0",
+    "@nrd/fua.resource.context": "^1.0.0",
     "@nrd/fua.module.space": "^1.0.0"
   },
   "devDependencies": {

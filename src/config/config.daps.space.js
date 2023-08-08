@@ -5,7 +5,7 @@ const
 exports.uri = 'https://daps.tb.nicos-rd.com/';
 
 exports.context = {
-    ...require('@nrd/fua.resource.data/context'),
+    ...require('@nrd/fua.resource.context'),
 
     'ids':  'https://w3id.org/idsa/core/',
     'idsc': 'https://w3id.org/idsa/code/',
