@@ -24,12 +24,8 @@ exports.store = {
             {
                 'dct:identifier': path.join(__dirname, '../..', 'data/load.json'),
                 'dct:format':     'application/fua.load+json'
-            }
-            // require('@nrd/fua.resource.ontology/rdf'),
-            // require('@nrd/fua.resource.ontology/rdfs'),
-            // require('@nrd/fua.resource.ontology/owl'),
-            // require('@nrd/fua.resource.ontology/foaf'),
-            // require('@nrd/fua.resource.ontology/odrl')
+            },
+            require('@nrd/fua.resource.ontology.core')
         ]
     }
 };
