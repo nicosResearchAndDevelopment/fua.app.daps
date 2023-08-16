@@ -1,0 +1,45 @@
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix ids:  <https://w3id.org/idsa/core/> .
+@prefix idsc: <https://w3id.org/idsa/code/> .
+
+@prefix fua:  <https://www.nicos-rd.com/fua#> .
+@prefix daps: <https://www.nicos-rd.com/fua/daps#> .
+
+@base <https://daps.tb.nicos-rd.com/> .
+
+<connector/DBX#SWC-1>
+    a                        ids:Connector, ids:BaseConnector ;
+    ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
+    # ids:extendedGuarantee    <...> ;
+    ids:transportCertsSha256 "2f66f5e7b50117bd9e6c432d6ceff411b3c70bc54bb7db75f8654ebd15f93403" ;
+    ids:publicKey            [ a            ids:PublicKey ;
+                               daps:keyId   "D1:30:D6:B4:18:95:AE:8A:F5:3D:50:F7:BF:2E:D5:38:46:02:51:FE:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F" ;
+                               ids:keyType  idsc:RSA ;
+                               ids:keyValue """
+                                   LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJB
+                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUE3cm9MMkRJejBsNERyS2taajZ0Lwo2ZEli
+                                   aWkvOVlaZ0lHSDk5ZEhYY1JwWW4zK2xSYTJtd2ZKMUxORi8yWEFxWEM1ejVtU0hB
+                                   YUhHOE1kRjgwZXpPCm9OeUVTU3JLQWFzMG4rYmRqRXdieHVUVS9YUDJ0SFhSUVc5
+                                   bzRqam56VE1uSVB6b3J3OXFZYWI3eWZmNjlOMWwKUnVDdkNsdEF1RjdiV2FYWlVO
+                                   cERHSmFmaHZWbTl2NmxKWGZtd2xocTdYK00wZ1lYNDF6czkwTzQxVWdaRUJEbwpS
+                                   anBETlFlTmk5UFhlQlZ0R0NBS3A4TlIza0tZNjlQZk5mRk9LMWhuT05rdXBhaE11
+                                   YkYzVWdnMmZ5ZnkrVjI1ClV5TjduZzlINlFtTW9iNm1SY1dRZ3B0N2RFMnpMVHVn
+                                   S1JQTExwYVRIK053TVBXaVJ5enk1d0xubGZ0Q09JQ08KVU9veDg4MmhnTlVJb3Ir
+                                   b3JiWVpuWWFnbkdON2xXMklIaEdZTkdlMDBENFMwSHlkTDY2RGtjcXhOV0w0NHMv
+                                   NAo4VkE3UVdzZitBZnRwUlB6MG1acmxjZ2hlTXgrRkdaRzMxcEpqUnBhcXhEWjc0
+                                   M2o2dEVOSDJQNFpBeDE4WFpmCithc2g5YTFvNGZwdWk1VTVkdDRIRUNKaEM2UnY2
+                                   ZWdBNUwxbjlRTkZObENkQU1BWnBXSTduQ1NnUkp2NnMxT3kKTEZLSUFSK3lxSFdZ
+                                   eXArRGFsb1VHeDlkMEc4NDRhS1FZVHpqWExZSVh1RWxlRWQzMUtuOG1mWWprRkJU
+                                   UHUzWAo1c3dtWFlUbXhNQzVuTmF1YThpUG5RUUxVV1BPZmhaOEsrZTdQaFQ2emlk
+                                   aGYzN3dqMXp1NzhhVXJYYmpGalg4CnFzNmp5K1dXMDFnNzdmQVMxZzIzQTZjQ0F3
+                                   RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=
+                               """^^xsd:base64Binary ; ] ;
+    ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
+                               ids:accessURL "https://semantic-web.com/"^^xsd:anyURI ; ] ;
+    ids:authInfo             [ a                ids:AuthInfo ;
+                               ids:authService  <> ;
+                               ids:authStandard idsc:OAUTH2_JWT ; ] ;
+.

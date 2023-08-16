@@ -1,0 +1,45 @@
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix ids:  <https://w3id.org/idsa/core/> .
+@prefix idsc: <https://w3id.org/idsa/code/> .
+
+@prefix fua:  <https://www.nicos-rd.com/fua#> .
+@prefix daps: <https://www.nicos-rd.com/fua/daps#> .
+
+@base <https://daps.tb.nicos-rd.com/> .
+
+<connector/WNW#IMW-1>
+    a                        ids:Connector, ids:BaseConnector ;
+    ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
+    # ids:extendedGuarantee    <...> ;
+    ids:transportCertsSha256 "14de01f8bb593562721f1e6b7b75cd33fcdd2eeb47f6f1986cc9214c6104ed6c" ;
+    ids:publicKey            [ a            ids:PublicKey ;
+                               daps:keyId   "CE:AA:7D:A9:74:7D:A3:00:67:B1:4C:75:A7:65:B7:FB:39:92:31:F9:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F" ;
+                               ids:keyType  idsc:RSA ;
+                               ids:keyValue """
+                                   LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJB
+                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUF6dmMzeWt1THllMXhaWDNIVS9vdgo0Y1M2
+                                   NUl5cENYSWtKYktHMExub2ZGNHVIbmVvZmVqdVcvZjdyd05OVnFRcHZtNjdmNVBS
+                                   Z3paN0Z3UGZ1WFl3CmJVaXl5OHdyajcvQ29KcHRTWGZSbkZZOWxuT1RYbDlNNlho
+                                   SWgrYXVYM0h1cnZzZEZUd0V4SStxOEZaSng0N2sKcm4yeU9LaGlvVDk5YmJoMy9F
+                                   ckFZOVAyL01lblhmVEhvdm91OG1iTDMybHFaRzhESG45Ty9tRlZ5QXBZdGhTSQpy
+                                   VXQvWlJlQVVCYm8weTRFOFpldEVzVHNPcEF0d0I2WlR1THZFV09lRGY4OG4vd0pR
+                                   Qi8vZGp2SVo2QmUvaTZYCjdtcDZneUVjTWl3RlNLNk5Xb3dKRVlrOHNIa2pTSFlp
+                                   a1huVXhpRStTRExjWVlLREpsbHRvZVZ1UnR4Ky83WmoKUnAxTTNFS1hpNWZKLzZS
+                                   WVFJWjFUeXNDTWU4bkErcXptY1BSTm43QlFqR0d3TUFRU3VDYWg1cVdXSFlPaFRL
+                                   QwoySEQ1U09NVHRjNi85Y3YrbVE5N3hEbVEyWTRuMWNZVDJQN0RxRmYrb1Evcnhk
+                                   aUNkZUVzbHFQSmZyN21aT2o1CmwxV0ZJOVhiNHZ6dXU1NEdsalk3eW1qVDR0azYy
+                                   cXV4OWxUZXZtQUt0dW9jMERhMTNPVDd0bnRVTVZWbG1pTE8KNUdGVUVwQ2ZxY0FV
+                                   dzh2MGVhWlBzQ010aUI0N2tRa0UvWE1VeXF3a0VraHZSSDcvZ1phVHY0T2FRVXRC
+                                   djgxMgpjalliS1c4ZnJFZzR3ZERLSTlCTTcxNVV2clU5N1pvTHhNUUpPdDZIaDFE
+                                   MVkzd2VnSS9lR0hWeHNoWFVoREJpCi9oa3EzaFlYTktlSTloRE5ES1EwVGswQ0F3
+                                   RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=
+                               """^^xsd:base64Binary ; ] ;
+    ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
+                               ids:accessURL "https://www.imw.fraunhofer.de/"^^xsd:anyURI ; ] ;
+    ids:authInfo             [ a                ids:AuthInfo ;
+                               ids:authService  <> ;
+                               ids:authStandard idsc:OAUTH2_JWT ; ] ;
+.

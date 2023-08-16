@@ -1,0 +1,8 @@
+{
+    "Issuer": "C = DE, ST = NRW, L = Muenster, O = nicos Research & Development GmbH, CN = tb, CN = ec, CN = ids, CN = ec_ids_component_ca",
+    "Subject": "C = AT, O = Semantic Web Company GmbH, CN = *.semantic-web.com",
+    "SKI": "D1:30:D6:B4:18:95:AE:8A:F5:3D:50:F7:BF:2E:D5:38:46:02:51:FE",
+    "AKI": "keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F",
+    "SKIAKI": "D1:30:D6:B4:18:95:AE:8A:F5:3D:50:F7:BF:2E:D5:38:46:02:51:FE:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F",
+    "certSha256Fingerprint": "4a4f6dc1950c8348884b9da116cb93fe02b26e906fdee47d37d2b5c94da6a1eb"
+}

@@ -40,6 +40,78 @@
       "dct:format": "text/turtle",
       "dct:title": "fiware.platform-kim.connector.ttl",
       "dct:alternative": "FIWARE KIM Analytics Platform Connector"
+    },
+    {
+      "dct:identifier": "./WNW/FIT-1/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "wnw.fit-1.connector.ttl",
+      "dct:alternative": "WertNetzWerke Fraunhofer FIT Connector 1"
+    },
+    {
+      "dct:identifier": "./WNW/FIT-2/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "wnw.fit-2.connector.ttl",
+      "dct:alternative": "WertNetzWerke Fraunhofer FIT Connector 2"
+    },
+    {
+      "dct:identifier": "./WNW/FIT-3/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "wnw.fit-3.connector.ttl",
+      "dct:alternative": "WertNetzWerke Fraunhofer FIT Connector 3"
+    },
+    {
+      "dct:identifier": "./WNW/IMW-1/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "wnw.imw-1.connector.ttl",
+      "dct:alternative": "WertNetzWerke Fraunhofer IMW Connector 1"
+    },
+    {
+      "dct:identifier": "./WNW/IMW-2/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "wnw.imw-2.connector.ttl",
+      "dct:alternative": "WertNetzWerke Fraunhofer IMW Connector 2"
+    },
+    {
+      "dct:identifier": "./WNW/IMW-3/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "wnw.imw-3.connector.ttl",
+      "dct:alternative": "WertNetzWerke Fraunhofer IMW Connector 3"
+    },
+    {
+      "dct:identifier": "./DBX/SWC-1/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.swc-1.connector.ttl",
+      "dct:alternative": "DataBri-X Semantic Web Company Connector 1"
+    },
+    {
+      "dct:identifier": "./DBX/SWC-2/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.swc-2.connector.ttl",
+      "dct:alternative": "DataBri-X Semantic Web Company Connector 2"
+    },
+    {
+      "dct:identifier": "./DBX/SWC-3/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.swc-3.connector.ttl",
+      "dct:alternative": "DataBri-X Semantic Web Company Connector 3"
+    },
+    {
+      "dct:identifier": "./DBX/DUM-1/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.dum-1.connector.ttl",
+      "dct:alternative": "DataBri-X Dummy Connector 1"
+    },
+    {
+      "dct:identifier": "./DBX/DUM-2/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.dum-2.connector.ttl",
+      "dct:alternative": "DataBri-X Dummy Connector 2"
+    },
+    {
+      "dct:identifier": "./DBX/DUM-3/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.dum-3.connector.ttl",
+      "dct:alternative": "DataBri-X Dummy Connector 3"
     }
   ]
 }

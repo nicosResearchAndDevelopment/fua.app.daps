@@ -22,4 +22,16 @@
     ids:listedConnector <connector/FIWARE#dev> ;
     ids:listedConnector <connector/FIWARE#car-kim> ;
     ids:listedConnector <connector/FIWARE#platform-kim> ;
+    ids:listedConnector <connector/WNW#FIT-1> ;
+    ids:listedConnector <connector/WNW#FIT-2> ;
+    ids:listedConnector <connector/WNW#FIT-3> ;
+    ids:listedConnector <connector/WNW#IMW-1> ;
+    ids:listedConnector <connector/WNW#IMW-2> ;
+    ids:listedConnector <connector/WNW#IMW-3> ;
+    ids:listedConnector <connector/DBX#SWC-1> ;
+    ids:listedConnector <connector/DBX#SWC-2> ;
+    ids:listedConnector <connector/DBX#SWC-3> ;
+    ids:listedConnector <connector/DBX#DUM-1> ;
+    ids:listedConnector <connector/DBX#DUM-2> ;
+    ids:listedConnector <connector/DBX#DUM-3> ;
 .

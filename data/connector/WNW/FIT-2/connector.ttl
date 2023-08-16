@@ -1,0 +1,45 @@
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix ids:  <https://w3id.org/idsa/core/> .
+@prefix idsc: <https://w3id.org/idsa/code/> .
+
+@prefix fua:  <https://www.nicos-rd.com/fua#> .
+@prefix daps: <https://www.nicos-rd.com/fua/daps#> .
+
+@base <https://daps.tb.nicos-rd.com/> .
+
+<connector/WNW#FIT-2>
+    a                        ids:Connector, ids:BaseConnector ;
+    ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
+    # ids:extendedGuarantee    <...> ;
+    ids:transportCertsSha256 "211b2ba9786c5023cdfa3f59cd1e95e3327ce2487e0e50c3082c8a3393a355be" ;
+    ids:publicKey            [ a            ids:PublicKey ;
+                               daps:keyId   "D2:D1:8E:AD:1F:78:FB:61:47:7F:76:DA:F3:2F:FA:07:C4:73:B5:4D:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F" ;
+                               ids:keyType  idsc:RSA ;
+                               ids:keyValue """
+                                   LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJB
+                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUEwRzl4NjF6Q0tUbFUwQUFwYzJXYQp2WlpL
+                                   YUloSW9qTnZ1Ym0vTmdzbXZzYWhuejNHWG1NeWVaK3IzdWFkWFJoY29YQzlwTXN4
+                                   ZEljWFo5N0tXdmNnCktPdXlvQWI3aVd1bktwOHo0WFloaGRybE9KWkhzbVFGSG1W
+                                   cmFmcFVJcy9KLy9XYnNoNGxNcUw0OFV6M0sxaHUKaE9kVXl5NVlPTzRiSEdhQlZv
+                                   V0pSRmNJelFMQUlqNU1ZUzMzL3Q5UDB0cm0vaUo3NFlFWGppckdZMk9sMjRjaApo
+                                   UThWYk9mL1A4SUtPbk5DelhFTEU2ZEVFa1p0L25GT0pFbWZyNFFRUWVHMlY0V0d6
+                                   ZGVFTm1aTERFb2lQQkltCkJTZTRNSEUwTG5sNjBtZlpCMTVDajhReDF6TjRlLzBJ
+                                   ZHB3KzJYSlpWdUVRQVhIYWU2dFVIS1U4OWVGSW95cnYKVkhQTFhsTXczSFJMWDBL
+                                   ZUIvV21MdEM0WWx2SjJ5S2djME0xZE9CNTcwMU0xNnR6WmVSUXM3Q1ZHSXZDWWU3
+                                   SQpWbVYwNTg4WmNMRnI4UGpZQmJ6dFdGVldjSHU5dzhiazQwOFB1SHZWeStVZ3BV
+                                   U0tnWURIRkUyVWZQNFdXQ1NRClhnUmg1WTNBc05UcXYvZklnU0FMazlZZmhaVmti
+                                   Q002M1NOV3AyVTNDN0MyVytScGJXSVVXMVZrNmo2TVNtR0gKbytaREltU0F4cjNE
+                                   bVB6YzcrdVVOd0lFVS9GMmsxdGZXOTVTWHNaUjhwVk1KZ09HVkhxVkJDZy9PS0M5
+                                   bzJqSgpTeVcyV2pCYml2Q3UrcUEzYXNydzJFMytka2wrRUUzbjk5aHhkQnh5TmNi
+                                   d2V6Z1ZzL0dpTmtyZEJQeitvSTk1CkhXN2tYc09Hc3IrM2lJSGVVdTVoUTYwQ0F3
+                                   RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=
+                               """^^xsd:base64Binary ; ] ;
+    ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
+                               ids:accessURL "https://www.fit.fraunhofer.de/"^^xsd:anyURI ; ] ;
+    ids:authInfo             [ a                ids:AuthInfo ;
+                               ids:authService  <> ;
+                               ids:authStandard idsc:OAUTH2_JWT ; ] ;
+.

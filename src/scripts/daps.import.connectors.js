@@ -1,10 +1,13 @@
 const
     path       = require('path'),
     fs         = require('fs/promises'),
-    ca_testbed = path.join(process.env.FUA_JS_APP, 'nrd-ca', 'resources', 'nrd-testbed'),
-    daps_data  = path.join(process.env.FUA_JS_APP, 'daps', 'data'),
+    // ca_testbed = path.join(process.env.FUA_JS_APP, 'nrd-ca', 'resources', 'nrd-testbed'),
+    // daps_data  = path.join(process.env.FUA_JS_APP, 'daps', 'data'),
+    ca_testbed = path.join(__dirname, '../../../..', 'script/ca', 'resources/nrd-testbed'),
+    daps_data  = path.join(__dirname, '../..', 'data'),
     config     = {
-        baseURL:      'https://nrd-daps.nicos-rd.com/',
+        // baseURL:      'https://nrd-daps.nicos-rd.com/',
+        baseURL:      'https://daps.tb.nicos-rd.com/',
         skipAll:      false,
         overwriteAll: false,
         connectors:   {
@@ -51,6 +54,78 @@ const
                 transport:   path.join(ca_testbed, 'ec/ids/cut/FIWARE/platform-kim/tls-server/server'),
                 output:      path.join(daps_data, 'connector/FIWARE/platform-kim/connector'),
                 endpointURL: 'https://platform-kim.fiware-dataspace-connector.org/'
+            },
+            'WNW/FIT-1':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/WNW/FIT/1/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/WNW/FIT/1/tls-server/server'),
+                output:      path.join(daps_data, 'connector/WNW/FIT-1/connector'),
+                endpointURL: 'https://www.fit.fraunhofer.de/'
+            },
+            'WNW/FIT-2':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/WNW/FIT/2/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/WNW/FIT/2/tls-server/server'),
+                output:      path.join(daps_data, 'connector/WNW/FIT-2/connector'),
+                endpointURL: 'https://www.fit.fraunhofer.de/'
+            },
+            'WNW/FIT-3':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/WNW/FIT/3/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/WNW/FIT/3/tls-server/server'),
+                output:      path.join(daps_data, 'connector/WNW/FIT-3/connector'),
+                endpointURL: 'https://www.fit.fraunhofer.de/'
+            },
+            'WNW/IMW-1':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/WNW/IMW/1/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/WNW/IMW/1/tls-server/server'),
+                output:      path.join(daps_data, 'connector/WNW/IMW-1/connector'),
+                endpointURL: 'https://www.imw.fraunhofer.de/'
+            },
+            'WNW/IMW-2':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/WNW/IMW/2/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/WNW/IMW/2/tls-server/server'),
+                output:      path.join(daps_data, 'connector/WNW/IMW-2/connector'),
+                endpointURL: 'https://www.imw.fraunhofer.de/'
+            },
+            'WNW/IMW-3':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/WNW/IMW/3/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/WNW/IMW/3/tls-server/server'),
+                output:      path.join(daps_data, 'connector/WNW/IMW-3/connector'),
+                endpointURL: 'https://www.imw.fraunhofer.de/'
+            },
+            'DBX/SWC-1':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/SWC/1/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/SWC/1/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/SWC-1/connector'),
+                endpointURL: 'https://semantic-web.com/'
+            },
+            'DBX/SWC-2':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/SWC/2/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/SWC/2/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/SWC-2/connector'),
+                endpointURL: 'https://semantic-web.com/'
+            },
+            'DBX/SWC-3':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/SWC/3/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/SWC/3/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/SWC-3/connector'),
+                endpointURL: 'https://semantic-web.com/'
+            },
+            'DBX/DUM-1':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/DUM/1/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/DUM/1/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/DUM-1/connector'),
+                endpointURL: 'http://example.org/'
+            },
+            'DBX/DUM-2':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/DUM/2/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/DUM/2/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/DUM-2/connector'),
+                endpointURL: 'http://example.org/'
+            },
+            'DBX/DUM-3':            {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/DUM/3/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/DUM/3/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/DUM-3/connector'),
+                endpointURL: 'http://example.org/'
             }
         }
     };
