@@ -1,13 +1,13 @@
 const
-    {describe, test} = require('mocha'),
-    expect           = require('expect'),
-    https            = require('https'),
-    fetch            = require('node-fetch'),
-    tls_config       = require('./alice-cert/tls-server/server.js'),
-    cert_config      = require('./alice-cert/connector/client.js'),
-    DAPSClient       = require('@nrd/fua.ids.client.daps'),
-    baseUrl          = 'https://daps.tb.nicos-rd.com/',
-    httpAgent        = new https.Agent({
+    {describe, test, before, beforeEach} = require('mocha'),
+    expect                               = require('expect'),
+    https                                = require('https'),
+    fetch                                = require('node-fetch'),
+    tls_config                           = require('./alice-cert/tls-server/server.js'),
+    cert_config                          = require('./alice-cert/connector/client.js'),
+    DAPSClient                           = require('@nrd/fua.ids.client.daps'),
+    baseUrl                              = 'https://daps.tb.nicos-rd.com/',
+    httpAgent                            = new https.Agent({
         key:                tls_config.key,
         cert:               tls_config.cert,
         ca:                 tls_config.ca,
@@ -65,6 +65,56 @@ describe('server.daps', function () {
                 sub: cert_config.meta.SKIAKI
             });
         });
+
+    });
+
+    describe('test the DAT Request for all certificates', function () {
+
+        const certificates = [
+            // alice+bob
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/component/alice/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/component/bob/connector/client.js'),
+            // FIWARE
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/FIWARE/dev/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/FIWARE/platform-kim/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/FIWARE/car-kim/connector/client.js'),
+            // WertNetzWerke
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/WNW/FIT/1/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/WNW/FIT/2/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/WNW/FIT/3/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/WNW/IMW/1/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/WNW/IMW/2/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/WNW/IMW/3/connector/client.js'),
+            // DataBri-X
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/SWC/1/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/SWC/2/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/SWC/3/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/DUM/1/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/DUM/2/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/DUM/3/connector/client.js')
+        ];
+
+        certificates.forEach((cert) => test(cert.meta.SKIAKI, async function () {
+
+            expect(cert).toHaveProperty('privateKey');
+            const dapsClient = new DAPSClient({
+                SKIAKI:       cert.meta.SKIAKI,
+                dapsUrl:      baseUrl,
+                privateKey:   cert.privateKey,
+                requestAgent: httpAgent
+            });
+
+            const dat = await dapsClient.getDat();
+            console.log(dat);
+            expect(typeof dat).toBe('string');
+
+            const datPayload = await dapsClient.validateDat(dat);
+            console.log(datPayload);
+            expect(datPayload).toMatchObject({
+                sub: cert.meta.SKIAKI
+            });
+
+        }));
 
     });
 
