@@ -1,6 +1,6 @@
 {
   "name": "@nrd/fua.app.daps",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "",
   "bin": {
     "fua.app.daps": "./src/launch.daps.js",
