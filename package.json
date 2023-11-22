@@ -1,10 +1,10 @@
 {
   "name": "@nrd/fua.app.daps",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "description": "",
   "bin": {
-    "fua.app.daps": "./src/launch.daps.js",
-    "fua.app.daps.healthcheck": "./src/scripts/daps.healthcheck.js"
+    "fua.app.daps": "./src/launch.js",
+    "fua.app.daps.healthcheck": "./src/script/healthcheck.js"
   },
   "files": [
     "src/*",
@@ -12,30 +12,30 @@
   ],
   "dependencies": {
     "express": "^4.17.1",
-    "socket.io": "^3.0.5",
-    "node-fetch": "^2.6.1",
-    "bcrypt": "^5.0.1",
     "jose": "^4.2.0",
-    "@nrd/fua.agent.server": "^1.0.1",
-    "@nrd/fua.core.app": "^1.0.2",
-    "@nrd/fua.core.util": "^1.0.0",
-    "@nrd/fua.module.rdf": "^1.0.0",
-    "@nrd/fua.module.persistence": "^1.0.0",
+    "@nrd/fua.agent.app": "^1.0.0",
+    "@nrd/fua.core.assert": "^1.0.0",
+    "@nrd/fua.core.is": "^1.0.4",
+    "@nrd/fua.core.ts": "^1.0.1",
+    "@nrd/fua.core.tty": "^1.0.0",
+    "@nrd/fua.core.uuid": "^1.0.1",
+    "@nrd/fua.core.async": "^1.0.0",
+    "@nrd/fua.core.errors": "^1.0.1",
+    "@nrd/fua.module.space": "^1.0.0",
+    "@nrd/fua.agent.space": "^1.0.0",
     "@nrd/fua.module.persistence.filesystem": "^1.0.0",
-    "@nrd/fua.resource.ontology.core": "^1.0.0",
-    "@nrd/fua.resource.context": "^1.0.3",
-    "@nrd/fua.module.space": "^1.0.0"
+    "@nrd/fua.resource.ontology.core": "^1.0.1"
   },
   "devDependencies": {
     "mocha": "^8.2.1",
     "expect": "^26.6.2",
-    "@nrd/fua.ids.client.daps": "^1.0.0",
+    "@nrd/fua.ids.client.daps": "^1.0.1",
     "@nrd/fua.module.subprocess": "^1.0.0"
   },
   "scripts": {
     "test": "mocha",
-    "start": "node src/launch.daps.js",
-    "healthcheck": "node src/scripts/daps.healthcheck.js"
+    "start": "node src/launch.js",
+    "healthcheck": "node src/script/healthcheck.js"
   },
   "mocha": {
     "bail": false,

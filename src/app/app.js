@@ -3,7 +3,8 @@ const
     is      = require('@nrd/fua.core.is'),
     ts      = require('@nrd/fua.core.ts'),
     tty     = require('@nrd/fua.core.tty'),
-    util    = require('@nrd/fua.core.util'),
+    async   = require('@nrd/fua.core.async'),
+    errors  = require('@nrd/fua.core.errors'),
     express = require('express');
 
 module.exports = async function ({server: {server, app, io}, amec, daps, ...config}) {
@@ -213,7 +214,7 @@ module.exports = async function ({server: {server, app, io}, amec, daps, ...conf
                 case 'list':
                     return Array.from(this.matchers);
                 default:
-                    throw new util.HTTPRequestError(404);
+                    throw new errors.http.RequestError(404);
             }
         }, // _datTweaker.configure
         async configRoute(request, response, next) {
@@ -224,7 +225,7 @@ module.exports = async function ({server: {server, app, io}, amec, daps, ...conf
                 if (!result) response.status(200).end();
                 else response.type('json').send(JSON.stringify(result));
             } catch (err) {
-                if (err instanceof util.HTTPRequestError) response.status(err.status).send(err.statusText);
+                if (err instanceof errors.http.RequestError) response.status(err.status).send(err.statusText);
                 else next(err);
             }
         }, // _datTweaker.configRoute
@@ -321,7 +322,6 @@ module.exports = async function ({server: {server, app, io}, amec, daps, ...conf
 
     if (io && config.tweakDat?.configPath) io
         .of(config.tweakDat.configPath)
-        .on('connection', (socket) => socket.onAny(util.callbackify(_datTweaker.configure).bind(_datTweaker)))
-        .on('connection', (socket) => socket.onAny(util.callbackify(_datTweaker.configure).bind(_datTweaker)));
+        .on('connection', (socket) => socket.onAny(async.callbackify(_datTweaker.configure).bind(_datTweaker)));
 
 };
