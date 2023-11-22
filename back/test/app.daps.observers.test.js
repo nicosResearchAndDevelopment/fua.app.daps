@@ -3,12 +3,14 @@ const
     expect           = require('expect'),
     https            = require('https'),
     fetch            = require('node-fetch'),
-    config           = require('../src/config/config.daps.js'),
+    socketIoClient   = require('socket.io-client'),
+    util             = require('@nrd/fua.core.util'),
+    config           = require('../config/config.daps.js'),
     tls_config       = require('./alice-cert/tls-server/server.js'),
     cert_config      = require('./alice-cert/connector/client.js'),
-    DAPSAgent        = require('../src/code/agent.daps.js'),
+    DAPSAgent        = require('../code/agent.daps.js'),
     DAPSClient       = require('@nrd/fua.ids.client.daps'),
-    DAPSApp          = require('../src/app.daps.js'),
+    DAPSApp          = require('../app.daps.js'),
     baseUrl          = `${config.server.schema}://${config.server.hostname}:${config.server.port}/`,
     httpAgent        = new https.Agent({
         key:                tls_config.key,
@@ -17,13 +19,13 @@ const
         rejectUnauthorized: false
     });
 
-describe('app.daps', function () {
+describe('app.daps.observers', function () {
 
     this.timeout('60s');
 
-    let dapsAgent = null;
+    let dapsAgent, dapsClient, ioSocket;
 
-    before('initialize agent and start app', async function () {
+    before('initialize agent, app and client', async function () {
         dapsAgent = await DAPSAgent.create({
             schema:   config.server.schema,
             hostname: config.server.hostname,
@@ -36,45 +38,39 @@ describe('app.daps', function () {
             domain:   true
         });
         await DAPSApp({
-            'config': config,
+            'config': {
+                tokenPath:       '/token',
+                jwksPath:        '/jwks.json',
+                aboutPath:       '/about',
+                requestObserver: {
+                    namespacePath: '/observe'
+                }
+            },
             'agent':  dapsAgent
         });
+        dapsClient = new DAPSClient({
+            SKIAKI:        cert_config.meta.SKIAKI,
+            dapsUrl:       baseUrl,
+            privateKey:    cert_config.privateKey,
+            requestAgent:  httpAgent,
+            dapsTokenPath: '/token',
+            dapsJwksPath:  '/jwks.json'
+        });
+        ioSocket   = socketIoClient.io(`${baseUrl}observe`, {agent: httpAgent});
+        if (!ioSocket.connected) await new Promise(resolve => ioSocket.once('connect', resolve));
+        ioSocket.on('request', data => console.dir(data, {depth: 1}));
+        ioSocket.on('token', util.logObject);
     });
 
     after('close the agent', async function () {
+        ioSocket.close();
         await dapsAgent.close();
     });
 
-    test('get the jwks.json with the usual route', async function () {
-        const response = await fetch(baseUrl + '.well-known/jwks.json', {
-            agent: httpAgent
-        });
-        expect(response.ok).toBeTruthy();
-        const jwks = await response.json();
-        console.log(jwks);
-        expect(Array.isArray(jwks?.keys)).toBeTruthy();
-        for (let key of jwks.keys) {
-            expect(typeof key?.kid).toBe('string');
-            expect(typeof key?.kty).toBe('string');
-        }
-    });
-
-    describe('use the daps.client', function () {
-
-        let dapsClient = null;
-
-        before('construct the daps client', function () {
-            dapsClient = new DAPSClient({
-                SKIAKI:       cert_config.meta.SKIAKI,
-                dapsUrl:      baseUrl,
-                privateKey:   cert_config.privateKey,
-                requestAgent: httpAgent
-            });
-        });
+    describe('basic usage', function () {
 
         test('get the jwks', async function () {
             const jwks = await dapsClient.getJwks();
-            console.log(jwks);
             expect(Array.isArray(jwks?.keys)).toBeTruthy();
             for (let key of jwks.keys) {
                 expect(typeof key?.kid).toBe('string');
@@ -84,12 +80,20 @@ describe('app.daps', function () {
 
         test('get a dat and validate it', async function () {
             const dat = await dapsClient.getDat();
-            console.log(dat);
             expect(typeof dat).toBe('string');
             const datPayload = await dapsClient.validateDat(dat);
-            console.log(datPayload);
             expect(datPayload).toMatchObject({
                 sub: cert_config.meta.SKIAKI
+            });
+        });
+
+        test('get the meta information', async function () {
+            const request = await fetch(`${baseUrl}about`, {agent: httpAgent});
+            expect(request.ok).toBeTruthy();
+            const metaInfo = await request.json();
+            expect(metaInfo).toMatchObject({
+                // issuer: baseUrl
+                issuer: `${config.server.schema}://${config.server.hostname}/`
             });
         });
 

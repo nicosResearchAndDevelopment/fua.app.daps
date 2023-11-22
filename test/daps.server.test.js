@@ -14,7 +14,7 @@ const
         rejectUnauthorized: false
     });
 
-describe('server.daps', function () {
+describe('fua.app.daps.server', function () {
 
     this.timeout('60s');
 
