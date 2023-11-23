@@ -276,7 +276,10 @@ module.exports = async function ({server: {server, app, io}, amec, daps, ...conf
     }; // _datTweaker
 
     const _ioApp = express.Router();
-    if (io) io.engine.use(_ioApp);
+    if (io) io.engine.use((request, response, next) => _ioApp(request, response, (err) => {
+        if (err instanceof Error) next(errors.toJSON(err));
+        else next(err);
+    }));
 
     if (config.requestObserver)
         _requestObserver.connectListeners(server).initializeIO();
@@ -325,6 +328,14 @@ module.exports = async function ({server: {server, app, io}, amec, daps, ...conf
 
     if (io && config.tweakDat?.configPath) io
         .of(config.tweakDat.configPath)
-        .on('connection', (socket) => socket.onAny(async.callbackify(_datTweaker.configure).bind(_datTweaker)));
+        // .on('connection', (socket) => socket.onAny(async.callbackify(_datTweaker.configure).bind(_datTweaker)))
+        .on('connection', (socket) => socket.onAny((type, param, ack) => {
+            try {
+                const result = _datTweaker.configure(type, param);
+                ack(null, result);
+            } catch (err) {
+                ack(errors.toJSON(err));
+            }
+        }));
 
 };

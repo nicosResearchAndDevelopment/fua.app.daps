@@ -4,6 +4,8 @@ const
     path                            = require('path'),
     {SignJWT, jwtVerify}            = require('jose'),
     socketIoClient                  = require('socket.io-client'),
+    is                              = require('@nrd/fua.core.is'),
+    errors                          = require('@nrd/fua.core.errors'),
     ts                              = require('@nrd/fua.core.ts'),
     subprocess                      = require('@nrd/fua.module.subprocess'),
     DAPSClient                      = require('@nrd/fua.ids.client.daps'),
@@ -183,7 +185,7 @@ describe('fua.app.daps.tweak', function () {
                         tweak: {
                             custom: 'test'
                         },
-                        end:   Date.now() / 1e3 + 1
+                        end:   Date.now() + 1e3
                     })
                 });
 
@@ -257,7 +259,7 @@ describe('fua.app.daps.tweak', function () {
                 });
             });
 
-            test('and update it after first request', async function () {
+            test('and update it after first request, then remove for cleanup', async function () {
                 await fetch(`${config.url}tweak`, {
                     method:  'POST',
                     headers: {
@@ -319,6 +321,23 @@ describe('fua.app.daps.tweak', function () {
                         }
                     })
                 });
+
+                await fetch(`${config.url}tweak`, {
+                    method:  'POST',
+                    headers: {
+                        'Authorization': config.authorization,
+                        'Content-Type':  'application/json'
+                    },
+                    body:    JSON.stringify({
+                        type:  'delete',
+                        match: {
+                            sub: alice.client.meta.SKIAKI
+                        }
+                    })
+                });
+
+                const thirdResponse = await fetch(datRequest.url, datRequest);
+                expect(thirdResponse.ok).toBeTruthy();
             });
 
         });
@@ -346,7 +365,12 @@ describe('fua.app.daps.tweak', function () {
 
             function callIO(eventName, ...args) {
                 return new Promise((resolve, reject) => {
-                    const acknowledge = (err, result) => err ? reject(err) : resolve(result);
+                    const acknowledge = (err, result) => {
+                        if (!err) resolve(result);
+                        else if (err instanceof Error) reject(err);
+                        else if (is.object(err)) reject(errors.fromJSON(err))
+                        else reject(new Error(err));
+                    };
                     ioSocket.emit(eventName, ...args, acknowledge);
                 });
             }
