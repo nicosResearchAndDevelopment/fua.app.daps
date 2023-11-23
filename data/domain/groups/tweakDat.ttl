@@ -12,7 +12,8 @@
 
 @base <https://daps.tb.nicos-rd.com/> .
 
-<domain/users#spetrac>
-    a         foaf:Agent, dom:User ;
-    foaf:name "Simon Petrac" ;
+<domain/groups#tweakDat>
+    a          foaf:Agent, dom:Group ;
+    foaf:name  "Tweak DAT Group" ;
+    ldp:member <domain/users#testbed> ;
 .

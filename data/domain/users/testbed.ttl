@@ -12,7 +12,9 @@
 
 @base <https://daps.tb.nicos-rd.com/> .
 
-<domain/users#spetrac>
-    a         foaf:Agent, dom:User ;
-    foaf:name "Simon Petrac" ;
+<domain/users#testbed>
+    a            foaf:Agent, dom:User ;
+    foaf:name    "Testbed" ;
+    dom:name     "testbed" ;
+    dom:password "$2b$12$0NF849FXqYQvAy..62otq.ocB.CDcbGfsd2grDJhf0bDBLWLoyK32" ; # "testing"
 .

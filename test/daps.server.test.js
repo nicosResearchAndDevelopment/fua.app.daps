@@ -3,14 +3,13 @@ const
     expect                               = require('expect'),
     https                                = require('https'),
     fetch                                = require('node-fetch'),
-    tls_config                           = require('./alice-cert/tls-server/server.js'),
-    cert_config                          = require('./alice-cert/connector/client.js'),
     DAPSClient                           = require('@nrd/fua.ids.client.daps'),
     baseUrl                              = 'https://daps.tb.nicos-rd.com/',
+    alice                                = require('./alice/index.js'),
     httpAgent                            = new https.Agent({
-        key:                tls_config.key,
-        cert:               tls_config.cert,
-        ca:                 tls_config.ca,
+        key:                alice.server.key,
+        cert:               alice.server.cert,
+        ca:                 alice.server.ca,
         rejectUnauthorized: false
     });
 
@@ -38,9 +37,9 @@ describe('fua.app.daps.server', function () {
 
         before('construct the daps client', function () {
             dapsClient = new DAPSClient({
-                SKIAKI:       cert_config.meta.SKIAKI,
+                SKIAKI:       alice.client.meta.SKIAKI,
                 dapsUrl:      baseUrl,
-                privateKey:   cert_config.privateKey,
+                privateKey:   alice.client.privateKey,
                 requestAgent: httpAgent
             });
         });
@@ -62,7 +61,7 @@ describe('fua.app.daps.server', function () {
             const datPayload = await dapsClient.validateDat(dat);
             console.log(datPayload);
             expect(datPayload).toMatchObject({
-                sub: cert_config.meta.SKIAKI
+                sub: alice.client.meta.SKIAKI
             });
         });
 

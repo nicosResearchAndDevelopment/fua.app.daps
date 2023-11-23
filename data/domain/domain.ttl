@@ -10,7 +10,6 @@
 @prefix dom:  <https://www.nicos-rd.com/fua/domain#> .
 @prefix ecm:  <https://www.nicos-rd.com/fua/ecosystem#> .
 
-#@base <https://nrd-daps.nicos-rd.com/> .
 @base <https://daps.tb.nicos-rd.com/> .
 
 <domain/>
@@ -28,6 +27,7 @@
 <domain/groups#>
     a          dom:Groups ;
     rdfs:label "Groups"@en ;
+    ldp:member <domain/groups#tweakDat> ;
 .
 
 <domain/users#>
@@ -35,7 +35,7 @@
     rdfs:label "Users"@en ;
     ldp:member <domain/users#spetrac> ;
     ldp:member <domain/users#jlangkau> ;
-
+    ldp:member <domain/users#testbed> ;
     ldp:member <connector#alice> ;
     ldp:member <connector#bob> ;
 .

@@ -12,6 +12,12 @@
       "dct:alternative": "DAPS-Server Domain"
     },
     {
+      "dct:identifier": "./groups/tweakDat.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "tweakDat.ttl",
+      "dct:alternative": "Group: Tweak DAT"
+    },
+    {
       "dct:identifier": "./users/spetrac.ttl",
       "dct:format": "text/turtle",
       "dct:title": "spetrac.ttl",
@@ -22,6 +28,12 @@
       "dct:format": "text/turtle",
       "dct:title": "jlangkau.ttl",
       "dct:alternative": "User: Jörg Langkau"
+    },
+    {
+      "dct:identifier": "./users/testbed.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "testbed.ttl",
+      "dct:alternative": "User: Testbed"
     }
   ]
 }

@@ -132,17 +132,19 @@ module.exports = async function ({server: {server, app, io}, amec, daps, ...conf
         async authRoute(request, response, next) {
             try {
                 const auth = await amec.authenticate(request.headers);
-                if (!auth) return response.status(401).end();
-                response.locals.auth = auth;
+                if (!auth) throw new errors.http.RequestError(401);
+                (response.locals ??= {}).auth = auth;
                 next();
             } catch (err) {
-                next(err);
+                if (err instanceof errors.http.RequestError) response.status(err.status).send(err.statusText);
+                else next(err);
             }
         } // _default.authRoute
     }; // _default
 
     const _datTweaker = {
-        matchers: new Set(), // _datTweaker.matchers
+        _authGroup: 'https://daps.tb.nicos-rd.com/domain/groups#tweakDat',
+        matchers:   new Set(), // _datTweaker.matchers
         get(search) {
             assert(is.object(search), 'expected search to be an object');
             const searchKeys = Object.keys(search);
@@ -262,16 +264,19 @@ module.exports = async function ({server: {server, app, io}, amec, daps, ...conf
         async authRoute(request, response, next) {
             try {
                 const auth = response.locals.auth;
-                if (!auth) return response.status(401).end();
-                // TODO access control for tweak routes
-                // if (!auth.access.includes('tweakDat'))
-                //     return response.status(401).end();
+                if (!auth) throw new errors.http.RequestError(401);
+                assert.object(auth, {memberOf: is.array});
+                if (!auth.memberOf.includes(_datTweaker._authGroup)) throw new errors.http.RequestError(401);
                 next();
             } catch (err) {
-                next(err);
+                if (err instanceof errors.http.RequestError) response.status(err.status).send(err.statusText);
+                else next(err);
             }
         } // _datTweaker.authRoute
     }; // _datTweaker
+
+    const _ioApp = express.Router();
+    if (io) io.engine.use(_ioApp);
 
     if (config.requestObserver)
         _requestObserver.connectListeners(server).initializeIO();
@@ -300,18 +305,16 @@ module.exports = async function ({server: {server, app, io}, amec, daps, ...conf
             _default.authRoute.bind(_default)
         );
 
-        if (io) io.use(
-            (socket, next) => _default.authRoute(socket.request, socket.request.res, next)
-        );
+        _ioApp.use(_default.authRoute.bind(_default));
 
-        if (config.tweakDat) app.use(
-            config.tweakDat.configPath || '/',
-            _datTweaker.authRoute.bind(_datTweaker)
-        );
+        if (config.tweakDat) {
+            app.use(
+                config.tweakDat.configPath || '/',
+                _datTweaker.authRoute.bind(_datTweaker)
+            );
 
-        if (io && config.tweakDat) io.of(config.tweakDat.configPath || '/').use(
-            (socket, next) => _datTweaker.authRoute(socket.request, socket.request.res, next)
-        );
+            _ioApp.use(config.tweakDat.configPath || '/', _datTweaker.authRoute.bind(_datTweaker));
+        }
     }
 
     if (config.tweakDat?.configPath) app.post(

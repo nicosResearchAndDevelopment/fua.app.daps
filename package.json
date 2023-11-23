@@ -1,6 +1,6 @@
 {
   "name": "@nrd/fua.app.daps",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "bin": {
     "fua.app.daps": "./src/launch.js",
@@ -13,7 +13,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "jose": "^4.2.0",
-    "@nrd/fua.agent.app": "^1.0.0",
+    "@nrd/fua.agent.app": "^1.0.1",
     "@nrd/fua.core.assert": "^1.0.0",
     "@nrd/fua.core.is": "^1.0.4",
     "@nrd/fua.core.ts": "^1.0.1",
