@@ -11,12 +11,13 @@ const
     DAPSClient                      = require('@nrd/fua.ids.client.daps'),
     alice                           = require('./alice/index.js'),
     config                          = {
-        verbose:       false,
-        windup_time:   ts.duration('20s'),
-        check_delay:   ts.duration('200ms'),
-        url:           'http://localhost:3000/',
-        issuer:        'https://daps.tb.nicos-rd.com/',
-        authorization: 'Basic ' + Buffer.from('testbed:testing').toString('base64')
+        create_process: true,
+        verbose:        false,
+        windup_time:    ts.duration('20s'),
+        check_delay:    ts.duration('200ms'),
+        url:            'http://localhost:3000/',
+        issuer:         'https://daps.tb.nicos-rd.com/',
+        authorization:  'Basic ' + Buffer.from('testbed:testing').toString('base64')
     };
 
 describe('fua.app.daps.tweak', function () {
@@ -26,11 +27,11 @@ describe('fua.app.daps.tweak', function () {
     let childProcess, dapsClient;
 
     before('init', async function () {
-        childProcess = subprocess.RunningProcess('node', {
+        if (config.create_process) childProcess = subprocess.RunningProcess('node', {
             cwd:     path.join(__dirname, '..'),
             verbose: config.verbose
         })('src/launch.js');
-        const maxTS  = ts() + config.windup_time;
+        const maxTS = ts() + config.windup_time;
         while (true) {
             try {
                 const response = await fetch(config.url);
