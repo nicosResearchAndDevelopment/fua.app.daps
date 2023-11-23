@@ -136,8 +136,7 @@ module.exports = async function ({server: {server, app, io}, amec, daps, ...conf
                 (response.locals ??= {}).auth = auth;
                 next();
             } catch (err) {
-                if (err instanceof errors.http.RequestError) response.status(err.status).send(err.statusText);
-                else next(err);
+                next(err);
             }
         } // _default.authRoute
     }; // _default
@@ -224,11 +223,10 @@ module.exports = async function ({server: {server, app, io}, amec, daps, ...conf
                 assert(is.object(request.body), 'expected the request body to be an object');
                 const {type, ...param} = request.body;
                 const result           = this.configure(type, param);
-                if (!result) response.status(200).end();
+                if (!result) response.end();
                 else response.type('json').send(JSON.stringify(result));
             } catch (err) {
-                if (err instanceof errors.http.RequestError) response.status(err.status).send(err.statusText);
-                else next(err);
+                next(err);
             }
         }, // _datTweaker.configRoute
         async tokenRoute(request, response, next) {
@@ -263,22 +261,34 @@ module.exports = async function ({server: {server, app, io}, amec, daps, ...conf
         }, // _datTweaker.tokenRoute
         async authRoute(request, response, next) {
             try {
-                const auth = response.locals.auth;
+                const auth = response.locals?.auth;
                 if (!auth) throw new errors.http.RequestError(401);
                 assert.object(auth, {memberOf: is.array});
                 if (!auth.memberOf.includes(_datTweaker._authGroup)) throw new errors.http.RequestError(401);
                 next();
             } catch (err) {
-                if (err instanceof errors.http.RequestError) response.status(err.status).send(err.statusText);
-                else next(err);
+                next(err);
             }
         } // _datTweaker.authRoute
     }; // _datTweaker
 
+    app.use((err, request, response, next) => {
+        if (err instanceof errors.http.RequestError) {
+            response.statusCode = err.statusCode;
+            response.statusText = err.statusText;
+            return response.end();
+        }
+        next(err);
+    });
+
     const _ioApp = express.Router();
     if (io) io.engine.use((request, response, next) => _ioApp(request, response, (err) => {
-        if (err instanceof Error) next(errors.toJSON(err));
-        else next(err);
+        if (err instanceof errors.http.RequestError) {
+            response.statusCode = err.statusCode;
+            response.statusText = err.statusText;
+            return response.end();
+        }
+        next((err instanceof Error) ? errors.toJSON(err) : err);
     }));
 
     if (config.requestObserver)
