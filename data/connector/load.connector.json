@@ -96,6 +96,24 @@
       "dct:alternative": "DataBri-X Semantic Web Company Connector 3"
     },
     {
+      "dct:identifier": "./DBX/SIE-1/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.sie-1.connector.ttl",
+      "dct:alternative": "DataBri-X Siemens Energy Austria Connector 1"
+    },
+    {
+      "dct:identifier": "./DBX/SIE-2/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.sie-2.connector.ttl",
+      "dct:alternative": "DataBri-X Siemens Energy Austria Connector 2"
+    },
+    {
+      "dct:identifier": "./DBX/SIE-3/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.sie-3.connector.ttl",
+      "dct:alternative": "DataBri-X Siemens Energy Austria Connector 3"
+    },
+    {
       "dct:identifier": "./DBX/DUM-1/connector.ttl",
       "dct:format": "text/turtle",
       "dct:title": "dbx.dum-1.connector.ttl",

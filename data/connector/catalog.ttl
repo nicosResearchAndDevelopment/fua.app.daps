@@ -31,6 +31,9 @@
     ids:listedConnector <connector/DBX#SWC-1> ;
     ids:listedConnector <connector/DBX#SWC-2> ;
     ids:listedConnector <connector/DBX#SWC-3> ;
+    ids:listedConnector <connector/DBX#SIE-1> ;
+    ids:listedConnector <connector/DBX#SIE-2> ;
+    ids:listedConnector <connector/DBX#SIE-3> ;
     ids:listedConnector <connector/DBX#DUM-1> ;
     ids:listedConnector <connector/DBX#DUM-2> ;
     ids:listedConnector <connector/DBX#DUM-3> ;

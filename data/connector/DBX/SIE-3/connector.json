@@ -1,0 +1,8 @@
+{
+    "Issuer": "C = DE, ST = NRW, L = Muenster, O = nicos Research & Development GmbH, CN = tb, CN = ec, CN = ids, CN = ec_ids_component_ca",
+    "Subject": "C = AT, O = Siemens Energy Austria GmbH, CN = *.siemens-energy.com",
+    "SKI": "8A:47:79:26:E5:58:C8:F7:48:45:A9:37:BA:EA:97:FB:AF:8E:09:4B",
+    "AKI": "keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F",
+    "SKIAKI": "8A:47:79:26:E5:58:C8:F7:48:45:A9:37:BA:EA:97:FB:AF:8E:09:4B:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F",
+    "certSha256Fingerprint": "b0ba0ca141a828dc104189dfa1550f7c9bd52254a48c25637d68bff812cd5b10"
+}

@@ -1,0 +1,45 @@
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix ids:  <https://w3id.org/idsa/core/> .
+@prefix idsc: <https://w3id.org/idsa/code/> .
+
+@prefix fua:  <https://www.nicos-rd.com/fua#> .
+@prefix daps: <https://www.nicos-rd.com/fua/daps#> .
+
+@base <https://daps.tb.nicos-rd.com/> .
+
+<connector/DBX#SIE-1>
+    a                        ids:Connector, ids:BaseConnector ;
+    ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
+    # ids:extendedGuarantee    <...> ;
+    ids:transportCertsSha256 "e7530b8f56c11cecd88b03f9846c3925b42157a2191e0a0fd4e0ff9f17ea3edb" ;
+    ids:publicKey            [ a            ids:PublicKey ;
+                               daps:keyId   "31:13:9B:ED:57:F5:83:00:42:C6:37:9E:C1:BD:B7:5B:28:08:85:F3:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F" ;
+                               ids:keyType  idsc:RSA ;
+                               ids:keyValue """
+                                   LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJB
+                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUF2SkJ4cjhCUFY1cTZuc2VSNndEWApKWk9u
+                                   MmVCTEhFaTcvYjlaVzNDQWY2NmV4VUt4Ky9Td1B0dHExdHkvbnFIVlQ0SHQ5NmRM
+                                   dHREa3FoVG1pQlI0CkpoNVo5cFdpdmpjSUs3OTZ1NkdtMFp4TUhabWUxSUNNbTFj
+                                   YksyaytwQk8rRXhXeHVsSC9Kb2s3andGbGorOHgKVFdOQmJRUU9FeU83WWFjMEkz
+                                   aUd5LzcrOTQwNGpMZW1RTi9GY09sOUExdkdVRHN3NVRRRS9Jc0liTkZxUFJJSQpz
+                                   TXRaYnFaZDFHSjRuWkE1VjdJcWpZa2xrT3JiY05hdlFxUUU2OFNBTk9PSzBHbHZL
+                                   eE1mSzlRRFQwcjRwZzcvCnNSRDZ1Yy8vSjlWWGYxUFVFV2JkOWt2Y2t4eUZxTkFR
+                                   a2thSXBYcENCc3M2dmFNYWJONWNkUWdGTFd4Q0Z0L2MKWFVrWVV6SFhsN0VGQlJK
+                                   THFyV200K1BrbjdzMW41VDJHc3VzOStmWWJpdEhKSE1HVjU1T2szNW14dmorSXFo
+                                   WApxYlZIZ05nR1VRajF2T2pocDB1bmRSNFpKcTJsVGl4cUUyUzc1dnBML0J5NVFG
+                                   dHZGN1g2OFE4bTRjSEtSL3dyCnBLdDBvaFVRRDNZOXpyRWRQTjUwUUdNQ205Sk5i
+                                   bHRra1o1Zlg0Zm9IdFB4YW5ZM3c4Mkx0WkRndUVTWEs4eFQKcGhBTlZPRVRweCsw
+                                   WXpjNm1DOXU5WHBSdllQRHhDWDJDQlQ1dlVHc21aUU01Z09kQVZWRjdmVDZ6a2VW
+                                   Y2Z4Vwp3U3VPamduVkRUaG5LbmpodHNsZEp2WGRDV2FDaGtldk15aUMweFRyeFk4
+                                   clJwdzJXWFpsR1p5YWZJRU9nb0VBCmRSdEJ3RHFYRGpmQlNFVFMzNlFvQ0FNQ0F3
+                                   RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=
+                               """^^xsd:base64Binary ; ] ;
+    ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
+                               ids:accessURL "https://siemens-energy.com/"^^xsd:anyURI ; ] ;
+    ids:authInfo             [ a                ids:AuthInfo ;
+                               ids:authService  <> ;
+                               ids:authStandard idsc:OAUTH2_JWT ; ] ;
+.
