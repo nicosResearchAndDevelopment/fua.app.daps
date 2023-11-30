@@ -110,19 +110,19 @@ const
                 input:       path.join(ca_testbed, 'ec/ids/cut/DBX/SIE/1/connector/client'),
                 transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/SIE/1/tls-server/server'),
                 output:      path.join(daps_data, 'connector/DBX/SIE-1/connector'),
-                endpointURL: 'https://siemens-energy.com/'
+                endpointURL: 'https://www.siemens.com/at/'
             },
             'DBX/SIE-2':            {
                 input:       path.join(ca_testbed, 'ec/ids/cut/DBX/SIE/2/connector/client'),
                 transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/SIE/2/tls-server/server'),
                 output:      path.join(daps_data, 'connector/DBX/SIE-2/connector'),
-                endpointURL: 'https://siemens-energy.com/'
+                endpointURL: 'https://www.siemens.com/at/'
             },
             'DBX/SIE-3':            {
                 input:       path.join(ca_testbed, 'ec/ids/cut/DBX/SIE/3/connector/client'),
                 transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/SIE/3/tls-server/server'),
                 output:      path.join(daps_data, 'connector/DBX/SIE-3/connector'),
-                endpointURL: 'https://siemens-energy.com/'
+                endpointURL: 'https://www.siemens.com/at/'
             },
             'DBX/DUM-1':            {
                 input:       path.join(ca_testbed, 'ec/ids/cut/DBX/DUM/1/connector/client'),

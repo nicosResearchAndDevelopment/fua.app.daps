@@ -14,31 +14,31 @@
     a                        ids:Connector, ids:BaseConnector ;
     ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
     # ids:extendedGuarantee    <...> ;
-    ids:transportCertsSha256 "104126a38bdfd7e97e62ae66a941e3e7e31648e62ccfb78bcc7af2cea5f4588c" ;
+    ids:transportCertsSha256 "aaae7eaca1c43a66ca93b4c263fb8dfd26cb2d7af8ed8f3973a733d194ac28f9" ;
     ids:publicKey            [ a            ids:PublicKey ;
-                               daps:keyId   "8A:47:79:26:E5:58:C8:F7:48:45:A9:37:BA:EA:97:FB:AF:8E:09:4B:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F" ;
+                               daps:keyId   "C9:86:A8:23:D6:33:58:63:41:6B:B0:49:1B:78:61:7F:C1:BC:D0:1A:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F" ;
                                ids:keyType  idsc:RSA ;
                                ids:keyValue """
                                    LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJB
-                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUEzMkZyM3JrcnRCbzZLbW5DbFFNbQpKYUs5
-                                   dE5PNndDQlpDZ0ZhOXZkeHRzWTFzNVJmVUQvYmVYMlVxVCtXbS8yNTJsTXJiQWVx
-                                   U05Db2MxRURLSFdrClNHUHdwRWhIMGNzeW1aVFJLSy9YQjZvKzhweUVFVi9adith
-                                   TGNNWkRZTUpTSDdENnRvUnFTYTBjOStYYjJ0VDIKWUFlVE9EelZQbFdFcC9GMk9P
-                                   V1hDaE9tUzU1UkNxTy9MSjlyeWJkYTQwMm1wRElrQVNWaDNBeXhmOWRsVFM0aApa
-                                   TTJTN0E2WW5EMmFnTm5XK0M2bEJEeEk5OHVQTklEeWlsdi9PWjVNUGlRNXRmUE5I
-                                   UVptL3dJKzZvVVEyV0U0CkJQUjRUdzNVc1BieFFBRnByaGlZUThDVzVDT3J3STFX
-                                   Z3FuaWExbk5DZS85a3dPcXR2K0RMS09IUGp5Y3R2RUUKa2xmMzJ1NlBsakN3SG5J
-                                   WXV2K1NXV21NWWtOc3lCbjRIc3pjOStnYThabnB3a3NGbnozK21DaUF6ZmlTeVg4
-                                   cAp6emVlRFd3eENSREphT3FCVXZ3M0NJWG0zMEdVQzErbEhFdE5LYlVvZFBoNThz
-                                   MXpGeG9aMnVNcWxGRFlCY1FQCllZU0JCblNSaFpXWksxazRKTUZzWXJnYnhUckln
-                                   REVDNkU2ajNEYlIxYUx3aWhCSy96ZjBHeHpRYWRrbGVKSlUKS2lENlNyeHJHaTFx
-                                   MldnK2xOQ1JSd0pXNERjVDQ2L0E5eWN2VWV2M0hrVStLRWhYSXVTQi9CMFBrWm81
-                                   QnN3UApUbnZ3Qlp0OHVUcXRNYzVaR2p6SVQ4c2JGaHNyVGhGTnIzNVJKcmJDUEF5
-                                   Ri9jWXJWb20waE9TZ0pidWF3VG5KCkErSmVJRjhHbXdlbXlaQ1lxNUhjL0prQ0F3
+                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUF5Q25heXJyUXpqb21TcUhqRG95dApJT1dN
+                                   aHhpbnh0VW9qd3lWQkpwQUF2L25KaUFTb3dvVnlCRjdBTW9FQ05CL2t0aXpFV0tq
+                                   b3EwU1VPT01xR1ZZCmU4ZFZmb3o3OVJFM1pFVFVjNHFIejBlMTBLcEZnWm1ha0lx
+                                   Z3FCL1pwRUZaOXdKQUo3VEhWNzYveUJrU1oyQkQKWkNTNzROMmZDQll1Z3gwR3lv
+                                   RCs4c2xaVU4yRW82THo2eEozL0IxcTFhaEpCbHMyL05yZ1A2Z2kxeVZOZ3ZkQQpO
+                                   cDZYbHlSMEJaZGV0TmMvRDd6UnVua2JMQ2l1NkN2NDczd1FYUmlsUWVYcWVyQWNi
+                                   Y2JrRitXTitzU1BGR2g3Ckxjc0QvalpaVG9LQXZXbjFBQkhYdTdMWFBneklPbWh4
+                                   YWkxblBFcFpUaG9FSVdxMitCUTZ5M0RydVhBR3JOUXUKcTRWOUMzQ01DNTJxQ090
+                                   OEViTUhNMHdsVVNOQVJtS0JVTWl1NytCKzZUK0Q0b1dmUTFQSHlyK05MVVY1NnRs
+                                   dApTbmZLK3N0OE10MnhVZHlVamQ3VGxDWEMxdDllaFR0R3NlSjA0TFdPOWVKL1VC
+                                   RENOZmdQZHFpTmdUaEkzdDRnCm5JbFN5VDdkdHJVTjExY3VyWFdMMWJuM2V2VDE2
+                                   b0pLb05HajNlNHZ0c0lMK2EzUm9RWGhSY3FKa0ZyMkkvUFQKa093dFlIcGVrNmU1
+                                   T1Iwbmhqb0wxZG5TM2I5RUJzcWdaamlKRGVRNXdmU1RBMWdYY3dveHRVaXFPaXBW
+                                   QVNtOAppaEpDNzFoSjhZRG1la0lYSTQ2MUgzZG9UbEZlL1YzeTlFSlRCUUZWc2lI
+                                   TnhvUzB2R2hDVmNhbitQbld0K25TCmMxVWVNaU9sbGdLREpGZW5BWVNaUGZFQ0F3
                                    RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=
                                """^^xsd:base64Binary ; ] ;
     ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
-                               ids:accessURL "https://siemens-energy.com/"^^xsd:anyURI ; ] ;
+                               ids:accessURL "https://www.siemens.com/at/"^^xsd:anyURI ; ] ;
     ids:authInfo             [ a                ids:AuthInfo ;
                                ids:authService  <> ;
                                ids:authStandard idsc:OAUTH2_JWT ; ] ;
