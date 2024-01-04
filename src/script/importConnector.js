@@ -124,6 +124,42 @@ const
                 output:      path.join(daps_data, 'connector/DBX/SIE-3/connector'),
                 endpointURL: 'https://www.siemens.com/at/'
             },
+            'DBX/NOVA-1':           {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/1/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/1/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/NOVA-1/connector'),
+                endpointURL: 'https://nova.gr/'
+            },
+            'DBX/NOVA-2':           {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/2/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/2/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/NOVA-2/connector'),
+                endpointURL: 'https://nova.gr/'
+            },
+            'DBX/NOVA-3':           {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/3/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/3/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/NOVA-3/connector'),
+                endpointURL: 'https://nova.gr/'
+            },
+            'DBX/NOVA-4':           {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/4/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/4/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/NOVA-4/connector'),
+                endpointURL: 'https://nova.gr/'
+            },
+            'DBX/NOVA-5':           {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/5/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/5/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/NOVA-5/connector'),
+                endpointURL: 'https://nova.gr/'
+            },
+            'DBX/NOVA-6':           {
+                input:       path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/6/connector/client'),
+                transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/NOVA/6/tls-server/server'),
+                output:      path.join(daps_data, 'connector/DBX/NOVA-6/connector'),
+                endpointURL: 'https://nova.gr/'
+            },
             'DBX/DUM-1':            {
                 input:       path.join(ca_testbed, 'ec/ids/cut/DBX/DUM/1/connector/client'),
                 transport:   path.join(ca_testbed, 'ec/ids/cut/DBX/DUM/1/tls-server/server'),

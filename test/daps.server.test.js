@@ -91,6 +91,12 @@ describe('fua.app.daps.server', function () {
             require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/SIE/1/connector/client.js'),
             require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/SIE/2/connector/client.js'),
             require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/SIE/3/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/NOVA/1/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/NOVA/2/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/NOVA/3/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/NOVA/4/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/NOVA/5/connector/client.js'),
+            require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/NOVA/6/connector/client.js'),
             require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/DUM/1/connector/client.js'),
             require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/DUM/2/connector/client.js'),
             require('../../../script/ca/resources/nrd-testbed/ec/ids/cut/DBX/DUM/3/connector/client.js')

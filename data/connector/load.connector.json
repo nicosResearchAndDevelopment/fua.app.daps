@@ -114,6 +114,42 @@
       "dct:alternative": "DataBri-X Siemens Energy Austria Connector 3"
     },
     {
+      "dct:identifier": "./DBX/NOVA-1/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.nova-1.connector.ttl",
+      "dct:alternative": "Nova Connector 1"
+    },
+    {
+      "dct:identifier": "./DBX/NOVA-2/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.nova-2.connector.ttl",
+      "dct:alternative": "Nova Connector 2"
+    },
+    {
+      "dct:identifier": "./DBX/NOVA-3/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.nova-3.connector.ttl",
+      "dct:alternative": "Nova Connector 3"
+    },
+    {
+      "dct:identifier": "./DBX/NOVA-4/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.nova-4.connector.ttl",
+      "dct:alternative": "Nova Connector 4"
+    },
+    {
+      "dct:identifier": "./DBX/NOVA-5/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.nova-5.connector.ttl",
+      "dct:alternative": "Nova Connector 5"
+    },
+    {
+      "dct:identifier": "./DBX/NOVA-6/connector.ttl",
+      "dct:format": "text/turtle",
+      "dct:title": "dbx.nova-6.connector.ttl",
+      "dct:alternative": "Nova Connector 6"
+    },
+    {
       "dct:identifier": "./DBX/DUM-1/connector.ttl",
       "dct:format": "text/turtle",
       "dct:title": "dbx.dum-1.connector.ttl",

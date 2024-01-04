@@ -1,0 +1,45 @@
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix ids:  <https://w3id.org/idsa/core/> .
+@prefix idsc: <https://w3id.org/idsa/code/> .
+
+@prefix fua:  <https://www.nicos-rd.com/fua#> .
+@prefix daps: <https://www.nicos-rd.com/fua/daps#> .
+
+@base <https://daps.tb.nicos-rd.com/> .
+
+<connector/DBX#NOVA-2>
+    a                        ids:Connector, ids:BaseConnector ;
+    ids:securityProfile      idsc:BASE_SECURITY_PROFILE ;
+    # ids:extendedGuarantee    <...> ;
+    ids:transportCertsSha256 "d9b7b888499065ce3b7b693c3f245cbbf3cac056ce343fc3c73feabe58ec7e30" ;
+    ids:publicKey            [ a            ids:PublicKey ;
+                               daps:keyId   "52:43:17:38:60:AE:EB:07:AC:87:E1:36:02:97:43:5C:6F:43:BA:04:keyid:07:E8:AA:9F:59:23:93:EE:0D:26:0F:29:3B:53:2D:0B:98:11:46:8F" ;
+                               ids:keyType  idsc:RSA ;
+                               ids:keyValue """
+                                   LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJB
+                                   UUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUF5SllSTGd0REt0RzhRYTVLMktwcwpqTk9U
+                                   Um5pWE5rcmhRVTlHblExemw0RnlPWEdpQkJUbTJzT0QrRlN3TG1BZi9CU1cvMzM2
+                                   dDNaeXlTb1BvWC9aCjZ1S2RSSjAwYnRNbHV6QUV2VmdpR0dlNVFOQ0pINnREZVJ2
+                                   VlNNTUpyaDJQNmhtM2pNTW1RKzZMV1Axb1pOM1EKcnU0WkdneXU4K0FRQ3JVblFn
+                                   TVJVOW5makNZSEdoanJzaWpGRCtJN0FxdnpRTFVQL1p4djhva2FXTi82RTNobQpL
+                                   b09aUUh4K2RFMXhrcjRFOFRLWTRFaVZNc3NFTDFHM0NCbTl5OHVtYkJ6aFdIUmpy
+                                   TmhpRGE5Y0tMS3plYXc5Ckd0WXcveE91YlpIQ0YwRFZ3QTRmV0F6S3lwdmdubjFR
+                                   Q0tScGFKbnUwOFhsUFdqQUh6WCtZdWFzUVVQL2lCaDcKcUxKSFlWZGFObVh6QUZH
+                                   WW9ER0M2bklTdTVjeVJpQVpuWjI1emRRTlpEWlI0dDhPNVUxZGc0eE55dUpvcEFP
+                                   QgpWbFlvUWFpUGl3Yzl4MENacXkvd1dRWGkyU1hXSVFSQTJRcDRxS25jRnJ4NDVO
+                                   L3k4NFJiNTljcnVKVWpqOVZZCmEybzNYOGtEeHpJTFpKYm5tdXN6SGJRZklLeEhP
+                                   NnFPdTJNRDJEL2RmaG1US2JIZmhkRGZZcy9NTUpyNU1jRDcKdkRyc3ZUTFROR1BX
+                                   M2RSajR2OHl2Q09UMHhjbHRQc1NOcXJnVVRVQjVDeXZBY0hVLzJXR3dLdmtCa3ow
+                                   enErcQpROXdxb005SDVEYnh3YTNOVnhFLy9YOWFuZ1RzbWdOWWQ5MDZDL1hiWkZs
+                                   NFlidWYveFBJVytJVUtFb21zWnFRClFtNUk5blpOa2VZd0NoQlo3RzZpY1hrQ0F3
+                                   RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=
+                               """^^xsd:base64Binary ; ] ;
+    ids:hasEndpoint          [ a             ids:ConnectorEndpoint ;
+                               ids:accessURL "https://nova.gr/"^^xsd:anyURI ; ] ;
+    ids:authInfo             [ a                ids:AuthInfo ;
+                               ids:authService  <> ;
+                               ids:authStandard idsc:OAUTH2_JWT ; ] ;
+.
