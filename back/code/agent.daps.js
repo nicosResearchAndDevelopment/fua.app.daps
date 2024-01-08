@@ -1,6 +1,5 @@
 const
     {URLSearchParams}    = require('url'),
-    fetch                = require('node-fetch'),
     util                 = require('./util.daps.js'),
     model                = require('./model.daps.js'),
     ServerAgent          = require('@nrd/fua.agent.server'),

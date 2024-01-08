@@ -2,25 +2,16 @@ const
     {describe, test, before, beforeEach} = require('mocha'),
     expect                               = require('expect'),
     https                                = require('https'),
-    fetch                                = require('node-fetch'),
     DAPSClient                           = require('@nrd/fua.ids.client.daps'),
     baseUrl                              = 'https://daps.tb.nicos-rd.com/',
-    alice                                = require('./alice/index.js'),
-    httpAgent                            = new https.Agent({
-        key:                alice.server.key,
-        cert:               alice.server.cert,
-        ca:                 alice.server.ca,
-        rejectUnauthorized: false
-    });
+    alice                                = require('./alice/index.js');
 
 describe('fua.app.daps.server', function () {
 
     this.timeout('60s');
 
     test('get the jwks.json with the usual route', async function () {
-        const response = await fetch(baseUrl + '.well-known/jwks.json', {
-            agent: httpAgent
-        });
+        const response = await fetch(baseUrl + '.well-known/jwks.json');
         expect(response.ok).toBeTruthy();
         const jwks = await response.json();
         console.log(jwks);
@@ -39,8 +30,7 @@ describe('fua.app.daps.server', function () {
             dapsClient = new DAPSClient({
                 SKIAKI:       alice.client.meta.SKIAKI,
                 dapsUrl:      baseUrl,
-                privateKey:   alice.client.privateKey,
-                requestAgent: httpAgent
+                privateKey:   alice.client.privateKey
             });
         });
 
@@ -108,8 +98,7 @@ describe('fua.app.daps.server', function () {
             const dapsClient = new DAPSClient({
                 SKIAKI:       cert.meta.SKIAKI,
                 dapsUrl:      baseUrl,
-                privateKey:   cert.privateKey,
-                requestAgent: httpAgent
+                privateKey:   cert.privateKey
             });
 
             const dat = await dapsClient.getDat();
