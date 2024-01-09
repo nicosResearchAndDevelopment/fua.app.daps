@@ -8,6 +8,10 @@ const
 
 App.launch({
     app: require('./app/app.js'),
+    async prepare(config) {
+        tty.log('prepare daps-store');
+        await DAPS.prepareStore(config?.space?.store);
+    },
     async initialize(config) {
         tty.log('initialize daps');
         await DAPS.initialize(config.daps || {});
@@ -15,7 +19,7 @@ App.launch({
         return {daps: DAPS};
     },
     config: {
-        app:  {
+        app:   {
             tokenPath:       ['/token', '/auth/token'],
             jwksPath:        ['/jwks.json', '/.well-known/jwks.json', '/auth/jwks.json', '/auth/.well-known/jwks.json'],
             aboutPath:       ['/', '/about', '/.well-known/openid-configuration', '/auth/.well-known/openid-configuration'],
@@ -27,12 +31,27 @@ App.launch({
                 namespacePath: '/observe'
             }
         },
-        daps: {
+        daps:  {
             uri:  'https://daps.tb.nicos-rd.com/',
             meta: {
                 tokenPath: '/token',
                 jwksPath:  '/.well-known/jwks.json',
                 aboutPath: '/.well-known/openid-configuration'
+            }
+        },
+        space: {
+            store: {
+                module:  'filesystem',
+                options: {
+                    defaultFile: 'file://data.ttl',
+                    loadFiles:   [
+                        {
+                            'dct:identifier': path.join(__dirname, '../data/load.json'),
+                            'dct:format':     'application/fua.load+json'
+                        },
+                        require('@nrd/fua.resource.ontology.core')
+                    ]
+                }
             }
         }
     },
@@ -54,19 +73,6 @@ App.launch({
             'dom':  'https://www.nicos-rd.com/fua/domain#',
             'ecm':  'https://www.nicos-rd.com/fua/ecosystem#',
             'daps': 'https://www.nicos-rd.com/fua/daps#'
-        },
-        store:   {
-            module:  'filesystem',
-            options: {
-                defaultFile: 'file://data.ttl',
-                loadFiles:   [
-                    {
-                        'dct:identifier': path.join(__dirname, '../data/load.json'),
-                        'dct:format':     'application/fua.load+json'
-                    },
-                    require('@nrd/fua.resource.ontology.core')
-                ]
-            }
         }
     },
     domain: {

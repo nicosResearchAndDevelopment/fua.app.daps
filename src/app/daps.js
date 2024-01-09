@@ -19,6 +19,10 @@ const
     {URL, URLSearchParams} = require('url'),
     {jwtVerify, SignJWT}   = require('jose'),
     crypto                 = require('crypto'),
+    StoreConfig            = {
+        module:  is.validator.string(/filesystem/i),
+        options: (options) => is.object(options) && is.array(options.loadFiles)
+    },
     InitializeOptions      = {
         uri:           is.string.token,
         datContextURL: is.validator.optional(is.string),
@@ -29,6 +33,15 @@ const
 Object.defineProperties(DAPS, {
     root: {get: () => _DAPS.root || null, enumerable: true}
 });
+
+DAPS.prepareStore = async function (config) {
+    assert.object(config, StoreConfig);
+
+    const loadFiles = config.options.loadFiles;
+    console.log(loadFiles);
+
+    assert.todo('generate additional files from external certificates and append to load files'); // TODO
+};
 
 DAPS.initialize = async function (options = {}) {
     assert.object(options, InitializeOptions);
