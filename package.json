@@ -23,6 +23,9 @@
     "@nrd/fua.core.errors": "^1.0.1",
     "@nrd/fua.module.space": "^1.0.0",
     "@nrd/fua.agent.space": "^1.0.0",
+    "@nrd/fua.module.subprocess": "^1.0.0",
+    "@nrd/fua.module.rdf": "^1.0.1",
+    "@nrd/fua.module.persistence": "^1.0.0",
     "@nrd/fua.module.persistence.filesystem": "^1.0.0",
     "@nrd/fua.resource.ontology.core": "^1.0.1"
   },

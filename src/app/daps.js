@@ -15,10 +15,16 @@ const
     is                     = require('@nrd/fua.core.is'),
     ts                     = require('@nrd/fua.core.ts'),
     uuid                   = require('@nrd/fua.core.uuid'),
+    subprocess             = require('@nrd/fua.module.subprocess'),
+    rdf                    = require('@nrd/fua.module.rdf'),
+    {Dataset, TermFactory} = require('@nrd/fua.module.persistence'),
+    tty                    = require('@nrd/fua.core.tty'),
     model                  = require('./model.js'),
     {URL, URLSearchParams} = require('url'),
     {jwtVerify, SignJWT}   = require('jose'),
     crypto                 = require('crypto'),
+    path                   = require('path'),
+    fs                     = require('fs/promises'),
     StoreConfig            = {
         module:  is.validator.string(/filesystem/i),
         options: (options) => is.object(options) && is.array(options.loadFiles)
@@ -30,17 +36,247 @@ const
         meta:          is.validator.optional(is.object)
     };
 
+_DAPS.baseURI           = 'https://daps.tb.nicos-rd.com/';
+_DAPS.clientsFolderPath = '/var/opt/fua/daps/clients';
+// _DAPS.clientsFolderPath = path.join(__dirname, '../../test/clients'); // TEMP
+
 Object.defineProperties(DAPS, {
     root: {get: () => _DAPS.root || null, enumerable: true}
 });
 
+// NOTE alternatively the prepareStore method can be changed into a post-initialize method by using the model to create entities directly in the database
 DAPS.prepareStore = async function (config) {
     assert.object(config, StoreConfig);
+    assert(!_DAPS.initialized, 'already initialized');
 
-    const loadFiles = config.options.loadFiles;
-    console.log(loadFiles);
+    /** @type {Array<{
+     *     name: string,
+     *     files: {
+     *         cert: string,
+     *         [other: string]: string
+     *     },
+     *     id?: string,
+     *     url?: string,
+     *     cert?: string,
+     *     hash?: string
+     * }>} */
+    let clientsDataArray = [];
 
-    assert.todo('generate additional files from external certificates and append to load files'); // TODO
+    try {
+        const clientFilesMap = new Map();
+        for (let clientDirent of await fs.readdir(_DAPS.clientsFolderPath, {withFileTypes: true})) {
+            if (!clientDirent.isFile()) continue;
+            const lastDotIndex = clientDirent.name.lastIndexOf('.');
+            if (lastDotIndex < 0) continue;
+            const clientName = clientDirent.name.slice(0, lastDotIndex);
+            const fileEnding = clientDirent.name.slice(lastDotIndex + 1);
+            if (!clientName || !fileEnding) continue;
+            if (!clientFilesMap.has(clientName)) clientFilesMap.set(clientName, {});
+            const clientFiles       = clientFilesMap.get(clientName);
+            clientFiles[fileEnding] = path.join(_DAPS.clientsFolderPath, clientDirent.name);
+        }
+        for (let [clientName, clientFiles] of clientFilesMap.entries()) {
+            if (!clientFiles.cert) continue;
+            clientsDataArray.push({
+                name:  clientName,
+                files: clientFiles
+            });
+        }
+        if (clientsDataArray.length === 0) return void tty.log('skipped: ' + _DAPS.clientsFolderPath + ' has no additional certificates');
+    } catch (err) {
+        if (err.code === 'ENOENT') return void tty.log('skipped: ' + _DAPS.clientsFolderPath + ' does not exist');
+        throw err;
+    }
+
+    const openssl = subprocess.ExecutionProcess('openssl', {
+        cwd:      _DAPS.clientsFolderPath,
+        verbose:  false,
+        encoding: 'utf-8'
+    });
+
+    await Promise.all(clientsDataArray.map(async (clientData) => {
+        const
+            clientCertText = await openssl('x509', {
+                in:    clientData.files.cert,
+                noout: true,
+                text:  true
+            }),
+            Subject_match  = /Subject:\s*(.*(?=[\r\n]))/.exec(clientCertText),
+            SKI_match      = /X509v3 Subject Key Identifier:\s*(\S+(?=\s))/.exec(clientCertText),
+            AKI_match      = /X509v3 Authority Key Identifier:\s*(\S+(?=\s))/.exec(clientCertText),
+            CN_match       = Subject_match ? /CN = (\S+)$/.exec(Subject_match[1]) : null;
+
+        if (!Subject_match || !SKI_match || !AKI_match || !CN_match) return;
+        clientData.id  = SKI_match[1] + ':' + AKI_match[1];
+        clientData.url = 'https://' + CN_match[1].replace('*.', '') + '/';
+
+        const
+            clientCert    = await fs.readFile(clientData.files.cert, 'utf-8'),
+            clientCertRaw = clientCert.split('\n')
+                .filter(line => !line.includes('-----'))
+                .map(line => line.trim())
+                .join('');
+
+        clientData.cert = clientCertRaw;
+        clientData.hash = crypto.createHash('sha256').update(clientCertRaw, 'base64').digest('hex');
+    }));
+
+    const tempFolderPath = path.join(__dirname, '../temp');
+    await fs.mkdir(path.join(tempFolderPath, 'clients'), {recursive: true});
+
+    const
+        context         = {
+            rdf:       'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+            rdfs:      'http://www.w3.org/2000/01/rdf-schema#',
+            dct:       'http://purl.org/dc/terms/',
+            xsd:       'http://www.w3.org/2001/XMLSchema#',
+            ids:       'https://w3id.org/idsa/core/',
+            idsc:      'https://w3id.org/idsa/code/',
+            fua:       'https://www.nicos-rd.com/fua#',
+            daps:      'https://www.nicos-rd.com/fua/daps#',
+            connector: _DAPS.baseURI + 'connector#'
+        },
+        factory         = new TermFactory(context),
+        /** @type {Record<string, (v?: string) => NamedNode>} */
+        namespace       = Object.fromEntries(Object.entries(context).map(([key, value]) => [key, factory.namespace(value)])),
+        catalogDataset  = new Dataset(null, factory),
+        catalogNode     = namespace.connector(),
+        catalogTempPath = path.join(tempFolderPath, 'catalog.ttl');
+
+    await Promise.all(clientsDataArray.map(async (clientData) => {
+        const
+            clientDataset  = new Dataset(null, factory),
+            clientNode     = namespace.connector(clientData.name),
+            clientTempPath = path.join(tempFolderPath, 'clients', clientData.name + '.ttl');
+
+        clientDataset.add(factory.quad(
+            clientNode,
+            namespace.rdf('type'),
+            namespace.ids('Connector')
+        ));
+
+        clientDataset.add(factory.quad(
+            clientNode,
+            namespace.rdf('type'),
+            namespace.ids('BaseConnector')
+        ));
+
+        clientDataset.add(factory.quad(
+            clientNode,
+            namespace.ids('securityProfile'),
+            namespace.idsc('BASE_SECURITY_PROFILE')
+        ));
+
+        // clientDataset.add(factory.quad(
+        //     clientNode,
+        //     namespace.ids('extendedGuarantee'),
+        //     namespace.idsc('...')
+        // ));
+
+        // clientDataset.add(factory.quad(
+        //     clientNode,
+        //     namespace.ids('transportCertsSha256'),
+        //     factory.literal('...')
+        // ));
+
+        const publicKeyNode = factory.blankNode();
+
+        clientDataset.add(factory.quad(
+            clientNode,
+            namespace.ids('publicKey'),
+            publicKeyNode
+        ));
+
+        clientDataset.add(factory.quad(
+            publicKeyNode,
+            namespace.rdf('type'),
+            namespace.ids('PublicKey')
+        ));
+
+        clientDataset.add(factory.quad(
+            publicKeyNode,
+            namespace.daps('keyId'),
+            factory.literal(clientData.id)
+        ));
+
+        clientDataset.add(factory.quad(
+            publicKeyNode,
+            namespace.ids('keyType'),
+            namespace.idsc('RSA')
+        ));
+
+        clientDataset.add(factory.quad(
+            publicKeyNode,
+            namespace.ids('keyValue'),
+            factory.literal(clientData.cert, namespace.xsd('base64Binary'))
+        ));
+
+        const endpointNode = factory.blankNode();
+
+        clientDataset.add(factory.quad(
+            clientNode,
+            namespace.ids('hasEndpoint'),
+            endpointNode
+        ));
+
+        clientDataset.add(factory.quad(
+            endpointNode,
+            namespace.rdf('type'),
+            namespace.ids('ConnectorEndpoint')
+        ));
+
+        clientDataset.add(factory.quad(
+            endpointNode,
+            namespace.ids('accessURL'),
+            factory.literal(clientData.url, namespace.xsd('anyURI'))
+        ));
+
+        const authNode = factory.blankNode();
+
+        clientDataset.add(factory.quad(
+            clientNode,
+            namespace.ids('authInfo'),
+            authNode
+        ));
+
+        clientDataset.add(factory.quad(
+            authNode,
+            namespace.rdf('type'),
+            namespace.ids('AuthInfo')
+        ));
+
+        clientDataset.add(factory.quad(
+            authNode,
+            namespace.ids('authService'),
+            factory.namedNode(_DAPS.baseURI)
+        ));
+
+        clientDataset.add(factory.quad(
+            authNode,
+            namespace.ids('authStandard'),
+            namespace.idsc('OAUTH2_JWT')
+        ));
+
+        const clientTTL = await rdf.serializeDataset(clientDataset, 'text/turtle');
+        await fs.writeFile(clientTempPath, clientTTL);
+        config.options.loadFiles.push({
+            'dct:identifier': clientTempPath,
+            'dct:format':     'text/turtle'
+        });
+
+        catalogDataset.add(factory.quad(
+            catalogNode,
+            namespace.ids('listedConnector'),
+            namespace.connector(clientData.name)
+        ));
+    }));
+
+    const catalogTTL = await rdf.serializeDataset(catalogDataset, 'text/turtle');
+    await fs.writeFile(catalogTempPath, catalogTTL);
+    config.options.loadFiles.push({
+        'dct:identifier': catalogTempPath,
+        'dct:format':     'text/turtle'
+    });
 };
 
 DAPS.initialize = async function (options = {}) {
