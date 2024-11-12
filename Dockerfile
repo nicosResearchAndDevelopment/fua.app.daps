@@ -1,4 +1,4 @@
-FROM node:lts-alpine AS builder
+FROM node:20-alpine AS builder
 
 # 1. Set default arguments and environment for the builder.
 
@@ -19,7 +19,7 @@ RUN npm install @nrd/fua.app.daps
 
 # 4. use lts-alpine as runner to reduce image size.
 
-FROM node:lts-alpine AS runner
+FROM node:20-alpine AS runner
 
 # 5. Set default arguments and environment for the runner.
 
