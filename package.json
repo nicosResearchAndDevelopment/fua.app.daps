@@ -11,7 +11,7 @@
     "data/*"
   ],
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.21.1",
     "jose": "^4.2.0",
     "@nrd/fua.agent.app": "^1.0.3",
     "@nrd/fua.core.assert": "^1.0.2",
