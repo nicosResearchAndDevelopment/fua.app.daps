@@ -2,8 +2,8 @@ const
     {URLSearchParams}    = require('url'),
     util                 = require('./util.daps.js'),
     model                = require('./model.daps.js'),
-    ServerAgent          = require('@nrd/fua.agent.server'),
-    // jose = require('@nrd/fua.module.jose'),
+    ServerAgent          = require('@fua/agent.server'),
+    // jose = require('@fua/module.jose'),
     {URL}                = require('url'),
     {jwtVerify, SignJWT} = require('jose');
 

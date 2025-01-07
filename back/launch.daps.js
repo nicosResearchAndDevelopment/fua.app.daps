@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 // const
-//     BasicAuth = require('@nrd/fua.agent.amec/BasicAuth'),
-//     DatAuth   = require('@nrd/fua.agent.amec/DatAuth');
+//     BasicAuth = require('@fua/agent.amec/BasicAuth'),
+//     DatAuth   = require('@fua/agent.amec/DatAuth');
 
-require('@nrd/fua.core.app').launch({
+require('@fua/core.app').launch({
     config: {
         default: require('./config/config.daps.js')
     },

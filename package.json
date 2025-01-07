@@ -1,5 +1,5 @@
 {
-  "name": "@nrd/fua.app.daps",
+  "name": "@fua/app.daps",
   "version": "1.2.7",
   "description": "",
   "bin": {
@@ -13,27 +13,28 @@
   "dependencies": {
     "express": "^4.21.1",
     "jose": "^4.2.0",
-    "@nrd/fua.agent.app": "^1.0.3",
-    "@nrd/fua.core.assert": "^1.0.2",
-    "@nrd/fua.core.is": "^1.0.4",
-    "@nrd/fua.core.ts": "^1.0.1",
-    "@nrd/fua.core.tty": "^1.0.0",
-    "@nrd/fua.core.uuid": "^1.0.1",
-    "@nrd/fua.core.async": "^1.0.0",
-    "@nrd/fua.core.errors": "^1.0.1",
-    "@nrd/fua.module.space": "^1.0.0",
-    "@nrd/fua.agent.space": "^1.0.0",
-    "@nrd/fua.module.subprocess": "^1.0.0",
-    "@nrd/fua.module.rdf": "^1.0.1",
-    "@nrd/fua.module.persistence": "^1.0.0",
-    "@nrd/fua.module.persistence.filesystem": "^1.0.0",
-    "@nrd/fua.resource.ontology.core": "^1.0.1"
+    "@fua/agent.app": "^1.0.3",
+    "@fua/core.assert": "^1.0.2",
+    "@fua/core.is": "^1.0.4",
+    "@fua/core.ts": "^1.0.1",
+    "@fua/core.tty": "^1.0.0",
+    "@fua/core.uuid": "^1.0.1",
+    "@fua/core.async": "^1.0.0",
+    "@fua/core.errors": "^1.0.1",
+    "@fua/module.space": "^1.0.0",
+    "@fua/agent.space": "^1.0.0",
+    "@fua/module.subprocess": "^1.0.0",
+    "@fua/module.rdf": "^1.0.1",
+    "@fua/module.persistence": "^1.0.0",
+    "@fua/module.persistence.filesystem": "^1.0.0",
+    "@fua/resource.ontology.core": "^1.0.1"
   },
   "devDependencies": {
-    "mocha": "^8.2.1",
-    "expect": "^26.6.2",
-    "@nrd/fua.ids.client.daps": "^1.0.1",
-    "@nrd/fua.module.subprocess": "^1.0.0"
+    "expect": "26.x",
+    "mocha": "10.x",
+    "socket.io-client": "^4.8.1",
+    "@fua/client.daps": "^1.0.1",
+    "@fua/module.subprocess": "^1.0.0"
   },
   "scripts": {
     "test": "mocha",
@@ -43,17 +44,16 @@
   "mocha": {
     "bail": false,
     "recursive": false,
-    "spec": "test/*.test.js",
-    "parallel": false
+    "spec": "test/*.test.js"
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@git02.int.nsc.ag:10022/research/fua/app/daps.git"
+    "url": "ssh://git@github.com:nicosResearchAndDevelopment/fua.app.daps.git"
   },
   "keywords": [
     "DAPS",
     "OAuth"
   ],
-  "author": "spetrac@nicos-ag.com",
-  "license": "UNLICENSED"
+  "author": "Simon Petrac <pfoerdie@gmail.com>",
+  "license": "MIT"
 }

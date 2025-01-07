@@ -5,7 +5,7 @@ const
 exports.uri = 'https://daps.tb.nicos-rd.com/';
 
 exports.context = {
-    ...require('@nrd/fua.resource.context'),
+    ...require('@fua/resource.context'),
 
     'ids':  'https://w3id.org/idsa/core/',
     'idsc': 'https://w3id.org/idsa/code/',
@@ -17,7 +17,7 @@ exports.context = {
 };
 
 exports.store = {
-    module:  '@nrd/fua.module.persistence.filesystem',
+    module:  '@fua/module.persistence.filesystem',
     options: {
         defaultFile: 'file://data.ttl',
         loadFiles:   [
@@ -25,7 +25,7 @@ exports.store = {
                 'dct:identifier': path.join(__dirname, '../..', 'data/load.json'),
                 'dct:format':     'application/fua.load+json'
             },
-            require('@nrd/fua.resource.ontology.core')
+            require('@fua/resource.ontology.core')
         ]
     }
 };

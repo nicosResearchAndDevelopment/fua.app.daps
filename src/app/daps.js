@@ -1,7 +1,7 @@
 const
     DAPS       = exports,
-    identifier = '@nrd/fua.agent.daps',
-    assert     = require('@nrd/fua.core.assert');
+    identifier = '@fua/agent.daps',
+    assert     = require('@fua/core.assert');
 
 assert(!global[identifier], 'unable to load a second uncached version of the singleton ' + identifier);
 Object.defineProperty(global, identifier, {value: DAPS, configurable: false, writable: false, enumerable: false});
@@ -11,14 +11,14 @@ Object.defineProperty(global, identifier, {value: DAPS, configurable: false, wri
 
 const
     _DAPS                  = Object.create(null),
-    Space                  = require('@nrd/fua.agent.space'),
-    is                     = require('@nrd/fua.core.is'),
-    ts                     = require('@nrd/fua.core.ts'),
-    uuid                   = require('@nrd/fua.core.uuid'),
-    subprocess             = require('@nrd/fua.module.subprocess'),
-    rdf                    = require('@nrd/fua.module.rdf'),
-    {Dataset, TermFactory} = require('@nrd/fua.module.persistence'),
-    tty                    = require('@nrd/fua.core.tty'),
+    Space                  = require('@fua/agent.space'),
+    is                     = require('@fua/core.is'),
+    ts                     = require('@fua/core.ts'),
+    uuid                   = require('@fua/core.uuid'),
+    subprocess             = require('@fua/module.subprocess'),
+    rdf                    = require('@fua/module.rdf'),
+    {Dataset, TermFactory} = require('@fua/module.persistence'),
+    tty                    = require('@fua/core.tty'),
     model                  = require('./model.js'),
     {URL, URLSearchParams} = require('url'),
     {jwtVerify, SignJWT}   = require('jose'),

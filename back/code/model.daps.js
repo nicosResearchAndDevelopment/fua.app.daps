@@ -1,7 +1,7 @@
 const
     util              = require('./util.daps.js'),
     crypto            = require('crypto'),
-    {Model, Resource} = require('@nrd/fua.module.space'),
+    {Model, Resource} = require('@fua/module.space'),
     /** @type {fua.module.space.Model} */
     model             = new Model();
 

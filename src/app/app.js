@@ -1,10 +1,10 @@
 const
-    assert  = require('@nrd/fua.core.assert'),
-    is      = require('@nrd/fua.core.is'),
-    ts      = require('@nrd/fua.core.ts'),
-    tty     = require('@nrd/fua.core.tty'),
-    async   = require('@nrd/fua.core.async'),
-    errors  = require('@nrd/fua.core.errors'),
+    assert  = require('@fua/core.assert'),
+    is      = require('@fua/core.is'),
+    ts      = require('@fua/core.ts'),
+    tty     = require('@fua/core.tty'),
+    async   = require('@fua/core.async'),
+    errors  = require('@fua/core.errors'),
     express = require('express');
 
 module.exports = async function ({server: {server, app, io}, amec, daps, ...config}) {

@@ -1,12 +1,12 @@
 const
-    _util  = require('@nrd/fua.core.util'),
+    _util  = require('@fua/core.util'),
     crypto = require('crypto'),
     util   = exports = {
         ..._util,
         assert: _util.Assert('app.daps')
     };
 
-util.uuid = require('@nrd/fua.core.uuid');
+util.uuid = require('@fua/core.uuid');
 
 util.pause = function (seconds) {
     return new Promise((resolve) => {

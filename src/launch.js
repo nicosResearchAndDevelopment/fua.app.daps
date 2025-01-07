@@ -2,9 +2,9 @@
 
 const
     path = require('path'),
-    App  = require('@nrd/fua.agent.app'),
+    App  = require('@fua/agent.app'),
     DAPS = require('./app/daps.js'),
-    tty  = require('@nrd/fua.core.tty');
+    tty  = require('@fua/core.tty');
 
 App.launch({
     app: require('./app/app.js'),
@@ -49,7 +49,7 @@ App.launch({
                             'dct:identifier': path.join(__dirname, '../data/load.json'),
                             'dct:format':     'application/fua.load+json'
                         },
-                        require('@nrd/fua.resource.ontology.core')
+                        require('@fua/resource.ontology.core')
                     ]
                 }
             }
@@ -60,7 +60,7 @@ App.launch({
         app:     true,
         io:      true,
         session: {
-            secret:            '@nrd/fua.app.daps',
+            secret:            '@fua/app.daps',
             resave:            false,
             saveUninitialized: false
         }
