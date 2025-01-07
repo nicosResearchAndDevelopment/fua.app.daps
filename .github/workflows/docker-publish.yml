@@ -32,6 +32,12 @@ jobs:
       id-token: write
 
     steps:
+      # Give npmjs a chance to update the registry,
+      # before pulling the application package.
+      - name: Sleep for 60 seconds
+        run: sleep 60s
+        shell: bash
+    
       - name: Checkout repository
         uses: actions/checkout@v4
 
